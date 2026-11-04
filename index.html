@@ -108,12 +108,30 @@ input,textarea{font:inherit;padding:.5rem .7rem;border-radius:10px;border:2px so
 <div id="f1" style="display:grid;gap:.7rem"><input id="nm" placeholder="Your name" autocomplete="name"><input id="cd" placeholder="Class code (ask your teacher)" autocomplete="off" autocapitalize="characters" spellcheck="false" onkeydown="if(event.key==='Enter')inS()"><button class="pri t" data-ru="Войти" onclick="inS()">Enter</button></div>
 <div id="f2" style="display:none;gap:.7rem"><input id="em" type="email" placeholder="Email" autocomplete="username"><input id="pw" type="password" placeholder="Password" autocomplete="current-password"><button class="pri t" data-ru="Войти" onclick="inT()">Sign in</button></div>
 <p id="er" role="alert"></p></div></div>
-<div id="tview"><div class="wrap"><button class="t" data-ru="← Назад" onclick="tvx()">← Back</button> <button class="t" data-ru="На весь экран" onclick="document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()">Full screen</button><h2 style="margin-top:1rem">Students</h2><p id="tcodes"></p><p id="tsum" style="font-weight:700"></p><div style="overflow-x:auto"><table id="stbl"></table></div><p><button onclick="clr()">Clear student list</button></p><h2 style="margin-top:2rem">Group answers</h2><div class="grid" id="tgrid"></div></div></div>
+
+<div id="tview"><div class="wrap">
+<button class="t" data-ru="← Назад" onclick="tvx()">← Back</button> <button class="t" data-ru="На весь экран" onclick="document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()">Full screen</button>
+
+<h2 style="margin-top:1.5rem" class="t" data-ru="Таймер (Для всего класса)">Global Timer</h2>
+<div class="box timer" style="display:flex;gap:.8rem;align-items:center;flex-wrap:wrap">
+   <span id="ttm" style="font-size:2.4rem;font-weight:800;color:var(--ac);min-width:4.2ch;font-variant-numeric:tabular-nums">00:00</span>
+   <div>
+     <input id="tmin" type="number" value="15" style="width:4.5rem;font-size:1.2rem;text-align:center" min="1" max="99"> <span class="t" data-ru="мин">min</span>
+   </div>
+   <span style="flex:1"></span>
+   <button class="pri t" data-ru="Старт" onclick="window.FB.tmStart()">Start</button>
+   <button class="t" data-ru="Пауза" onclick="window.FB.tmPause()">Pause</button>
+   <button class="t" data-ru="Сброс" onclick="window.FB.tmReset()">Reset</button>
+</div>
+
+<h2 style="margin-top:2rem">Students</h2><p id="tcodes"></p><p id="tsum" style="font-weight:700"></p><div style="overflow-x:auto"><table id="stbl"></table></div><p><button onclick="clr()">Clear student list</button></p><h2 style="margin-top:2rem">Group answers</h2><div class="grid" id="tgrid"></div></div></div>
+
 <div class="task" id="task" role="dialog" aria-modal="true"></div>
 
-<script>window.FIREBASE_CONFIG={apiKey:"AIzaSyBFa1DotimFfOSe-4p-zI76wV9FRLCVJ8o",authDomain:"os-class-app.firebaseapp.com",projectId:"os-class-app",storageBucket:"os-class-app.firebasestorage.app",messagingSenderId:"967420723764",appId:"1:967420723764:web:7582e15ba91a616343c061"};
-/* Class codes: give each group its own code. Change them whenever you like. */
-window.CLASS_CODES={"CS1-4821":1,"CS2-7350":2,"MA3-1946":3,"MA4-6082":4,"MA5-3379":5};</script>
+<script>
+window.FIREBASE_CONFIG={apiKey:"AIzaSyBFa1DotimFfOSe-4p-zI76wV9FRLCVJ8o",authDomain:"os-class-app.firebaseapp.com",projectId:"os-class-app",storageBucket:"os-class-app.firebasestorage.app",messagingSenderId:"967420723764",appId:"1:967420723764:web:7582e15ba91a616343c061"};
+window.CLASS_CODES={"CS1-4821":1,"CS2-7350":2,"MA3-1946":3,"MA4-6082":4,"MA5-3379":5};
+</script>
 <script>
 const G={hardware:"оборудование («железо»)",software:"программное обеспечение",interface:"интерфейс",resources:"ресурсы",ecosystem:"экосистема",customization:"настройка под себя",security:"безопасность",performance:"производительность",permissions:"разрешения",advantage:"преимущество",argument:"аргумент",percent:"процент",share:"доля",defend:"защищать",organizes:"упорядочивает"};
 const RE=new RegExp("\\b("+Object.keys(G).join("|")+")\\b","gi");
@@ -167,24 +185,38 @@ extra:()=>{const w=["install","storage","update","user interface","application",
 
 document.getElementById("gg").innerHTML=TK.map((t,i)=>`<article class="card gc ${t.c} rise" tabindex="0" role="button" onclick="openT(${i})" onkeydown="if(event.key==='Enter')openT(${i})">
 <div class="n">${T("span","Group "+t.g,"Группа "+t.g)}</div><p>${T("span",t.sub[0],t.sub[1])} ${T("span",t.lvl[0],t.lvl[1],"badge")}</p><h3>${t.title[0].replace(/&/g,"&amp;")}</h3>${T("p",t.desc[0],t.desc[1],"b")}</article>`).join("");
-// card titles are plain English here; make them translatable too
 document.querySelectorAll("#gg h3").forEach((h,i)=>{h.classList.add("t");h.dataset.ru=TK[i].title[1]});
 
-let iv,left=0;
-const fmt=()=>{const e=document.getElementById("tm");e.textContent=String(left/60|0).padStart(2,"0")+":"+String(left%60).padStart(2,"0");e.className=left?"":"end"};
-function go(){clearInterval(iv);if(!left)return;iv=setInterval(()=>{left--;if(!left)clearInterval(iv);fmt()},1000)}
-function openT(i){const t=TK[i],el=document.getElementById("task");left=t.min*60;clearInterval(iv);
+/* ----- GLOBAL TIMER LOGIC ----- */
+window.gLeft = 0; window.gEnds = 0; window.gRun = false; let gIv;
+window.onTimerUpdate = (d) => {
+    if(!d) return;
+    window.gRun = d.running;
+    if(window.gRun) window.gEnds = d.endsAt; else window.gLeft = d.left || 0;
+    calcTimer();
+    clearInterval(gIv);
+    if(window.gRun) gIv = setInterval(calcTimer, 1000);
+};
+function calcTimer() {
+    if(window.gRun) window.gLeft = Math.max(0, Math.round((window.gEnds - Date.now())/1000));
+    const m = String(window.gLeft/60|0).padStart(2,"0"), s = String(window.gLeft%60).padStart(2,"0");
+    const tm = document.getElementById("tm"), ttm = document.getElementById("ttm");
+    if(tm) { tm.textContent = m+":"+s; tm.className = window.gLeft ? "" : "end"; }
+    if(ttm) { ttm.textContent = m+":"+s; ttm.className = window.gLeft ? "" : "end"; }
+}
+
+function openT(i){const t=TK[i],el=document.getElementById("task");
 el.innerHTML=`<div class="wrap ${t.c}"><button class="t" data-ru="← Назад" onclick="closeT()">← Back</button>
 <p style="margin-top:1rem">${T("span","Group "+t.g,"Группа "+t.g)} ${T("span",t.sub[0],t.sub[1])} ${T("span",t.lvl[0],t.lvl[1],"badge")}</p>
 <h2>${t.title[0]}</h2>${T("p",t.desc[0],t.desc[1],"b")}
-<div class="timer" style="margin-top:1rem"><span id="tm"></span>${T("span","Time limit: "+t.min+" min","Время: "+t.min+" мин")}<span style="flex:1"></span><button class="pri t" data-ru="Старт" onclick="go()">Start</button><button class="t" data-ru="Пауза" onclick="clearInterval(iv)">Pause</button><button class="t" data-ru="Сначала" onclick="left=${t.min*60};clearInterval(iv);fmt()">Reset</button></div>
+<div class="timer" style="margin-top:1rem"><span id="tm">00:00</span><span class="t" data-ru="Осталось времени">Time remaining</span><span style="flex:1"></span><span class="t" data-ru="(Запускает учитель)" style="color:var(--muted);font-size:.9rem">(Started by teacher)</span></div>
 <h3 style="margin-top:1.2rem" class="t" data-ru="Шаги">Steps</h3><ol>${t.steps.map(s=>T("li",s[0],s[1],"b")).join("")}</ol>
 <div class="box">${T("h3","Worked example","Пример выполнения")}${T("p",t.ex[0],t.ex[1],"b")}</div>
 ${t.extra()}${ansBox(t)}
 <div class="box">${T("h3","Useful phrases","Полезные фразы")}<ul>${t.ph.map(p=>T("li",p[0],p[1],"b")).join("")}</ul></div></div>`;
 el.querySelector("h2").classList.add("t");el.querySelector("h2").dataset.ru=t.title[1];
-apply(el);fmt();curG=t.g;bind(t.g);window.FB&&FB.ping({task:t.title[0]});el.classList.add("on");el.scrollTop=0;document.body.style.overflow="hidden"}
-function closeT(){clearInterval(iv);window.FB&&FB.ping({task:""});unw&&unw();unw=null;document.getElementById("task").classList.remove("on");document.body.style.overflow=""}
+apply(el);calcTimer();curG=t.g;bind(t.g);window.FB&&FB.ping({task:t.title[0]});el.classList.add("on");el.scrollTop=0;document.body.style.overflow="hidden"}
+function closeT(){window.FB&&FB.ping({task:""});unw&&unw();unw=null;document.getElementById("task").classList.remove("on");document.body.style.overflow=""}
 function chk(){let n=0;const s=document.querySelectorAll("#task select");s.forEach(x=>{const ok=x.value===x.dataset.a;if(ok)n++;x.className=ok?"ok":"no"});document.getElementById("sc").textContent=n+" / "+s.length;saveQ(n,s)}
 
 let ru=false;
@@ -195,6 +227,7 @@ apply();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.1});
 document.querySelectorAll(".rise").forEach(e=>io.observe(e));
 </script>
+
 <script>
 const $=id=>document.getElementById(id),h=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 let me=null,curG=0,unw=null,dt,ua=null;
@@ -231,6 +264,7 @@ function tv(){$("tview").classList.add("on");document.body.style.overflow="hidde
  ua=()=>{u1();u2();clearInterval(tm)}}
 function tvx(){ua&&ua();ua=null;$("tview").classList.remove("on");if(!$("task").classList.contains("on"))document.body.style.overflow=""}
 </script>
+
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,signInAnonymously,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -240,6 +274,7 @@ let prog={},beat=null;
 async function ping(x){const u=auth.currentUser;if(!u||!u.isAnonymous||!localStorage.osg)return;
  if(x&&x.constructor===Object)Object.assign(prog,x);
  try{await setDoc(doc(db,"students",u.uid),{name:u.displayName||localStorage.osn||"?",group:+localStorage.osg,lastSeen:serverTimestamp(),...prog},{merge:true})}catch(e){console.warn(e)}}
+
 window.FB={
  async student(n,g){localStorage.osg=g;localStorage.osn=n;prog={};const c=await signInAnonymously(auth);await updateProfile(c.user,{displayName:n});onUser(auth.currentUser);await ping({task:""})},
  teacher:(e,p)=>signInWithEmailAndPassword(auth,e,p),
@@ -249,11 +284,30 @@ window.FB={
  all:cb=>onSnapshot(collection(db,"answers"),s=>cb(s.docs.map(d=>d.data()))),
  students:cb=>onSnapshot(collection(db,"students"),s=>cb(s.docs.map(d=>{const x=d.data();x.ms=x.lastSeen&&x.lastSeen.toMillis?x.lastSeen.toMillis():0;return x})),e=>console.warn(e)),
  clear:async()=>{const s=await getDocs(collection(db,"students"));await Promise.all(s.docs.map(d=>deleteDoc(d.ref)))},
+ 
+ /* Функция Глобального Таймера */
+ tmStart:async()=>{
+  let m=parseInt(document.getElementById("tmin").value)||15;
+  let l=window.gLeft>0?window.gLeft:m*60;
+  await setDoc(doc(db,"settings","timer"),{running:true,endsAt:Date.now()+l*1000,left:l});
+ },
+ tmPause:async()=>{
+  await setDoc(doc(db,"settings","timer"),{running:false,left:window.gLeft});
+ },
+ tmReset:async()=>{
+  let m=parseInt(document.getElementById("tmin").value)||15;
+  window.gLeft=m*60; window.gRun=false; calcTimer();
+  await setDoc(doc(db,"settings","timer"),{running:false,left:m*60});
+ },
  ping,
- arr:arrayUnion};
-/* heartbeat: every 60 s the student's "last seen" is refreshed, so the teacher sees who is online */
+ arr:arrayUnion
+};
+
 onAuthStateChanged(auth,u=>{onUser(u);clearInterval(beat);if(u&&u.isAnonymous&&localStorage.osg){ping();beat=setInterval(ping,60000)}});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)ping()});
+
+/* Синхронизация Таймера для всех */
+onSnapshot(doc(db,"settings","timer"),s=>{ if(window.onTimerUpdate) window.onTimerUpdate(s.data()) });
 </script>
 </body>
 </html>
