@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Operating Systems: What Runs Your Devices?</title>
+<title>OS Class — Operating Systems</title>
 <style>
 :root{--bg:#f4f7fb;--card:#fff;--ink:#16243a;--muted:#5a6a80;--line:#d9e2ee;--cs:#2563eb;--ma:#168a45;--ac:#2563eb;--tint:#eaf1fb;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1626;--card:#17233a;--ink:#e8eef8;--muted:#a3b3c9;--line:#2a3a56;--cs:#7aa7ff;--ma:#4ade80;--tint:#1d2b46}}
@@ -61,6 +61,12 @@ select.ok{border-color:var(--ma);background:#16a34a33}select.no{border-color:#d3
 footer{text-align:center;color:var(--muted);padding:2rem}
 .rise{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}.rise.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}.rise{opacity:1;transform:none}}
+#login{position:fixed;inset:0;z-index:90;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:1rem}
+.lbox{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.5rem;max-width:26rem;width:100%;display:grid;gap:.7rem}
+input,textarea{font:inherit;padding:.5rem .7rem;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
+#er{color:#d33;margin:0}
+#tview{display:none;position:fixed;inset:0;z-index:80;background:var(--bg);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 1rem) 0 3rem}#tview.on{display:block}
+.ans{white-space:pre-wrap;font-size:1.25rem}
 </style>
 </head>
 <body>
@@ -69,8 +75,9 @@ footer{text-align:center;color:var(--muted);padding:2rem}
 <a href="#home" class="t" data-ru="Главная">Home</a>
 <a href="#theory" class="t" data-ru="Теория">Theory</a>
 <a href="#groups" class="t" data-ru="Работа в группах">Group Work</a>
+<span id="who" style="font-weight:600"></span><button id="tbtn" hidden class="pri t" data-ru="Панель учителя" onclick="tv()">Dashboard</button>
 <button id="tb" class="t" data-ru="Показать перевод" aria-pressed="false" onclick="trans()">Show translation</button>
-<button id="lb" onclick="lang()" aria-label="Switch language">RU</button>
+<button id="lb" onclick="lang()" aria-label="Switch language">RU</button><button id="so" hidden class="t" data-ru="Выйти" onclick="FB.out()">Sign out</button>
 </header>
 
 <section id="home"><div class="wrap">
@@ -95,6 +102,13 @@ footer{text-align:center;color:var(--muted);padding:2rem}
 </div></section>
 <footer class="t" data-ru="Удачи на занятии!">Good luck in class!</footer>
 
+<div id="login"><div class="lbox">
+<h2 class="t" data-ru="Вход" style="margin:0">Sign in</h2>
+<div><button id="t1" class="pri t" data-ru="Студент" onclick="tab(1)">Student</button> <button id="t2" class="t" data-ru="Преподаватель" onclick="tab(2)">Teacher</button></div>
+<div id="f1" style="display:grid;gap:.7rem"><input id="nm" placeholder="First and last name" autocomplete="name" maxlength="80"><input id="cd" placeholder="Group code (ask your teacher)" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="32" onkeydown="if(event.key==='Enter')inS()"><button id="studentEnter" class="pri t" onclick="inS()">Enter</button></div>
+<div id="f2" style="display:none;gap:.7rem"><input id="em" type="email" placeholder="Email" autocomplete="username"><input id="pw" type="password" placeholder="Password" autocomplete="current-password"><button class="pri t" data-ru="Войти" onclick="inT()">Sign in</button></div>
+<p id="er" role="alert"></p></div></div>
+<div id="tview"><div class="wrap"><button class="t" data-ru="← Назад" onclick="tvx()">← Back</button> <button class="t" data-ru="На весь экран" onclick="document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()">Full screen</button><h2 style="margin-top:1rem">Students</h2><div class="grid"><input id="studentSearch" placeholder="Search by name"><select id="groupFilter"><option value="">All groups</option><option value="1">Group 1</option><option value="2">Group 2</option><option value="3">Group 3</option><option value="4">Group 4</option><option value="5">Group 5</option></select><select id="sortProgress"><option value="name">Sort by name</option><option value="asc">Progress ascending</option><option value="desc">Progress descending</option></select></div><p id="tsum" style="font-weight:700"></p><div style="overflow-x:auto"><table id="stbl"></table></div><p><button onclick="archiveStudents()">Archive student profiles</button></p><p id="teacherStatus"></p><h2>Individual submissions</h2><div id="individualAnswers"></div><h2 style="margin-top:2rem">Group answers</h2><div class="grid" id="tgrid"></div></div></div>
 <div class="task" id="task" role="dialog" aria-modal="true"></div>
 
 <script>
@@ -163,12 +177,12 @@ el.innerHTML=`<div class="wrap ${t.c}"><button class="t" data-ru="← Назад
 <div class="timer" style="margin-top:1rem"><span id="tm"></span>${T("span","Time limit: "+t.min+" min","Время: "+t.min+" мин")}<span style="flex:1"></span><button class="pri t" data-ru="Старт" onclick="go()">Start</button><button class="t" data-ru="Пауза" onclick="clearInterval(iv)">Pause</button><button class="t" data-ru="Сначала" onclick="left=${t.min*60};clearInterval(iv);fmt()">Reset</button></div>
 <h3 style="margin-top:1.2rem" class="t" data-ru="Шаги">Steps</h3><ol>${t.steps.map(s=>T("li",s[0],s[1],"b")).join("")}</ol>
 <div class="box">${T("h3","Worked example","Пример выполнения")}${T("p",t.ex[0],t.ex[1],"b")}</div>
-${t.extra()}
+${t.extra()}${ansBox(t)}
 <div class="box">${T("h3","Useful phrases","Полезные фразы")}<ul>${t.ph.map(p=>T("li",p[0],p[1],"b")).join("")}</ul></div></div>`;
 el.querySelector("h2").classList.add("t");el.querySelector("h2").dataset.ru=t.title[1];
-apply(el);fmt();el.classList.add("on");el.scrollTop=0;document.body.style.overflow="hidden"}
-function closeT(){clearInterval(iv);document.getElementById("task").classList.remove("on");document.body.style.overflow=""}
-function chk(){let n=0;const s=document.querySelectorAll("#task select");s.forEach(x=>{const ok=x.value===x.dataset.a;if(ok)n++;x.className=ok?"ok":"no"});document.getElementById("sc").textContent=n+" / "+s.length}
+apply(el);fmt();curG=t.g;bind(t.g);window.FB&&FB.ping({task:t.title[0]});el.classList.add("on");el.scrollTop=0;document.body.style.overflow="hidden"}
+function closeT(){clearInterval(iv);window.FB&&FB.ping({task:""});unw&&unw();unw=null;document.getElementById("task").classList.remove("on");document.body.style.overflow=""}
+function chk(){let n=0;const s=document.querySelectorAll("#task select");s.forEach(x=>{const ok=x.value===x.dataset.a;if(ok)n++;x.className=ok?"ok":"no"});document.getElementById("sc").textContent=n+" / "+s.length;saveQ(n,s)}
 
 let ru=false;
 function apply(r=document){r.querySelectorAll(".t").forEach(e=>{if(e.dataset.h==null)e.dataset.h=e.innerHTML;if(ru)e.textContent=e.dataset.ru;else e.innerHTML=e.dataset.h})}
@@ -177,6 +191,67 @@ function trans(){const b=document.getElementById("tb"),on=document.body.classLis
 apply();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.1});
 document.querySelectorAll(".rise").forEach(e=>io.observe(e));
+</script><script>
+window.FIREBASE_CONFIG={apiKey:"PASTE_API_KEY",authDomain:"PASTE_PROJECT_ID.firebaseapp.com",projectId:"PASTE_PROJECT_ID",storageBucket:"PASTE_PROJECT_ID.firebasestorage.app",messagingSenderId:"PASTE_MESSAGING_SENDER_ID",appId:"PASTE_APP_ID"};
+</script><script>
+const $=id=>document.getElementById(id), esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let me=null,meProfile=null,role=null,curG=0,curTaskId="",groupUnsub=null,unw=null,teacherUnsubs=[],studentRows=[],submissionRows=[],groupRows=[],busy=false,saveTimer;
+function showError(s){$("er").textContent=s} function setSync(s){if($("syncStatus"))$("syncStatus").textContent=s}
+function tab(n){$("f1").style.display=n===1?"grid":"none";$("f2").style.display=n===2?"grid":"none";$("t1").className=(n===1?"pri ":"")+"t";$("t2").className=(n===2?"pri ":"")+"t";showError("")}
+async function inS(){let name=$("nm").value.trim(),code=$("cd").value.trim().toUpperCase();if(name.length<2||name.length>80)return showError("Enter your first and last name.");if(!/^[A-Z0-9-]{4,32}$/.test(code))return showError("Enter a valid group code.");$("studentEnter").disabled=true;showError("Checking group code…");try{await FB.student(name,code);showError("")}catch(e){showError(e.message||"Student sign-in failed.")}finally{$("studentEnter").disabled=false}}
+async function inT(){try{await FB.teacher($("em").value.trim(),$("pw").value);showError("")}catch(e){showError(({"auth/invalid-credential":"Email or password is incorrect.","auth/too-many-requests":"Too many attempts."})[e.code]||e.message)}}
+function onUser(u,claims={}){me=u;role=u?(claims.role||(u.isAnonymous?"student":null)):null;$("login").style.display=u?"none":"flex";$("who").textContent=!u?"":role==="teacher"?"Teacher":`${u.displayName||"Student"} (G${claims.groupId||"?"})`;$("tbtn").hidden=role!=="teacher";$("so").hidden=!u;if(!u)tvx()}
+function ansBox(t){return `<div class="box"><h3>Individual answer</h3><textarea id="individualAnswer" rows="4" maxlength="10000" placeholder="Write your answer…"></textarea><p><button id="submitIndividual" class="pri" onclick="submitIndividualAnswer()">Submit individual answer</button> <span id="individualStatus"></span></p><hr><h3>Group answer</h3><textarea id="ans" rows="5" maxlength="12000" placeholder="Write your group answer…"></textarea><p id="st" role="status">Shared only with your group and teacher.</p><p id="syncStatus"></p></div>`}
+function taskId(t){return "group-"+t.g+"-"+t.title[0].toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}
+const openOriginal=window.openT,closeOriginal=window.closeT;
+window.openT=function(i){let t=TK[i];if(role==="student"&&Number(meProfile?.groupId)!==t.g)return showError("This task belongs to another group.");curG=t.g;curTaskId=taskId(t);if(role==="student")FB.updateProgress({currentLesson:"Operating Systems",currentTask:t.title[0],taskId:curTaskId}).catch(console.error);openOriginal(i)};
+window.closeT=function(){if(groupUnsub)groupUnsub();groupUnsub=null;window.groupUnsub=null;closeOriginal()};
+function bind(g){if(groupUnsub)groupUnsub();let a=$("ans");if(!a||role!=="student")return;groupUnsub=FB.watchGroupAnswer(g,curTaskId,d=>{if(d&&document.activeElement!==a)a.value=d.text||""});unw=groupUnsub;window.groupUnsub=groupUnsub;a.oninput=()=>{ $("st").textContent="Saving…";clearTimeout(saveTimer);saveTimer=setTimeout(async()=>{try{await FB.saveGroupAnswer(g,curTaskId,a.value);$("st").textContent="Saved"}catch(e){$("st").textContent="Not saved: "+e.message}},650)}}
+async function submitIndividualAnswer(){let a=$("individualAnswer").value.trim();if(!a)return $("individualStatus").textContent="Write an answer first.";if(busy)return;busy=true;$("submitIndividual").disabled=true;$("individualStatus").textContent="Submitting…";try{await FB.submitAnswer({groupId:curG,taskId:curTaskId,answer:a});await FB.updateProgress({completedTasks:Math.min(5,(meProfile?.completedTasks||0)+1),progress:Math.min(100,Math.round((((meProfile?.completedTasks||0)+1)/5)*100)),lastSubmittedTask:curTaskId});$("individualStatus").textContent="Submitted and synchronized."}catch(e){$("individualStatus").textContent="Not saved: "+e.message}finally{busy=false;$("submitIndividual").disabled=false}}
+function saveQ(n,s){if(role==="student")FB.updateProgress({correctAnswers:(meProfile?.correctAnswers||0)+n,incorrectAnswers:(meProfile?.incorrectAnswers||0)+s.length-n,lastQuizResult:`${n}/${s.length}`,score:n}).catch(console.error)}
+function stopTeacher(){teacherUnsubs.forEach(f=>f());teacherUnsubs=[]}
+function tv(){if(role!=="teacher")return;$("tview").classList.add("on");document.body.style.overflow="hidden";teacherUnsubs=[FB.watchStudents(a=>{studentRows=a;renderStudents()}),FB.watchSubmissions(a=>{submissionRows=a;renderSubs()}),FB.watchAllGroupAnswers(a=>{groupRows=a;renderGroups()})]}
+function tvx(){stopTeacher();$("tview").classList.remove("on");if(!$("task").classList.contains("on"))document.body.style.overflow=""}
+function renderStudents(){if(role!=="teacher")return;let q=$("studentSearch").value.toLowerCase(),g=$("groupFilter").value,sort=$("sortProgress").value,now=Date.now(),rows=studentRows.filter(s=>s.status!=="archived"&&(!g||String(s.groupId)===g)&&String(s.name||"").toLowerCase().includes(q));if(sort==="asc")rows.sort((a,b)=>(a.progress||0)-(b.progress||0));else if(sort==="desc")rows.sort((a,b)=>(b.progress||0)-(a.progress||0));else rows.sort((a,b)=>String(a.name).localeCompare(String(b.name)));let online=s=>s.lastSeenMs&&now-s.lastSeenMs<=150000;$("tsum").textContent=`${rows.length} students · ${rows.filter(online).length} online`;$("stbl").innerHTML="<tr><th>Name</th><th>Group</th><th>Status</th><th>Last seen</th><th>Current task</th><th>Progress</th><th>Correct</th><th>Incorrect</th><th>Test</th><th>Updated</th></tr>"+rows.map(s=>`<tr><td>${esc(s.name)}</td><td>G${esc(s.groupId)}</td><td>${online(s)?"🟢 Online":"⚪ Offline"}</td><td>${s.lastSeenMs?new Date(s.lastSeenMs).toLocaleString():"—"}</td><td>${esc(s.currentTask||"—")}</td><td>${s.progress||0}%</td><td>${s.correctAnswers||0}</td><td>${s.incorrectAnswers||0}</td><td>${esc(s.lastQuizResult||"—")}</td><td>${s.updatedAtMs?new Date(s.updatedAtMs).toLocaleString():"—"}</td></tr>`).join("")}
+function renderSubs(){if(role!=="teacher")return;$("individualAnswers").innerHTML=submissionRows.length?submissionRows.map(s=>`<div class="box"><b>${esc(s.studentName||s.uid)}</b> · G${esc(s.groupId)} · ${esc(s.taskId)}<p>${esc(s.answer)}</p><small>${s.submittedAtMs?new Date(s.submittedAtMs).toLocaleString():""}</small></div>`).join(""):"<p>No individual submissions yet.</p>"}
+function renderGroups(){if(role!=="teacher")return;$("tgrid").innerHTML=[1,2,3,4,5].map(g=>`<div class="card ${g<3?"cs":"ma"}"><h3>Group ${g}</h3>${groupRows.filter(x=>Number(x.groupId)===g).map(d=>`<div class="box"><b>${esc(d.taskId)}</b><p class="ans">${esc(d.text)}</p></div>`).join("")||"<p>No group answers yet.</p>"}</div>`).join("")}
+async function archiveStudents(){if(role!=="teacher"||!confirm("Archive all active student profiles?"))return;try{await FB.archiveStudents(studentRows.filter(s=>s.status!=="archived").map(s=>s.uid));$("teacherStatus").textContent="Profiles archived."}catch(e){$("teacherStatus").textContent=e.message}}
+$("studentSearch").addEventListener("input",renderStudents);$("groupFilter").addEventListener("change",renderStudents);$("sortProgress").addEventListener("change",renderStudents);
+window.onUser=onUser;window.showError=showError;window.setSync=setSync;
+</script>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,signInWithCustomToken,signInWithEmailAndPassword,signOut,onAuthStateChanged,setPersistence,browserLocalPersistence} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,doc,setDoc,getDoc,updateDoc,serverTimestamp,collection,onSnapshot,writeBatch} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getFunctions,httpsCallable} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
+import {initializeAppCheck,ReCaptchaV3Provider} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app-check.js";
+const c=window.FIREBASE_CONFIG;if(!c.apiKey||c.apiKey.startsWith("PASTE_")||!c.projectId||c.projectId.startsWith("PASTE_")||!c.appId||c.appId.startsWith("PASTE_")){let m="Firebase is not configured. Add the Firebase Web App config in index.html.";window.showError(m);throw Error(m)}
+const app=initializeApp(c),auth=getAuth(app),db=getFirestore(app),functions=getFunctions(app,"us-central1");
+const appCheckSiteKey="PASTE_RECAPTCHA_V3_SITE_KEY";
+if(!appCheckSiteKey.startsWith("PASTE_")) initializeAppCheck(app,{provider:new ReCaptchaV3Provider(appCheckSiteKey),isTokenAutoRefreshEnabled:true});
+await setPersistence(auth,browserLocalPersistence);
+const provision=httpsCallable(functions,"signInStudent"),profileRef=uid=>doc(db,"students",uid),groupRef=(g,t)=>doc(db,"groupAnswers",`g${g}_${t}`),millis=x=>x?.toMillis?x.toMillis():0;
+let profile=null,profileUnsub=null,heartbeat=null;
+async function student(name,groupCode){let key=localStorage.getItem("osclass_device_key");if(!key){key=crypto.randomUUID();localStorage.setItem("osclass_device_key",key)}let r=await provision({name,groupCode,deviceKey:key});await signInWithCustomToken(auth,r.data.customToken)}
+async function teacher(email,password){let cr=await signInWithEmailAndPassword(auth,email,password),t=await cr.user.getIdTokenResult(true);if(t.claims.role!=="teacher"||t.claims.teacher!==true){await signOut(auth);throw Error("Teacher custom claims are missing.")}}
+let heartbeatNow=null;\nasync function refresh(u){if(profileUnsub)profileUnsub();profileUnsub=null;profile=null;if(!u){window.meProfile=null;window.onUser(null);return}let t=await u.getIdTokenResult(true),cl=t.claims;if(cl.role==="teacher"&&cl.teacher===true){window.onUser(u,{role:"teacher"});return}if(cl.role!=="student"||![1,2,3,4,5].includes(Number(cl.groupId))){await signOut(auth);throw Error("No valid student/teacher role claim.")}let ref=profileRef(u.uid),s=await getDoc(ref);if(!s.exists())await setDoc(ref,{uid:u.uid,name:u.displayName||"Student",groupId:Number(cl.groupId),createdAt:serverTimestamp(),updatedAt:serverTimestamp(),lastSeen:serverTimestamp(),currentLesson:"",currentTask:"",taskId:"",progress:0,score:0,completedTasks:0,correctAnswers:0,incorrectAnswers:0,lastQuizResult:"",status:"active"});else if(Number(s.data().groupId)!==Number(cl.groupId))throw Error("Profile group mismatch.");profileUnsub=onSnapshot(ref,x=>{if(x.exists()){profile={...x.data(),role:"student"};window.meProfile=profile;window.onUser(u,{role:"student",groupId:profile.groupId})}},e=>window.setSync(e.message));heartbeatNow=async()=>{if(!profile)return;try{await updateDoc(ref,{lastSeen:serverTimestamp(),updatedAt:serverTimestamp()});window.setSync("Connected · synchronized")}catch(e){window.setSync("Activity update failed: "+e.message)}};
+ heartbeatNow();heartbeat=setInterval(heartbeatNow,60000);
+}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&heartbeatNow)heartbeatNow()});
+function stop(){clearInterval(heartbeat);heartbeat=null;if(profileUnsub)profileUnsub();profileUnsub=null}
+async function requireStudent(){if(!auth.currentUser||profile?.role!=="student")throw Error("Student session required.")}
+async function updateProgress(f){await requireStudent();let d={updatedAt:serverTimestamp()};["currentLesson","currentTask","taskId","progress","score","completedTasks","correctAnswers","incorrectAnswers","lastQuizResult","lastSubmittedTask"].forEach(k=>{if(f[k]!==undefined)d[k]=f[k]});await updateDoc(profileRef(auth.currentUser.uid),d)}
+async function submitAnswer({groupId,taskId,answer}){await requireStudent();if(Number(groupId)!==Number(profile.groupId))throw Error("Group mismatch.");await setDoc(doc(db,"submissions",`${auth.currentUser.uid}_${taskId}`),{uid:auth.currentUser.uid,studentName:profile.name,groupId:Number(groupId),taskId,answer,submittedAt:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true})}
+async function saveGroupAnswer(g,t,text){await requireStudent();if(Number(g)!==Number(profile.groupId))throw Error("Group mismatch.");await setDoc(groupRef(g,t),{groupId:Number(g),taskId:t,text,updatedBy:auth.currentUser.uid,updatedAt:serverTimestamp()},{merge:true})}
+function watchGroupAnswer(g,t,cb){if(Number(g)!==Number(profile?.groupId))throw Error("Group mismatch.");return onSnapshot(groupRef(g,t),s=>cb(s.exists()?s.data():null),e=>window.setSync(e.message))}
+function watchStudents(cb){return onSnapshot(collection(db,"students"),s=>cb(s.docs.map(d=>{let x=d.data();return {...x,uid:d.id,lastSeenMs:millis(x.lastSeen),updatedAtMs:millis(x.updatedAt)}})),e=>$("teacherStatus").textContent=e.message)}
+function watchSubmissions(cb){return onSnapshot(collection(db,"submissions"),s=>cb(s.docs.map(d=>({...d.data(),submittedAtMs:millis(d.data().submittedAt)}))),console.error)}
+function watchAllGroupAnswers(cb){return onSnapshot(collection(db,"groupAnswers"),s=>cb(s.docs.map(d=>({...d.data(),updatedAtMs:millis(d.data().updatedAt)}))),console.error)}
+async function archiveStudents(ids){let b=writeBatch(db);ids.forEach(id=>b.update(profileRef(id),{status:"archived",updatedAt:serverTimestamp()}));await b.commit()}
+async function ping(data={}){if(data.task!==undefined)return updateProgress({currentTask:data.task});return updateProgress({});}
+async function out(){stop();if(window.groupUnsub)window.groupUnsub();await signOut(auth);window.onUser(null)}
+window.FB={student,teacher,out,ping,updateProgress,submitAnswer,saveGroupAnswer,watchGroupAnswer,watchStudents,watchSubmissions,watchAllGroupAnswers,archiveStudents};
+onAuthStateChanged(auth,async u=>{stop();try{await refresh(u)}catch(e){console.error(e);window.showError(e.message);if(auth.currentUser)await signOut(auth)}});
 </script>
 </body>
 </html>
