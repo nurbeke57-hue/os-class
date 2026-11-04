@@ -114,9 +114,9 @@ input,textarea{font:inherit;padding:.5rem .7rem;border-radius:10px;border:2px so
 <script>
 const G={hardware:"оборудование («железо»)",software:"программное обеспечение",interface:"интерфейс",resources:"ресурсы",ecosystem:"экосистема",customization:"настройка под себя",security:"безопасность",performance:"производительность",permissions:"разрешения",advantage:"преимущество",argument:"аргумент",percent:"процент",share:"доля",defend:"защищать",organizes:"упорядочивает"};
 const RE=new RegExp("\\b("+Object.keys(G).join("|")+")\\b","gi");
-const esc=s=>s.replace(/"/g,"&quot;");
-const tx=s=>s.replace(RE,m=>`<span class="w" tabindex="0" data-ru="${esc(G[m.toLowerCase()])}">${m}</span>`);
-const T=(tag,en,ru,c="")=>`<${tag} class="t ${c}" data-ru="${esc(ru)}">${tx(en)}</${tag}>`;
+const escQ=s=>s.replace(/"/g,"&quot;");
+const tx=s=>s.replace(RE,m=>`<span class="w" tabindex="0" data-ru="${escQ(G[m.toLowerCase()])}">${m}</span>`);
+const T=(tag,en,ru,c="")=>`<${tag} class="t ${c}" data-ru="${escQ(ru)}">${tx(en)}</${tag}>`;
 
 const FN=[["📁","Managing files","Управление файлами","It saves, finds and organizes your files and folders.","Она сохраняет, находит и упорядочивает файлы и папки."],
 ["🧠","Managing memory","Управление памятью","It gives each program the memory it needs.","Она даёт каждой программе нужную память."],
@@ -148,7 +148,7 @@ const mob=[["Android",72],["iOS",27],["Other",1]],desk=[["Windows",71],["macOS",
 const tbl=(n,nr,d)=>`<table><caption style="text-align:left;font-weight:700">${T("span",n,nr)}</caption>${d.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}%</td></tr>`).join("")}</table>`;
 const bars=d=>d.map(r=>`<div class="bar"><span>${r[0]}</span><i style="width:${r[1]}%"></i><b>${r[1]}%</b></div>`).join("");
 const sel=(a,pool)=>`<select data-a="${a}"><option value="">?</option>${pool.map(p=>`<option>${p}</option>`).join("")}</select>`;
-const quiz=(items,pool)=>`<div>${items.map(i=>`<div class="q r" data-ru="${esc(i[1])}">${i[0].includes("___")?i[0].replace("___",sel(i[2],pool)):`<b>${i[0]}</b> → ${sel(i[2],pool)}`}</div>`).join("")}</div><p><button class="pri t" data-ru="Проверить" onclick="chk()">Check</button><span class="sr" id="sc"></span></p>`;
+const quiz=(items,pool)=>`<div>${items.map(i=>`<div class="q r" data-ru="${escQ(i[1])}">${i[0].includes("___")?i[0].replace("___",sel(i[2],pool)):`<b>${i[0]}</b> → ${sel(i[2],pool)}`}</div>`).join("")}</div><p><button class="pri t" data-ru="Проверить" onclick="chk()">Check</button><span class="sr" id="sc"></span></p>`;
 const defs=[["A","a part of the screen that shows one program","часть экрана, где показана одна программа"],["B","a place that keeps files together","место, где хранятся файлы вместе"],["C","software that controls the device and its programs","программа, которая управляет устройством и его программами"],["D","a program you use for a task, such as a browser","программа для задачи, например браузер"],["E","a document, photo or video saved on a device","документ, фото или видео, сохранённые на устройстве"],["F","a new version that fixes problems or adds features","новая версия, которая исправляет ошибки или добавляет функции"]];
 
 const TK=[
@@ -192,10 +192,10 @@ apply();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.1});
 document.querySelectorAll(".rise").forEach(e=>io.observe(e));
 </script><script>
-window.FIREBASE_CONFIG={apiKey:"PASTE_API_KEY",authDomain:"PASTE_PROJECT_ID.firebaseapp.com",projectId:"PASTE_PROJECT_ID",storageBucket:"PASTE_PROJECT_ID.firebasestorage.app",messagingSenderId:"PASTE_MESSAGING_SENDER_ID",appId:"PASTE_APP_ID"};
+window.FIREBASE_CONFIG={apiKey:"AIzaSyBFa1DotimFfOSe-4p-zI76wV9FRLCVJ8o",authDomain:"os-class-app.firebaseapp.com",projectId:"os-class-app",storageBucket:"os-class-app.firebasestorage.app",messagingSenderId:"967420723764",appId:"1:967420723764:web:7582e15ba91a616343c061"};
 </script><script>
 const $=id=>document.getElementById(id), esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-let me=null,meProfile=null,role=null,curG=0,curTaskId="",groupUnsub=null,unw=null,teacherUnsubs=[],studentRows=[],submissionRows=[],groupRows=[],busy=false,saveTimer;
+var me=null,meProfile=null;let role=null,curG=0,curTaskId="",groupUnsub=null,unw=null,teacherUnsubs=[],studentRows=[],submissionRows=[],groupRows=[],busy=false,saveTimer;
 function showError(s){$("er").textContent=s} function setSync(s){if($("syncStatus"))$("syncStatus").textContent=s}
 function tab(n){$("f1").style.display=n===1?"grid":"none";$("f2").style.display=n===2?"grid":"none";$("t1").className=(n===1?"pri ":"")+"t";$("t2").className=(n===2?"pri ":"")+"t";showError("")}
 async function inS(){let name=$("nm").value.trim(),code=$("cd").value.trim().toUpperCase();if(name.length<2||name.length>80)return showError("Enter your first and last name.");if(!/^[A-Z0-9-]{4,32}$/.test(code))return showError("Enter a valid group code.");$("studentEnter").disabled=true;showError("Checking group code…");try{await FB.student(name,code);showError("")}catch(e){showError(e.message||"Student sign-in failed.")}finally{$("studentEnter").disabled=false}}
@@ -234,7 +234,8 @@ const provision=httpsCallable(functions,"signInStudent"),profileRef=uid=>doc(db,
 let profile=null,profileUnsub=null,heartbeat=null;
 async function student(name,groupCode){let key=localStorage.getItem("osclass_device_key");if(!key){key=crypto.randomUUID();localStorage.setItem("osclass_device_key",key)}let r=await provision({name,groupCode,deviceKey:key});await signInWithCustomToken(auth,r.data.customToken)}
 async function teacher(email,password){let cr=await signInWithEmailAndPassword(auth,email,password),t=await cr.user.getIdTokenResult(true);if(t.claims.role!=="teacher"||t.claims.teacher!==true){await signOut(auth);throw Error("Teacher custom claims are missing.")}}
-let heartbeatNow=null;\nasync function refresh(u){if(profileUnsub)profileUnsub();profileUnsub=null;profile=null;if(!u){window.meProfile=null;window.onUser(null);return}let t=await u.getIdTokenResult(true),cl=t.claims;if(cl.role==="teacher"&&cl.teacher===true){window.onUser(u,{role:"teacher"});return}if(cl.role!=="student"||![1,2,3,4,5].includes(Number(cl.groupId))){await signOut(auth);throw Error("No valid student/teacher role claim.")}let ref=profileRef(u.uid),s=await getDoc(ref);if(!s.exists())await setDoc(ref,{uid:u.uid,name:u.displayName||"Student",groupId:Number(cl.groupId),createdAt:serverTimestamp(),updatedAt:serverTimestamp(),lastSeen:serverTimestamp(),currentLesson:"",currentTask:"",taskId:"",progress:0,score:0,completedTasks:0,correctAnswers:0,incorrectAnswers:0,lastQuizResult:"",status:"active"});else if(Number(s.data().groupId)!==Number(cl.groupId))throw Error("Profile group mismatch.");profileUnsub=onSnapshot(ref,x=>{if(x.exists()){profile={...x.data(),role:"student"};window.meProfile=profile;window.onUser(u,{role:"student",groupId:profile.groupId})}},e=>window.setSync(e.message));heartbeatNow=async()=>{if(!profile)return;try{await updateDoc(ref,{lastSeen:serverTimestamp(),updatedAt:serverTimestamp()});window.setSync("Connected · synchronized")}catch(e){window.setSync("Activity update failed: "+e.message)}};
+let heartbeatNow=null;
+async function refresh(u){if(profileUnsub)profileUnsub();profileUnsub=null;profile=null;if(!u){window.meProfile=null;window.onUser(null);return}let t=await u.getIdTokenResult(true),cl=t.claims;if(cl.role==="teacher"&&cl.teacher===true){window.onUser(u,{role:"teacher"});return}if(cl.role!=="student"||![1,2,3,4,5].includes(Number(cl.groupId))){await signOut(auth);throw Error("No valid student/teacher role claim.")}let ref=profileRef(u.uid),s=await getDoc(ref);if(!s.exists())await setDoc(ref,{uid:u.uid,name:u.displayName||"Student",groupId:Number(cl.groupId),createdAt:serverTimestamp(),updatedAt:serverTimestamp(),lastSeen:serverTimestamp(),currentLesson:"",currentTask:"",taskId:"",progress:0,score:0,completedTasks:0,correctAnswers:0,incorrectAnswers:0,lastQuizResult:"",status:"active"});else if(Number(s.data().groupId)!==Number(cl.groupId))throw Error("Profile group mismatch.");profileUnsub=onSnapshot(ref,x=>{if(x.exists()){profile={...x.data(),role:"student"};window.meProfile=profile;window.onUser(u,{role:"student",groupId:profile.groupId})}},e=>window.setSync(e.message));heartbeatNow=async()=>{if(!profile)return;try{await updateDoc(ref,{lastSeen:serverTimestamp(),updatedAt:serverTimestamp()});window.setSync("Connected · synchronized")}catch(e){window.setSync("Activity update failed: "+e.message)}};
  heartbeatNow();heartbeat=setInterval(heartbeatNow,60000);
 }
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&heartbeatNow)heartbeatNow()});
