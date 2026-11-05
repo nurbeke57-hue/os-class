@@ -78,9 +78,33 @@ input,textarea{font:inherit;padding:.5rem .7rem;border-radius:10px;border:2px so
 #tview{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:80;background:var(--bg);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 1rem) 0 3rem}#tview.on{display:block}
 .pv #stbl,.pv #tgrid{filter:blur(8px)}
 .ans{white-space:pre-wrap;font-size:1.25rem}
+
+/* ---- living background & animations ---- */
+#home{background:none}
+section,footer{position:relative;z-index:1}
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.bg .bl{position:absolute;width:60vmax;height:60vmax;border-radius:50%;opacity:.22;will-change:transform;animation:drift 26s ease-in-out infinite alternate}
+.bg .b1{background:radial-gradient(circle,var(--cs),transparent 65%);top:-20vmax;left:-15vmax}
+.bg .b2{background:radial-gradient(circle,var(--ma),transparent 65%);bottom:-25vmax;right:-15vmax;animation-duration:32s}
+.bg .b3{background:radial-gradient(circle,var(--cs),transparent 65%);top:30%;left:45%;width:40vmax;height:40vmax;opacity:.12;animation-duration:38s}
+.bg .ico{position:absolute;font-size:2rem;opacity:.16;will-change:transform;animation:floaty 14s ease-in-out infinite}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(8vmax,6vmax) scale(1.15)}}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-28px) rotate(8deg)}}
+h1{animation:heroIn .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes heroIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.gc:hover,.gc:focus-visible{transform:translateY(-6px) rotate(-.7deg)}
+button{transition:transform .18s cubic-bezier(.3,1.6,.5,1),background .2s}
+button:active{transform:scale(.93)}
+select.ok+.mk{display:inline-block;animation:pop .45s cubic-bezier(.3,1.8,.5,1)}
+select.no{animation:shake .35s}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+#tm.end,#ttm.end{animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.12)}}
 </style>
 </head>
 <body>
+<div class="bg" aria-hidden="true"><i class="bl b1"></i><i class="bl b2"></i><i class="bl b3"></i></div>
 <header>
 <b>💻 OS Class</b>
 <nav><a href="#home" class="t" data-ru="Главная">Home</a><a href="#theory" class="t" data-ru="Теория">Theory</a><a href="#groups" class="t" data-ru="Работа в группах">Group Work</a></nav>
@@ -379,6 +403,11 @@ onSnapshot(doc(db,"settings","reset"),async s=>{const d=s.data()||{},at=d.at||0;
 
 /* shared timer (server time) */
 onSnapshot(doc(db,"settings","timer"),s=>{if(window.onTimerUpdate)window.onTimerUpdate(s.data({serverTimestamps:"estimate"}))},e=>console.warn(e));
+</script>
+<script>
+(function(){const b=document.querySelector(".bg"),I=["💻","📱","🪟","🍎","🤖","🐧","🔒","📁"];
+I.forEach((c,i)=>{const e=document.createElement("span");e.className="ico";e.textContent=c;e.style.left=(6+i*12)%92+"%";e.style.top=(10+(i*37)%75)+"%";e.style.animationDelay=(-i*1.7)+"s";e.style.animationDuration=(11+i*1.6)+"s";b.appendChild(e)});
+document.querySelectorAll(".grid").forEach(g=>g.querySelectorAll(".rise").forEach((e,i)=>e.style.transitionDelay=(i%6)*80+"ms"))})();
 </script>
 </body>
 </html>
