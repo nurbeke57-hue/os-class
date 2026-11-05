@@ -124,7 +124,7 @@ input,textarea{font:inherit;padding:.5rem .7rem;border-radius:10px;border:2px so
    <button class="t" data-ru="Сброс" onclick="window.FB.tmReset()">Reset</button>
 </div>
 
-<h2 style="margin-top:2rem">Students</h2><p id="tcodes"></p><p id="tsum" style="font-weight:700"></p><div style="overflow-x:auto"><table id="stbl"></table></div><p><button onclick="clr()">Clear student list</button></p><h2 style="margin-top:2rem">Group answers</h2><div class="grid" id="tgrid"></div></div></div>
+<h2 style="margin-top:2rem">Students</h2><p id="tcodes"></p><p id="tsum" style="font-weight:700"></p><div style="overflow-x:auto"><table id="stbl"></table></div><p><button onclick="clr()">Clear student list</button></p><h2 style="margin-top:2rem">Group answers</h2><p><button onclick="clrA(0)">Clear all answers and quiz results</button></p><div class="grid" id="tgrid"></div></div></div>
 
 <div class="task" id="task" role="dialog" aria-modal="true"></div>
 
@@ -256,10 +256,11 @@ function rs(){const now=Date.now(),on=s=>s.ms&&now-s.ms<150000;
  $("stbl").innerHTML="<tr><th>Group</th><th>Name</th><th>Status</th><th>Task now</th><th>Quiz</th><th>Answer</th><th>Last seen</th></tr>"+
   L.map(s=>`<tr><td>${h(s.group)}</td><td>${h(s.name)}</td><td>${on(s)?"🟢":"⚪"}</td><td>${h(s.task||"—")}</td><td>${s.score!=null?h(s.score)+" / "+h(s.total):"—"}</td><td>${s.chars!=null?h(s.chars)+" chars":"—"}</td><td>${s.ms?ago(s.ms):"—"}</td></tr>`).join("")}
 function clr(){if(confirm("Delete all students from the list?"))FB.clear()}
+function clrA(g){if(confirm(g?"Clear Group "+g+" answer and quiz result?":"Clear ALL group answers and quiz results?"))FB.clearAnswers(g).catch(e=>alert("Error: "+(e.code||e.message)))}
 function tv(){$("tview").classList.add("on");document.body.style.overflow="hidden";ua&&ua();
  $("tcodes").innerHTML=Object.entries(window.CLASS_CODES||{}).map(([c,g])=>`<span class="chip">Group ${g}: <b>${h(c)}</b></span>`).join("");
  const u1=FB.all(a=>{const m={};a.forEach(d=>m[d.group]=d);
-  $("tgrid").innerHTML=[1,2,3,4,5].map(g=>{const d=m[g]||{};return `<div class="card ${g<3?"cs":"ma"}"><h3>Group ${g}${d.score?" · "+h(d.score):""}</h3><p style="color:var(--muted)">${h((d.names||[]).join(", "))}</p><div class="ans">${h(d.text||"—")}</div>${d.quiz?`<p>${h(d.quiz.join(" | "))}</p>`:""}</div>`}).join("")});
+  $("tgrid").innerHTML=[1,2,3,4,5].map(g=>{const d=m[g]||{};return `<div class="card ${g<3?"cs":"ma"}"><h3>Group ${g}${d.score?" · "+h(d.score):""}</h3><p style="color:var(--muted)">${h((d.names||[]).join(", "))}</p><div class="ans">${h(d.text||"—")}</div>${d.quiz?`<p>${h(d.quiz.join(" | "))}</p>`:""}<p><button onclick="clrA(${g})">Clear this group</button></p></div>`}).join("")});
  const u2=FB.students(l=>{stu=l;rs()});const tm=setInterval(rs,15000);
  ua=()=>{u1();u2();clearInterval(tm)}}
 function tvx(){ua&&ua();ua=null;$("tview").classList.remove("on");if(!$("task").classList.contains("on"))document.body.style.overflow=""}
@@ -268,7 +269,7 @@ function tvx(){ua&&ua();ua=null;$("tview").classList.remove("on");if(!$("task").
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,signInAnonymously,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {getFirestore,doc,setDoc,onSnapshot,collection,serverTimestamp,arrayUnion,getDocs,deleteDoc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getFirestore,doc,setDoc,onSnapshot,collection,serverTimestamp,arrayUnion,getDocs,deleteDoc,deleteField} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 const app=initializeApp(window.FIREBASE_CONFIG),auth=getAuth(app),db=getFirestore(app);
 let prog={},beat=null;
 async function ping(x){const u=auth.currentUser;if(!u||!u.isAnonymous||!localStorage.osg)return;
@@ -299,12 +300,25 @@ window.FB={
   window.gLeft=m*60; window.gRun=false; calcTimer();
   await setDoc(doc(db,"settings","timer"),{running:false,left:m*60});
  },
+ clearAnswers:async g=>{const gs=g?[g]:[1,2,3,4,5];await Promise.all(gs.map(x=>deleteDoc(doc(db,"answers","g"+x))));await setDoc(doc(db,"settings","reset"),{at:Date.now(),group:g||0})},
  ping,
  arr:arrayUnion
 };
 
 onAuthStateChanged(auth,u=>{onUser(u);clearInterval(beat);if(u&&u.isAnonymous&&localStorage.osg){ping();beat=setInterval(ping,60000)}});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)ping()});
+
+/* Сброс ответов у студентов */
+onSnapshot(doc(db,"settings","reset"),async s=>{const d=s.data()||{},at=d.at||0;
+ if(localStorage.osreset==null){localStorage.osreset=at;return}
+ if(at<=+localStorage.osreset)return;localStorage.osreset=at;
+ const u=auth.currentUser;if(!u||!u.isAnonymous||!localStorage.osg)return;
+ if(d.group&&d.group!==+localStorage.osg)return;
+ const t=prog.task;prog=t?{task:t}:{};
+ const a=document.getElementById("ans");if(a)a.value="";
+ document.querySelectorAll("#task select").forEach(x=>{x.value="";x.className=""});
+ const sc=document.getElementById("sc");if(sc)sc.textContent="";
+ try{await setDoc(doc(db,"students",u.uid),{score:deleteField(),total:deleteField(),chars:deleteField(),lastSeen:serverTimestamp()},{merge:true})}catch(e){console.warn(e)}});
 
 /* Синхронизация Таймера для всех */
 onSnapshot(doc(db,"settings","timer"),s=>{ if(window.onTimerUpdate) window.onTimerUpdate(s.data()) });
