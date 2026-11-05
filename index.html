@@ -11,7 +11,7 @@
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(4.6rem + env(safe-area-inset-top,0px));font-size:clamp(17px,.9rem + .7vw,23px)}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.55}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--card)}
+body::before{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);z-index:60;background:var(--card)}
 .cs{--ac:var(--cs)}.ma{--ac:var(--ma)}
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:55;background:var(--card);border-bottom:1px solid var(--line);display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;padding:.5rem 1rem}
 header b{margin-right:auto;font-size:1.05rem}
@@ -45,7 +45,7 @@ body.ru .t.b::after{display:none}
 .badge{display:inline-block;padding:.1rem .8rem;border-radius:99px;background:var(--ac);color:#fff;font-weight:700;font-size:.85rem}
 .gc{cursor:pointer;transition:transform .2s}.gc:hover,.gc:focus-visible{transform:translateY(-4px)}
 .gc .n{font-size:1.5rem;font-weight:800;color:var(--ac)}
-.task{display:none;position:fixed;inset:0;z-index:70;background:var(--bg);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 1rem) 0 3rem}
+.task{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:70;background:var(--bg);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 1rem) 0 3rem}
 .task.on{display:block}
 .box{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--ac);border-radius:12px;padding:.8rem 1.2rem;margin:1rem 0}
 ol,ul{padding-left:1.3rem}li{margin:.4rem 0}
@@ -61,11 +61,11 @@ select.ok{border-color:var(--ma);background:#16a34a33}select.no{border-color:#d3
 footer{text-align:center;color:var(--muted);padding:2rem}
 .rise{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}.rise.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}.rise{opacity:1;transform:none}}
-#login{position:fixed;inset:0;z-index:90;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:1rem}
+#login{position:fixed;top:0;right:0;bottom:0;left:0;z-index:90;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:1rem}
 .lbox{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.5rem;max-width:26rem;width:100%;display:grid;gap:.7rem}
 input,textarea{font:inherit;padding:.5rem .7rem;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
 #er{color:#d33;margin:0}
-#tview{display:none;position:fixed;inset:0;z-index:80;background:var(--bg);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 1rem) 0 3rem}#tview.on{display:block}
+#tview{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:80;background:var(--bg);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 1rem) 0 3rem}#tview.on{display:block}
 .ans{white-space:pre-wrap;font-size:1.25rem}
 </style>
 </head>
@@ -77,7 +77,7 @@ input,textarea{font:inherit;padding:.5rem .7rem;border-radius:10px;border:2px so
 <a href="#groups" class="t" data-ru="Работа в группах">Group Work</a>
 <span id="who" style="font-weight:600"></span><button id="tbtn" hidden class="pri t" data-ru="Панель учителя" onclick="tv()">Dashboard</button>
 <button id="tb" class="t" data-ru="Показать перевод" aria-pressed="false" onclick="trans()">Show translation</button>
-<button id="lb" onclick="lang()" aria-label="Switch language">RU</button><button id="so" hidden class="t" data-ru="Выйти" onclick="FB.out()">Sign out</button>
+<button id="lb" onclick="setLang()" aria-label="Switch language">RU</button><button id="so" hidden class="t" data-ru="Выйти" onclick="FB.out()">Sign out</button>
 </header>
 
 <section id="home"><div class="wrap">
@@ -221,7 +221,7 @@ function chk(){let n=0;const s=document.querySelectorAll("#task select");s.forEa
 
 let ru=false;
 function apply(r=document){r.querySelectorAll(".t").forEach(e=>{if(e.dataset.h==null)e.dataset.h=e.innerHTML;if(ru)e.textContent=e.dataset.ru;else e.innerHTML=e.dataset.h})}
-function lang(){ru=!ru;document.body.classList.toggle("ru",ru);document.getElementById("lb").textContent=ru?"EN":"RU";apply()}
+function setLang(){ru=!ru;document.body.classList.toggle("ru",ru);document.getElementById("lb").textContent=ru?"EN":"RU";apply()}
 function trans(){const b=document.getElementById("tb"),on=document.body.classList.toggle("tr");b.setAttribute("aria-pressed",on)}
 apply();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.1});
