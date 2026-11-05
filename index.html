@@ -5,22 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Operating Systems: What Runs Your Devices?</title>
 <style>
-:root{--bg:#f4f7fb;--card:#fff;--ink:#16243a;--muted:#5a6a80;--line:#d9e2ee;--cs:#2563eb;--ma:#168a45;--ac:#2563eb;--tint:#eaf1fb;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1626;--card:#17233a;--ink:#e8eef8;--muted:#a3b3c9;--line:#2a3a56;--cs:#7aa7ff;--ma:#4ade80;--tint:#1d2b46}}
-:root[data-theme="dark"]{--bg:#0e1626;--card:#17233a;--ink:#e8eef8;--muted:#a3b3c9;--line:#2a3a56;--cs:#7aa7ff;--ma:#4ade80;--tint:#1d2b46;color-scheme:dark}
+:root{--bg:#f4f7fb;--card:#fff;--ink:#16243a;--muted:#5a6a80;--line:#d9e2ee;--cs:#2563eb;--ma:#117a3c;--ac:#2563eb;--tint:#eaf1fb;--on-ac:#fff;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1626;--card:#17233a;--ink:#e8eef8;--muted:#a3b3c9;--line:#2a3a56;--cs:#7aa7ff;--ma:#4ade80;--tint:#1d2b46;--on-ac:#0b1220}}
+:root[data-theme="dark"]{--bg:#0e1626;--card:#17233a;--ink:#e8eef8;--muted:#a3b3c9;--line:#2a3a56;--cs:#7aa7ff;--ma:#4ade80;--tint:#1d2b46;--on-ac:#0b1220;color-scheme:dark}
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:calc(4.6rem + env(safe-area-inset-top,0px));font-size:clamp(17px,.9rem + .7vw,23px)}
+html{scroll-behavior:smooth;scroll-padding-top:calc(4.2rem + env(safe-area-inset-top,0px));font-size:clamp(17px,.9rem + .7vw,23px)}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.55}
 body::before{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);z-index:60;background:var(--card)}
 .cs{--ac:var(--cs)}.ma{--ac:var(--ma)}
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:55;background:var(--card);border-bottom:1px solid var(--line);display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;padding:.5rem 1rem}
-header b{margin-right:auto;font-size:1.05rem}
-header a{color:var(--ink);text-decoration:none;padding:.35rem .8rem;border-radius:99px;font-weight:600}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:55;background:var(--card);border-bottom:1px solid var(--line);display:flex;gap:.4rem;align-items:center;flex-wrap:nowrap;overflow-x:auto;padding:.4rem .8rem}
+header b{margin-right:auto;font-size:1.05rem;white-space:nowrap}
+header nav{display:flex;gap:.2rem}
+header a{color:var(--ink);text-decoration:none;padding:.35rem .8rem;border-radius:99px;font-weight:600;white-space:nowrap}
 header a:hover{background:var(--tint)}
-button{font:inherit;cursor:pointer;border:2px solid var(--ac);background:var(--card);color:var(--ink);border-radius:99px;padding:.35rem 1rem;font-weight:600}
+header button{white-space:nowrap;padding:.3rem .8rem}
+@media(max-width:700px){header nav,#who{display:none}}
+button{font:inherit;cursor:pointer;border:2px solid var(--ac);background:var(--card);color:var(--ink);border-radius:99px;padding:.35rem 1rem;font-weight:600;min-height:44px}
 button:hover{background:var(--tint)}
-button.pri{background:var(--ac);color:#fff}
-button[aria-pressed=true]{background:var(--cs);color:#fff}
+button.pri{background:var(--ac);color:var(--on-ac)}
 :focus-visible{outline:3px solid var(--cs);outline-offset:2px}
 .wrap{max-width:1100px;margin:auto;padding:0 1.1rem}
 section{padding:3.5rem 0}
@@ -30,54 +33,63 @@ h3{margin:.1em 0 .3em;font-size:1.25rem}
 p{margin:.3em 0}
 #home{min-height:82vh;display:flex;align-items:center;background:linear-gradient(135deg,var(--tint),var(--bg))}
 .sub{font-size:1.3rem;color:var(--muted);max-width:34em}
-.ask{margin-top:1.8rem;padding:1.2rem 1.4rem;border-left:8px solid var(--ma);background:var(--card);border-radius:12px;font-size:1.3rem;max-width:34em}
+.ask{margin-top:1.4rem;padding:1.2rem 1.4rem;border-left:8px solid var(--ma);background:var(--card);border-radius:12px;font-size:1.2rem;max-width:34em}
 .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr))}
 .card{background:var(--card);border:1px solid var(--line);border-top:6px solid var(--ac);border-radius:14px;padding:1rem 1.2rem}
 .ic{font-size:2.2rem;line-height:1}
 .def{font-size:1.3rem;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.2rem 1.4rem}
 .t.b::after,.r::after{display:none;content:attr(data-ru);color:var(--muted);font-style:italic;font-size:.85em;margin-top:.15em}
-body.tr .t.b::after{display:block}
-body.tr .r::after,body.ru .r::after{display:block}
+.t.b.sh::after,.r.sh::after,body.ru .r::after{display:block}
 body.ru .t.b::after{display:none}
+.t.b,.r{cursor:pointer}
+.hint{color:var(--muted);font-size:.9rem}
 .w{border-bottom:2px dotted var(--cs);cursor:help;position:relative}
-.w:hover::after,.w:focus::after{content:attr(data-ru);position:absolute;left:0;bottom:115%;background:var(--ink);color:var(--bg);padding:.2rem .6rem;border-radius:8px;font-size:.85rem;white-space:nowrap;z-index:5;font-style:normal}
+.w:hover::after{content:attr(data-ru);position:absolute;left:0;bottom:115%;background:var(--ink);color:var(--bg);padding:.2rem .6rem;border-radius:8px;font-size:.85rem;width:max-content;max-width:min(14rem,70vw);z-index:5;font-style:normal}
 .vocab h3{display:flex;gap:.5rem;align-items:baseline;flex-wrap:wrap}.vocab h3 .t{font-size:.9rem;color:var(--muted);font-weight:500}
-.badge{display:inline-block;padding:.1rem .8rem;border-radius:99px;background:var(--ac);color:#fff;font-weight:700;font-size:.85rem}
+.vocab h3 .vt{filter:blur(5px);cursor:pointer}.vocab h3 .vt.sh{filter:none}
+.spk{min-height:36px;padding:.1rem .6rem;margin-left:.3rem}
+.badge{display:inline-block;padding:.1rem .8rem;border-radius:99px;background:var(--ac);color:var(--on-ac);font-weight:700;font-size:.85rem}
 .gc{cursor:pointer;transition:transform .2s}.gc:hover,.gc:focus-visible{transform:translateY(-4px)}
 .gc .n{font-size:1.5rem;font-weight:800;color:var(--ac)}
-.task{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:70;background:var(--bg);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 1rem) 0 3rem}
-.task.on{display:block}
+.gc.mine{outline:3px solid var(--ac);outline-offset:2px}.gc.mine .n::after{content:" ★ your group";font-size:.8rem}
+dialog.task{border:0;margin:0;max-width:none;max-height:none;width:100%;height:100%;background:var(--bg);color:var(--ink);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 1rem) 0 3rem}
+dialog.task::backdrop{background:#000}
 .box{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--ac);border-radius:12px;padding:.8rem 1.2rem;margin:1rem 0}
 ol,ul{padding-left:1.3rem}li{margin:.4rem 0}
 .timer{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.6rem 1rem;position:sticky;top:0;z-index:3}
-#tm{font-size:2.4rem;font-weight:800;font-variant-numeric:tabular-nums;min-width:4.2ch;color:var(--ac)}#tm.end{color:#d33}
+#tm{font-size:2.4rem;font-weight:800;font-variant-numeric:tabular-nums;min-width:4.2ch;color:var(--ac)}
+#ttm{font-size:clamp(3rem,14vw,8rem);font-weight:800;font-variant-numeric:tabular-nums;color:var(--ac);line-height:1}
+#tm.end,#ttm.end{color:#d33}
 .chip{display:inline-block;background:var(--tint);border:1px solid var(--ac);border-radius:99px;padding:.15rem .8rem;margin:.2rem}
 table{border-collapse:collapse;width:100%;margin:.5rem 0}td,th{border:1px solid var(--line);padding:.35rem .7rem;text-align:left}
 .bar{display:flex;align-items:center;gap:.5rem;margin:.25rem 0}.bar span{width:6.5rem}.bar i{display:block;height:1.2rem;background:var(--ac);border-radius:4px}
 .q{margin:.6rem 0;padding:.5rem .8rem;background:var(--card);border-radius:10px;border:1px solid var(--line)}
-select{font:inherit;padding:.1rem .3rem;border-radius:8px;border:2px solid var(--line);background:var(--bg);color:var(--ink)}
+select{font:inherit;min-height:44px;padding:.1rem .3rem;border-radius:8px;border:2px solid var(--line);background:var(--bg);color:var(--ink)}
 select.ok{border-color:var(--ma);background:#16a34a33}select.no{border-color:#d33;background:#dd333322}
+.mk{margin-left:.4rem;font-weight:700}select.ok+.mk{color:var(--ma)}select.no+.mk{color:#d33}
 .sr{font-size:1.4rem;font-weight:800;margin-left:.6rem}
 footer{text-align:center;color:var(--muted);padding:2rem}
 .rise{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}.rise.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}.rise{opacity:1;transform:none}}
-#login{position:fixed;top:0;right:0;bottom:0;left:0;z-index:90;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:1rem}
+#login{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:90;background:var(--bg);align-items:center;justify-content:center;padding:1rem}
 .lbox{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.5rem;max-width:26rem;width:100%;display:grid;gap:.7rem}
 input,textarea{font:inherit;padding:.5rem .7rem;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
 #er{color:#d33;margin:0}
 #tview{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:80;background:var(--bg);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 1rem) 0 3rem}#tview.on{display:block}
+.pv #stbl,.pv #tgrid{filter:blur(8px)}
 .ans{white-space:pre-wrap;font-size:1.25rem}
 </style>
 </head>
 <body>
 <header>
 <b>💻 OS Class</b>
-<a href="#home" class="t" data-ru="Главная">Home</a>
-<a href="#theory" class="t" data-ru="Теория">Theory</a>
-<a href="#groups" class="t" data-ru="Работа в группах">Group Work</a>
-<span id="who" style="font-weight:600"></span><button id="tbtn" hidden class="pri t" data-ru="Панель учителя" onclick="tv()">Dashboard</button>
-<button id="tb" class="t" data-ru="Показать перевод" aria-pressed="false" onclick="trans()">Show translation</button>
-<button id="lb" onclick="setLang()" aria-label="Switch language">RU</button><button id="so" hidden class="t" data-ru="Выйти" onclick="FB.out()">Sign out</button>
+<nav><a href="#home" class="t" data-ru="Главная">Home</a><a href="#theory" class="t" data-ru="Теория">Theory</a><a href="#groups" class="t" data-ru="Работа в группах">Group Work</a></nav>
+<span id="who" style="font-weight:600"></span>
+<button id="tbtn" hidden class="pri t" data-ru="Панель" onclick="tv()">Dashboard</button>
+<button id="li" class="t" data-ru="Войти" onclick="$('login').style.display='flex'">Sign in</button>
+<button id="lb" onclick="setLang()" aria-label="Switch interface language (English / Russian)">RU</button>
+<button id="tm2" onclick="theme()" aria-label="Switch light / dark theme">🌓</button>
+<button id="so" hidden class="t" data-ru="Выйти" onclick="FB.out()">Sign out</button>
 </header>
 
 <section id="home"><div class="wrap">
@@ -85,12 +97,18 @@ input,textarea{font:inherit;padding:.5rem .7rem;border-radius:10px;border:2px so
 <p class="sub t" data-ru="Windows, macOS, Android и iOS: узнаем, какое программное обеспечение стоит за каждым экраном.">Windows, macOS, Android and iOS: let’s explore the software behind every screen.</p>
 <p><button class="pri t" data-ru="Начать" onclick="location.hash='theory'">Start</button></p>
 <div class="ask"><b class="t" data-ru="Вопрос к аудитории:">Question for the class:</b>
-<p class="t b" data-ru="Android или iPhone: каким вы пользуетесь и почему?">Android or iPhone: which one do you use and why?</p>
+<p class="t b" data-ru="Какую систему на телефоне вы используете: Android или iOS? Почему?">Which phone system do you use: Android or iOS? Why?</p>
 <p class="t b" data-ru="Начните так: «Я пользуюсь … потому что …»">Start like this: “I use … because …”</p></div>
+<div class="ask" style="border-left-color:var(--cs)"><b class="t" data-ru="Цели урока. К концу урока вы сможете:">Lesson goals. By the end you can:</b>
+<ul><li class="t b" data-ru="назвать пять функций операционной системы;">name five functions of an operating system;</li>
+<li class="t b" data-ru="сравнить четыре системы по пяти критериям;">compare four systems using five criteria;</li>
+<li class="t b" data-ru="использовать 10 ключевых слов в предложениях.">use ten key words in sentences.</li></ul>
+<p class="hint t" data-ru="План: разминка 5 мин · теория 15 · группы 15 · выступления 10 · итог 5">Plan: warm-up 5 min · theory 15 · group work 15 · presentations 10 · wrap-up 5</p></div>
 </div></section>
 
 <section id="theory"><div class="wrap">
 <h2 class="t" data-ru="Теория">Theory</h2>
+<p class="hint t" data-ru="Нажмите на предложение или слово, чтобы увидеть перевод.">Tap a sentence or a blurred word to see the Russian translation.</p>
 <div id="th"></div>
 <p style="text-align:center;margin-top:2rem"><button class="pri t" data-ru="К работе в группах" onclick="location.hash='groups'" style="font-size:1.3rem;padding:.6rem 1.8rem">Go to Group Work</button></p>
 </div></section>
@@ -100,44 +118,58 @@ input,textarea{font:inherit;padding:.5rem .7rem;border-radius:10px;border:2px so
 <p class="t b" data-ru="Выберите карточку своей группы. Синий — Информатика, зелёный — Математика.">Choose your group’s card. Blue is Computer Science, green is Mathematics.</p>
 <div class="grid" id="gg" style="margin-top:1rem"></div>
 </div></section>
+
+<section id="wrap"><div class="wrap">
+<h2 class="t" data-ru="Итоги">Wrap-up</h2>
+<div class="box"><h3 class="t" data-ru="Выходной билет">Exit ticket</h3><ol>
+<li class="t b" data-ru="Сегодня я узнал(а), что операционная система …">Today I learned that an operating system …</li>
+<li class="t b" data-ru="Самое полезное новое слово для меня — …">The most useful new word for me is …</li>
+<li class="t b" data-ru="Вопрос, который у меня остался: …">One question I still have: …</li></ol></div>
+<div class="box"><h3 class="t" data-ru="Домашнее задание">Homework</h3>
+<p class="t b" data-ru="Напишите пять предложений об операционной системе на вашем телефоне или ноутбуке. Используйте минимум два ключевых слова.">Write five sentences about the operating system on your own phone or laptop. Use at least two key words.</p></div>
+</div></section>
 <footer class="t" data-ru="Удачи на занятии!">Good luck in class!</footer>
 
-<div id="login"><div class="lbox">
-<h2 class="t" data-ru="Вход" style="margin:0">Sign in</h2>
+<div id="login" role="dialog" aria-modal="true" aria-labelledby="lh"><div class="lbox">
+<h2 class="t" data-ru="Вход" style="margin:0" id="lh">Sign in</h2>
 <div><button id="t1" class="pri t" data-ru="Студент" onclick="tab(1)">Student</button> <button id="t2" class="t" data-ru="Преподаватель" onclick="tab(2)">Teacher</button></div>
-<div id="f1" style="display:grid;gap:.7rem"><input id="nm" placeholder="Your name" autocomplete="name"><input id="cd" placeholder="Class code (ask your teacher)" autocomplete="off" autocapitalize="characters" spellcheck="false" onkeydown="if(event.key==='Enter')inS()"><button class="pri t" data-ru="Войти" onclick="inS()">Enter</button></div>
-<div id="f2" style="display:none;gap:.7rem"><input id="em" type="email" placeholder="Email" autocomplete="username"><input id="pw" type="password" placeholder="Password" autocomplete="current-password"><button class="pri t" data-ru="Войти" onclick="inT()">Sign in</button></div>
-<p id="er" role="alert"></p></div></div>
+<div id="f1" style="display:grid;gap:.7rem">
+<label class="vh" for="nm">Your name</label><input id="nm" placeholder="Your name" autocomplete="name">
+<label class="vh" for="gs">Group</label><select id="gs"><option value="1">Group 1</option><option value="2">Group 2</option><option value="3">Group 3</option><option value="4">Group 4</option><option value="5">Group 5</option></select>
+<label class="vh" for="cd">Class code</label><input id="cd" placeholder="Class code (ask your teacher)" autocomplete="off" autocapitalize="characters" spellcheck="false" onkeydown="if(event.key==='Enter')inS()"><button class="pri t" data-ru="Войти" onclick="inS()">Enter</button></div>
+<div id="f2" style="display:none;gap:.7rem"><label class="vh" for="em">Email</label><input id="em" type="email" placeholder="Email" autocomplete="username"><label class="vh" for="pw">Password</label><input id="pw" type="password" placeholder="Password" autocomplete="current-password"><button class="pri t" data-ru="Войти" onclick="inT()">Sign in</button></div>
+<p id="er" role="alert"></p>
+<button class="t" data-ru="Закрыть" onclick="$('login').style.display='none'">Close</button></div></div>
 
 <div id="tview"><div class="wrap">
-<button class="t" data-ru="← Назад" onclick="tvx()">← Back</button> <button class="t" data-ru="На весь экран" onclick="document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()">Full screen</button>
+<button class="t" data-ru="← Назад" onclick="tvx()">← Back</button> <button class="t" data-ru="На весь экран" onclick="document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()">Full screen</button> <button onclick="document.body.classList.toggle('pv')">👁 Hide names / answers</button>
 
-<h2 style="margin-top:1.5rem" class="t" data-ru="Таймер (Для всего класса)">Global Timer</h2>
-<div class="box timer" style="display:flex;gap:.8rem;align-items:center;flex-wrap:wrap">
-   <span id="ttm" style="font-size:2.4rem;font-weight:800;color:var(--ac);min-width:4.2ch;font-variant-numeric:tabular-nums">00:00</span>
-   <div>
-     <input id="tmin" type="number" value="15" style="width:4.5rem;font-size:1.2rem;text-align:center" min="1" max="99"> <span class="t" data-ru="мин">min</span>
-   </div>
+<h2 style="margin-top:1.5rem" class="t" data-ru="Таймер (для всего класса)">Global Timer</h2>
+<div class="box timer">
+   <span id="ttm">00:00</span>
+   <div><input id="tmin" type="number" value="15" style="width:4.5rem;font-size:1.2rem;text-align:center" min="1" max="99" aria-label="Minutes"> <span class="t" data-ru="мин">min</span></div>
+   <button onclick="$('tmin').value=15">G1–2 · 15</button><button onclick="$('tmin').value=10">G3 · 10</button><button onclick="$('tmin').value=8">G4–5 · 8</button>
    <span style="flex:1"></span>
    <button class="pri t" data-ru="Старт" onclick="window.FB.tmStart()">Start</button>
    <button class="t" data-ru="Пауза" onclick="window.FB.tmPause()">Pause</button>
    <button class="t" data-ru="Сброс" onclick="window.FB.tmReset()">Reset</button>
 </div>
 
-<h2 style="margin-top:2rem">Students</h2><p id="tcodes"></p><p id="tsum" style="font-weight:700"></p><div style="overflow-x:auto"><table id="stbl"></table></div><p><button onclick="clr()">Clear student list</button></p><h2 style="margin-top:2rem">Group answers</h2><p><button onclick="clrA(0)">Clear all answers and quiz results</button></p><div class="grid" id="tgrid"></div></div></div>
+<h2 style="margin-top:2rem">Students</h2><p id="tcodes" class="hint">Class codes live only in the Firestore rules. Keep them on paper.</p><p id="tsum" style="font-weight:700" aria-live="polite"></p><div style="overflow-x:auto"><table id="stbl"></table></div><p><button onclick="clr()">Remove offline students</button></p><h2 style="margin-top:2rem">Group answers</h2><p><button onclick="clrA(0)">Clear all answers</button></p><div class="grid" id="tgrid"></div></div></div>
 
-<div class="task" id="task" role="dialog" aria-modal="true"></div>
+<dialog class="task" id="task" aria-labelledby="tt"></dialog>
 
 <script>
 window.FIREBASE_CONFIG={apiKey:"AIzaSyBFa1DotimFfOSe-4p-zI76wV9FRLCVJ8o",authDomain:"os-class-app.firebaseapp.com",projectId:"os-class-app",storageBucket:"os-class-app.firebasestorage.app",messagingSenderId:"967420723764",appId:"1:967420723764:web:7582e15ba91a616343c061"};
-window.CLASS_CODES={"CS1-4821":1,"CS2-7350":2,"MA3-1946":3,"MA4-6082":4,"MA5-3379":5};
 </script>
 <script>
-const G={hardware:"оборудование («железо»)",software:"программное обеспечение",interface:"интерфейс",resources:"ресурсы",ecosystem:"экосистема",customization:"настройка под себя",security:"безопасность",performance:"производительность",permissions:"разрешения",advantage:"преимущество",argument:"аргумент",percent:"процент",share:"доля",defend:"защищать",organizes:"упорядочивает"};
+const G={hardware:"оборудование («железо»)",software:"программное обеспечение",interface:"интерфейс",resources:"ресурсы",ecosystem:"экосистема",customization:"настройка под себя",security:"безопасность",performance:"производительность",permissions:"разрешения",advantage:"преимущество",argument:"аргумент",percent:"процент","market share":"доля рынка",defend:"защищать",organizes:"упорядочивает"};
 const RE=new RegExp("\\b("+Object.keys(G).join("|")+")\\b","gi");
-const esc=s=>s.replace(/"/g,"&quot;");
-const tx=s=>s.replace(RE,m=>`<span class="w" tabindex="0" data-ru="${esc(G[m.toLowerCase()])}">${m}</span>`);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const H=s=>{let x=5381;for(const c of String(s))x=((x*33)^c.charCodeAt(0))>>>0;return x.toString(36)};
+const tx=s=>s.replace(RE,m=>`<span class="w" data-ru="${esc(G[m.toLowerCase()])}">${m}</span>`);
 const T=(tag,en,ru,c="")=>`<${tag} class="t ${c}" data-ru="${esc(ru)}">${tx(en)}</${tag}>`;
+let qFirst=null,qTries=0,lastF=null;
 
 const FN=[["📁","Managing files","Управление файлами","It saves, finds and organizes your files and folders.","Она сохраняет, находит и упорядочивает файлы и папки."],
 ["🧠","Managing memory","Управление памятью","It gives each program the memory it needs.","Она даёт каждой программе нужную память."],
@@ -145,170 +177,193 @@ const FN=[["📁","Managing files","Управление файлами","It sav
 ["🖥️","User interface","Пользовательский интерфейс","It shows windows, icons and menus so you can control the device.","Она показывает окна, значки и меню, чтобы вы управляли устройством."],
 ["🔒","Security of user data","Безопасность данных","It protects your data with passwords, updates and permissions.","Она защищает данные паролями, обновлениями и разрешениями."]];
 const OS=[["🪟","Windows","Microsoft","Laptops and desktop PCs from many brands","Ноутбуки и компьютеры многих брендов","Runs almost any program and game; many hardware choices.","Запускает почти любые программы и игры; большой выбор техники.","cs"],
-["🍎","macOS","Apple","Apple Mac computers only","Только компьютеры Apple Mac","Smooth design, great for creative work, works well with iPhone.","Плавный дизайн, отлично для творчества, хорошо работает с iPhone.","cs"],
+["🍎","macOS","Apple","Apple Mac computers only","Только компьютеры Apple Mac","Smooth design, popular for creative work, works with iPhone.","Плавный дизайн, популярна для творчества, работает вместе с iPhone.","cs"],
+["🐧","Linux","Open-source community","PCs, servers and many other devices","ПК, серверы и много других устройств","Free and open source; very common on servers.","Бесплатная система с открытым кодом; очень распространена на серверах.","cs"],
 ["🤖","Android","Google","Phones and tablets from many brands","Телефоны и планшеты многих брендов","Many prices and choices; easy to customize.","Разные цены и выбор; легко настроить.","ma"],
 ["📱","iOS","Apple","iPhone (iPadOS for iPad)","iPhone (iPadOS для iPad)","Simple to use, secure, long-term updates.","Простой, безопасный, долгие обновления.","ma"]];
-const V=[["file","файл","I saved my homework as a file.","Я сохранил домашнее задание как файл."],["folder","папка","Put all the photos in one folder.","Положите все фото в одну папку."],["window","окно","Close the window to stop the program.","Закройте окно, чтобы остановить программу."],["user interface","пользовательский интерфейс","The user interface is clean and easy.","Интерфейс чистый и простой."],["application","приложение","This application helps me learn English.","Это приложение помогает мне учить английский."],["update","обновление","The update fixed the problem.","Обновление исправило проблему."],["install","установить","I install new apps from the store.","Я устанавливаю новые приложения из магазина."],["device","устройство","My main device is a laptop.","Моё основное устройство — ноутбук."],["memory","оперативная память","Too many apps use all the memory.","Слишком много приложений занимают всю память."],["storage","хранилище, место на диске","I have 20 GB of free storage.","У меня 20 ГБ свободного места."]];
+const V=[["file","файл","I saved my homework as a file.","Я сохранил домашнее задание как файл."],["folder","папка","Put all the photos in one folder.","Положите все фото в одну папку."],["window","окно","Close the window to stop the program.","Закройте окно, чтобы остановить программу."],["user interface","пользовательский интерфейс","The user interface is clean and easy.","Интерфейс чистый и простой."],["application","приложение","This application helps me learn English.","Это приложение помогает мне учить английский."],["update","обновление","The update fixed the problem.","Обновление исправило проблему."],["install","установить","I install new apps from the store.","Я устанавливаю новые приложения из магазина."],["download","скачивать","I download videos on Wi-Fi.","Я скачиваю видео по Wi-Fi."],["device","устройство","My main device is a laptop.","Моё основное устройство — ноутбук."],["memory","оперативная память (RAM)","Too many open apps use all the memory.","Слишком много открытых приложений занимают всю память."],["storage","хранилище, место для файлов","I have 20 GB of free storage.","У меня 20 ГБ свободного места."]];
 
 document.getElementById("th").innerHTML=
 `<div class="def rise">${T("p","An operating system (OS) is the main software on a device. It connects the hardware, the apps and the user.","Операционная система (ОС) — главная программа устройства. Она связывает оборудование, приложения и пользователя.","b")}</div>
 <h3 style="margin-top:2rem" class="t" data-ru="Главные функции">Main functions</h3>
 <div class="grid">${FN.map(f=>`<div class="card rise"><div class="ic">${f[0]}</div>${T("h3",f[1],f[2])}${T("p",f[3],f[4],"b")}</div>`).join("")}</div>
-<h3 style="margin-top:2rem" class="t" data-ru="Сравниваем четыре системы">Four systems compared</h3>
+<h3 style="margin-top:2rem" class="t" data-ru="Сравниваем пять систем">Five systems compared</h3>
 <div class="grid">${OS.map(o=>`<div class="card ${o[7]} rise"><div class="ic">${o[0]}</div><h3>${o[1]}</h3>
 <p>${T("b","Made by:","Разработчик:")} ${o[2]}</p><p>${T("b","Runs on:","Работает на:")} ${T("span",o[3],o[4])}</p><p>${T("b","Strengths:","Сильные стороны:")} ${T("span",o[5],o[6])}</p></div>`).join("")}</div>
 <h3 style="margin-top:2rem" class="t" data-ru="Ключевые слова">Key vocabulary</h3>
-<div class="grid">${V.map(v=>`<div class="card vocab cs rise"><h3>${v[0]} ${T("span","("+v[1]+")","("+v[1]+")")}</h3>${T("p",v[2],v[3],"b")}</div>`).join("")}</div>`;
+<div class="grid">${V.map(v=>`<div class="card vocab cs rise"><h3>${v[0]} <button class="spk" data-s="${esc(v[0])}" aria-label="Listen: ${esc(v[0])}">🔊</button> ${T("span","("+v[1]+")","("+v[1]+")","vt")}</h3>${T("p",v[2],v[3],"b")}<button class="spk" data-s="${esc(v[2])}" aria-label="Listen to the example">🔊 example</button></div>`).join("")}</div>`;
 
 /* ---------- tasks ---------- */
 const crit=[["Security","Безопасность"],["Customization","Настройка"],["Performance","Производительность"],["App ecosystem","Экосистема приложений"],["Price","Цена"]];
 const chips=()=>`<div class="box">${T("h3","Five criteria","Пять критериев")}${crit.map(c=>T("span",c[0],c[1],"chip")).join("")}</div>`;
-const cmpSteps=[["Read the five criteria and share them: each student takes one or two.","Прочитайте пять критериев и разделите их: каждый берёт один-два."],["For each criterion, write one fact about each system.","Для каждого критерия запишите по одному факту о каждой системе."],["Choose the better system and write a short argument (4–5 sentences) in English.","Выберите лучшую систему и напишите короткий аргумент (4–5 предложений) на английском."],["Prepare a two-minute presentation: introduction, three main points, conclusion.","Подготовьте двухминутную презентацию: введение, три главных пункта, вывод."],["Practise once with the timer, then present to the class.","Потренируйтесь один раз с таймером, затем выступите перед классом."]];
+const cmpSteps=[["Read the five criteria and share them: each student takes one or two.","Прочитайте пять критериев и разделите их: каждый берёт один-два."],["For each criterion, write one fact about each system.","Для каждого критерия запишите по одному факту о каждой системе."],["Choose the better system and write a short argument (4–5 sentences) in English.","Выберите лучшую систему и напишите короткий аргумент (4–5 предложений) на английском."],["Prepare a two-minute presentation: introduction, three main points, conclusion.","Подготовьте двухминутную презентацию: введение, три главных пункта, вывод."],["Practice once with the timer, then present to the class.","Потренируйтесь один раз с таймером, затем выступите перед классом."]];
 const cmpPh=[["In my opinion, … is better because …","По-моему, … лучше, потому что …"],["The main advantage is …","Главное преимущество — …"],["On the other hand, …","С другой стороны, …"],["For example, …","Например, …"],["To sum up, …","Подводя итог, …"]];
 const mob=[["Android",72],["iOS",27],["Other",1]],desk=[["Windows",71],["macOS",16],["Linux",4],["Other",9]];
 const tbl=(n,nr,d)=>`<table><caption style="text-align:left;font-weight:700">${T("span",n,nr)}</caption>${d.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}%</td></tr>`).join("")}</table>`;
 const bars=d=>d.map(r=>`<div class="bar"><span>${r[0]}</span><i style="width:${r[1]}%"></i><b>${r[1]}%</b></div>`).join("");
-const sel=(a,pool)=>`<select data-a="${a}"><option value="">?</option>${pool.map(p=>`<option>${p}</option>`).join("")}</select>`;
-const quiz=(items,pool)=>`<div>${items.map(i=>`<div class="q r" data-ru="${esc(i[1])}">${i[0].includes("___")?i[0].replace("___",sel(i[2],pool)):`<b>${i[0]}</b> → ${sel(i[2],pool)}`}</div>`).join("")}</div><p><button class="pri t" data-ru="Проверить" onclick="chk()">Check</button><span class="sr" id="sc"></span></p>`;
+const sel=(a,pool,lab,hint="")=>`<select data-a="${H(a)}" aria-label="${esc(lab)}"><option value="">?</option>${pool.map(p=>`<option>${p}</option>`).join("")}</select><span class="mk" data-h="${esc(hint)}"></span>`;
+const qi=(i,pool)=>i[0].includes("___")?i[0].replace("___",sel(i[2],pool,"Gap",i[3])):`<b>${i[0]}</b> → ${sel(i[2],pool,i[0],i[3])}`;
+const quiz=(items,pool)=>`<div>${items.map(i=>`<div class="q r" data-ru="${esc(i[1])}">${qi(i,pool)}</div>`).join("")}</div><p><button class="pri t" data-ru="Проверить" onclick="chk()">Check</button><span class="sr" id="sc" aria-live="polite"></span></p>`;
 const defs=[["A","a part of the screen that shows one program","часть экрана, где показана одна программа"],["B","a place that keeps files together","место, где хранятся файлы вместе"],["C","software that controls the device and its programs","программа, которая управляет устройством и его программами"],["D","a program you use for a task, such as a browser","программа для задачи, например браузер"],["E","a document, photo or video saved on a device","документ, фото или видео, сохранённые на устройстве"],["F","a new version that fixes problems or adds features","новая версия, которая исправляет ошибки или добавляет функции"]];
 
 const TK=[
-{c:"cs",g:1,sub:["Computer Science","Информатика"],lvl:["Advanced","Продвинутый"],min:15,title:["Compare Windows and macOS","Сравните Windows и macOS"],desc:["Which desktop system is better for a student? Defend your choice with facts.","Какая настольная система лучше для студента? Защитите выбор фактами."],steps:cmpSteps,ex:["Criterion: price. Windows laptops start cheap and many brands compete. Macs cost more, but they often last longer. In my opinion, Windows is better for students on a budget.","Критерий: цена. Ноутбуки с Windows бывают дешёвыми, брендов много. Mac стоят дороже, но часто служат дольше. По-моему, Windows лучше для студентов с небольшим бюджетом."],ph:cmpPh,extra:chips},
+{c:"cs",g:1,sub:["Computer Science","Информатика"],lvl:["Advanced","Продвинутый"],min:15,title:["Compare Windows and macOS","Сравните Windows и macOS"],desc:["Which desktop system is better for a student? Defend your choice with facts.","Какая настольная система лучше для студента? Защитите выбор фактами."],steps:cmpSteps,ex:["Criterion: price. Windows laptops start cheap and many brands compete. Macs usually cost more. In my opinion, Windows is better for students on a budget.","Критерий: цена. Ноутбуки с Windows бывают дешёвыми, брендов много. Mac обычно стоят дороже. По-моему, Windows лучше для студентов с небольшим бюджетом."],ph:cmpPh,extra:chips},
 {c:"cs",g:2,sub:["Computer Science","Информатика"],lvl:["Advanced","Продвинутый"],min:15,title:["Compare Android and iOS","Сравните Android и iOS"],desc:["Which phone system is better for a student? Defend your choice with facts.","Какая система для телефона лучше для студента? Защитите выбор фактами."],steps:cmpSteps,ex:["Criterion: customization. Android lets you change the home screen, icons and default apps. iOS has fewer options, but it is very simple. In my opinion, Android wins on customization.","Критерий: настройка. Android позволяет менять главный экран, значки и приложения по умолчанию. В iOS вариантов меньше, но он очень простой. По-моему, Android выигрывает по настройке."],ph:cmpPh,extra:chips},
-{c:"ma",g:3,sub:["Mathematics","Математика"],lvl:["Basic","Базовый"],min:10,title:["Market share chart","График доли рынка"],desc:["Use the numbers to build a bar chart. Then describe it in two or three sentences.","По числам постройте столбчатую диаграмму. Затем опишите её в двух-трёх предложениях."],steps:[["Look at the two tables of market share numbers (approximate, for practice).","Посмотрите две таблицы с долями рынка (примерные, для практики)."],["Draw two axes on paper. Write the system names under the horizontal axis.","Нарисуйте на бумаге две оси. Подпишите названия систем под горизонтальной осью."],["Use the scale 1 cm = 10%. Draw one bar for each system.","Масштаб: 1 см = 10%. Нарисуйте один столбец для каждой системы."],["Check that each table adds up to 100%.","Проверьте, что сумма в каждой таблице равна 100%."],["Write two or three English sentences that describe your chart.","Напишите два-три английских предложения, описывающих диаграмму."]],ex:["Windows = 71%, so its bar is 7.1 cm tall. Sentence: “Windows is the most popular desktop system, with 71 percent.”","Windows = 71%, значит столбец 7,1 см. Предложение: «Windows — самая популярная настольная система, 71 процент»."],ph:[["… has the biggest share.","У … самая большая доля."],["… is the smallest.","… — самая маленькая."],["About … percent of …","Около … процентов …"],["more than / less than","больше, чем / меньше, чем"],["The chart shows …","Диаграмма показывает …"]],
-extra:()=>`<div class="box">${tbl("Mobile systems (%)","Мобильные системы (%)",mob)}${tbl("Desktop systems (%)","Настольные системы (%)",desk)}<p><button class="t" data-ru="Показать образец диаграммы" onclick="document.getElementById('smp').hidden=!document.getElementById('smp').hidden">Show sample chart</button></p><div id="smp" hidden>${bars(mob)}<hr>${bars(desk)}</div></div>`},
-{c:"ma",g:4,sub:["Mathematics","Математика"],lvl:["Basic","Базовый"],min:8,title:["Match terms and definitions","Соотнесите термины и определения"],desc:["Choose the correct definition (A–F) for each term.","Выберите правильное определение (A–F) для каждого термина."],steps:[["Read the six definitions A–F.","Прочитайте шесть определений A–F."],["Read the terms below, one by one.","Прочитайте термины ниже по одному."],["Choose a letter for each term.","Выберите букву для каждого термина."],["Press “Check” and fix the red answers.","Нажмите «Проверить» и исправьте красные ответы."],["Read each pair aloud: “A file is …”","Прочитайте каждую пару вслух: «A file is …»"]],ex:["file → E. “A file is a document, photo or video saved on a device.”","file → E. «Файл — это документ, фото или видео, сохранённые на устройстве»."],ph:[["A … is a …","… — это …"],["It is used to …","Это используется, чтобы …"],["I think … means …","Я думаю, … значит …"],["What does … mean?","Что значит …?"]],
+{c:"ma",g:3,sub:["Mathematics","Математика"],lvl:["Basic","Базовый"],min:10,title:["Market share chart","График доли рынка"],desc:["Use the numbers to build a bar chart. Then describe it in two or three sentences.","По числам постройте столбчатую диаграмму. Затем опишите её в двух-трёх предложениях."],steps:[["Look at the two tables of market share numbers (rounded, for practice).","Посмотрите две таблицы с долями рынка (округлённые, для практики)."],["Draw two axes on paper. Write the system names under the horizontal axis.","Нарисуйте на бумаге две оси. Подпишите названия систем под горизонтальной осью."],["Use the scale 1 cm = 10%. Draw one bar for each system.","Масштаб: 1 см = 10%. Нарисуйте один столбец для каждой системы."],["Check that each table adds up to 100%.","Проверьте, что сумма в каждой таблице равна 100%."],["Use division: how many times bigger is Android than iOS?","Используйте деление: во сколько раз Android больше iOS?"],["Write two or three English sentences that describe your chart.","Напишите два-три английских предложения, описывающих диаграмму."]],ex:["Windows = 71%, so its bar is 7.1 cm tall. Sentence: “Windows is the most popular desktop system, with 71 percent.”","Windows = 71%, значит столбец 7,1 см. Предложение: «Windows — самая популярная настольная система, 71 процент»."],ph:[["… has the biggest share.","У … самая большая доля."],["… is the smallest.","… — самая маленькая."],["About … percent of …","Около … процентов …"],["… is about … times bigger than …","… примерно в … раза больше, чем …"],["The chart shows …","Диаграмма показывает …"]],
+extra:()=>`<div class="box">${tbl("Mobile systems (%)","Мобильные системы (%)",mob)}${tbl("Desktop systems (%)","Настольные системы (%)",desk)}<p class="hint">Rounded figures for practice. Source: StatCounter Global Stats.</p><p><button class="t" data-ru="Показать образец диаграммы" onclick="document.getElementById('smp').hidden=!document.getElementById('smp').hidden">Show sample chart</button></p><div id="smp" hidden>${bars(mob)}<hr>${bars(desk)}</div></div>`},
+{c:"ma",g:4,sub:["Mathematics","Математика"],lvl:["Basic","Базовый"],min:8,noans:1,title:["Match terms and definitions","Соотнесите термины и определения"],desc:["Choose the correct definition (A–F) for each term. One definition is extra.","Выберите правильное определение (A–F) для каждого термина. Одно определение лишнее."],steps:[["Read the six definitions A–F. One of them is extra.","Прочитайте шесть определений A–F. Одно из них лишнее."],["Read the terms below, one by one.","Прочитайте термины ниже по одному."],["Choose a letter for each term.","Выберите букву для каждого термина."],["Press “Check” and fix the ✗ answers.","Нажмите «Проверить» и исправьте ответы с ✗."],["Read each pair aloud: “A folder is …”","Прочитайте каждую пару вслух: «A folder is …»"]],ex:["file → E. “A file is a document, photo or video saved on a device.” (E is only an example: you will not use it below.)","file → E. «Файл — это документ, фото или видео, сохранённые на устройстве». (E только пример: ниже она не понадобится.)"],ph:[["A … is a …","… — это …"],["It is used to …","Это используется, чтобы …"],["I think … means …","Я думаю, … значит …"],["What does … mean?","Что значит …?"]],
 extra:()=>`<div class="box">${defs.map(d=>`<p><b>${d[0]}</b> ${T("span",d[1],d[2],"b")}</p>`).join("")}</div>`+quiz([["operating system","операционная система","C"],["folder","папка","B"],["window","окно","A"],["application","приложение","D"],["update","обновление","F"]],["A","B","C","D","E","F"])},
-{c:"ma",g:5,sub:["Mathematics","Математика"],lvl:["Basic","Базовый"],min:8,title:["Complete the sentences","Дополните предложения"],desc:["Fill each gap with a word from the word bank.","Заполните каждый пропуск словом из списка."],steps:[["Read the word bank.","Прочитайте список слов."],["Read the first sentence slowly.","Медленно прочитайте первое предложение."],["Choose the best word for the gap.","Выберите лучшее слово для пропуска."],["Press “Check” and fix the red answers.","Нажмите «Проверить» и исправьте красные ответы."],["Read the correct sentences aloud.","Прочитайте правильные предложения вслух."]],ex:["“I saved my homework as a ___.” → file. “I saved my homework as a file.”","«I saved my homework as a ___.» → file. «Я сохранил домашнее задание как файл»."],ph:[["The missing word is …","Пропущенное слово — …"],["I think the answer is …","Я думаю, ответ — …"],["It fits because …","Оно подходит, потому что …"],["Let’s check.","Давайте проверим."]],
-extra:()=>{const w=["install","storage","update","user interface","application","memory"];return `<div class="box">${T("h3","Word bank","Список слов")}${w.map(x=>`<span class="chip">${x}</span>`).join("")}</div>`+quiz([["You must ___ a new app before you can use it.","Нужно установить новое приложение, прежде чем им пользоваться.","install"],["My phone has no free ___, so I cannot save more photos.","На телефоне нет свободного места, и я не могу сохранить больше фото.","storage"],["An ___ fixes problems and adds new features.","Обновление исправляет ошибки и добавляет новые функции.","update"],["The ___ is what you see and touch on the screen.","Интерфейс — это то, что вы видите и трогаете на экране.","user interface"],["Chrome is an ___ that lets you browse the internet.","Chrome — это приложение для просмотра интернета.","application"],["The computer is slow because it uses too much ___.","Компьютер медленный, потому что использует слишком много памяти.","memory"]],w)}}
+{c:"ma",g:5,sub:["Mathematics","Математика"],lvl:["Basic","Базовый"],min:8,noans:1,title:["Complete the sentences","Дополните предложения"],desc:["Fill each gap with a word from the word bank. One word is extra.","Заполните каждый пропуск словом из списка. Одно слово лишнее."],steps:[["Read the word bank. One word is extra.","Прочитайте список слов. Одно слово лишнее."],["Read the first sentence slowly.","Медленно прочитайте первое предложение."],["Choose the best word for the gap.","Выберите лучшее слово для пропуска."],["Press “Check” and fix the ✗ answers.","Нажмите «Проверить» и исправьте ответы с ✗."],["Read the correct sentences aloud.","Прочитайте правильные предложения вслух."]],ex:["“I saved my homework as a ___.” → file. “I saved my homework as a file.”","«I saved my homework as a ___.» → file. «Я сохранил домашнее задание как файл»."],ph:[["The missing word is …","Пропущенное слово — …"],["I think the answer is …","Я думаю, ответ — …"],["It fits because …","Оно подходит, потому что …"],["Let’s check.","Давайте проверим."]],
+extra:()=>{const w=[["install",""],["storage","where files are kept"],["update",""],["user interface",""],["application",""],["memory","used by open apps"],["download","extra word"]];return `<div class="box">${T("h3","Word bank","Список слов")}${w.map(x=>`<span class="chip">${x[0]}${x[1]?` <small>(${x[1]})</small>`:""}</span>`).join("")}</div>`+quiz([["Before you can use a new app, you must ___ it.","Прежде чем пользоваться новым приложением, его нужно установить.","install","What do you do with a new app first?"],["The video is 4 GB, but my phone has only 2 GB of free ___ for new files.","Видео занимает 4 ГБ, а на телефоне только 2 ГБ свободного места для новых файлов.","storage","Where are files kept?"],["We need a new ___ because it fixes security problems.","Нам нужно новое обновление, потому что оно исправляет проблемы с безопасностью.","update","What fixes problems?"],["The ___ is what you see and touch on the screen.","Интерфейс — это то, что вы видите и трогаете на экране.","user interface",""],["Chrome is a(n) ___ for browsing the internet.","Chrome — это приложение для просмотра интернета.","application",""],["Too many open apps use all the ___, so the laptop freezes.","Слишком много открытых приложений занимают всю память, и ноутбук зависает.","memory","What do open apps use?"]],w.map(x=>x[0]))}}
 ];
 
-document.getElementById("gg").innerHTML=TK.map((t,i)=>`<article class="card gc ${t.c} rise" tabindex="0" role="button" onclick="openT(${i})" onkeydown="if(event.key==='Enter')openT(${i})">
+document.getElementById("gg").innerHTML=TK.map((t,i)=>`<article class="card gc ${t.c} rise" tabindex="0" role="button" onclick="openT(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openT(${i})}">
 <div class="n">${T("span","Group "+t.g,"Группа "+t.g)}</div><p>${T("span",t.sub[0],t.sub[1])} ${T("span",t.lvl[0],t.lvl[1],"badge")}</p><h3>${t.title[0].replace(/&/g,"&amp;")}</h3>${T("p",t.desc[0],t.desc[1],"b")}</article>`).join("");
 document.querySelectorAll("#gg h3").forEach((h,i)=>{h.classList.add("t");h.dataset.ru=TK[i].title[1]});
 
-/* ----- GLOBAL TIMER LOGIC ----- */
-window.gLeft = 0; window.gEnds = 0; window.gRun = false; let gIv;
-window.onTimerUpdate = (d) => {
-    if(!d) return;
-    window.gRun = d.running;
-    if(window.gRun) window.gEnds = d.endsAt; else window.gLeft = d.left || 0;
-    calcTimer();
-    clearInterval(gIv);
-    if(window.gRun) gIv = setInterval(calcTimer, 1000);
+/* ----- GLOBAL TIMER ----- */
+window.gLeft=0;window.gEnds=0;window.gRun=false;window.gDone=false;window.srvOff=0;let gIv;
+window.onTimerUpdate=d=>{
+ if(!d)return;
+ window.gRun=!!d.running;window.gDone=false;
+ if(window.gRun)window.gEnds=(d.startedAt&&d.startedAt.toMillis?d.startedAt.toMillis():Date.now())+(d.left||0)*1000;else window.gLeft=d.left||0;
+ calcTimer();clearInterval(gIv);
+ if(window.gRun)gIv=setInterval(calcTimer,1000);
 };
-function calcTimer() {
-    if(window.gRun) window.gLeft = Math.max(0, Math.round((window.gEnds - Date.now())/1000));
-    const m = String(window.gLeft/60|0).padStart(2,"0"), s = String(window.gLeft%60).padStart(2,"0");
-    const tm = document.getElementById("tm"), ttm = document.getElementById("ttm");
-    if(tm) { tm.textContent = m+":"+s; tm.className = window.gLeft ? "" : "end"; }
-    if(ttm) { ttm.textContent = m+":"+s; ttm.className = window.gLeft ? "" : "end"; }
+function beep(){try{navigator.vibrate&&navigator.vibrate(400);const a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start();setTimeout(()=>{o.stop();a.close()},600)}catch(e){}}
+function calcTimer(){
+ const was=window.gLeft;
+ if(window.gRun)window.gLeft=Math.max(0,Math.round((window.gEnds-(Date.now()+window.srvOff))/1000));
+ if(window.gRun&&!window.gLeft){clearInterval(gIv);window.gRun=false;window.gDone=true;if(was>0)beep()}
+ const m=String(window.gLeft/60|0).padStart(2,"0"),s=String(window.gLeft%60).padStart(2,"0"),cls=window.gDone?"end":"";
+ const tm=document.getElementById("tm"),ttm=document.getElementById("ttm");
+ if(tm){tm.textContent=m+":"+s;tm.className=cls}
+ if(ttm){ttm.textContent=m+":"+s;ttm.className=cls}
 }
 
-function openT(i){const t=TK[i],el=document.getElementById("task");
+const ansBox=t=>t.noans?"":`<div class="box">${T("h3","Our group’s answer","Ответ нашей группы")}<label class="vh" for="ans">Group answer</label><textarea id="ans" rows="6" placeholder="Write in English…" ${canEdit(t.g)?"":"disabled"}></textarea><p id="st" style="color:var(--muted);margin:.3rem 0 0">${canEdit(t.g)?"":(me?"Only Group "+t.g+" can edit this.":"Sign in to write.")}</p><div id="others"></div></div>`;
+function openT(i){const t=TK[i],el=document.getElementById("task");lastF=document.activeElement;qFirst=null;qTries=0;
 el.innerHTML=`<div class="wrap ${t.c}"><button class="t" data-ru="← Назад" onclick="closeT()">← Back</button>
 <p style="margin-top:1rem">${T("span","Group "+t.g,"Группа "+t.g)} ${T("span",t.sub[0],t.sub[1])} ${T("span",t.lvl[0],t.lvl[1],"badge")}</p>
-<h2>${t.title[0]}</h2>${T("p",t.desc[0],t.desc[1],"b")}
+<h2 id="tt" class="t" data-ru="${esc(t.title[1])}">${t.title[0]}</h2>${T("p",t.desc[0],t.desc[1],"b")}
 <div class="timer" style="margin-top:1rem"><span id="tm">00:00</span><span class="t" data-ru="Осталось времени">Time remaining</span><span style="flex:1"></span><span class="t" data-ru="(Запускает учитель)" style="color:var(--muted);font-size:.9rem">(Started by teacher)</span></div>
 <h3 style="margin-top:1.2rem" class="t" data-ru="Шаги">Steps</h3><ol>${t.steps.map(s=>T("li",s[0],s[1],"b")).join("")}</ol>
 <div class="box">${T("h3","Worked example","Пример выполнения")}${T("p",t.ex[0],t.ex[1],"b")}</div>
 ${t.extra()}${ansBox(t)}
 <div class="box">${T("h3","Useful phrases","Полезные фразы")}<ul>${t.ph.map(p=>T("li",p[0],p[1],"b")).join("")}</ul></div></div>`;
-el.querySelector("h2").classList.add("t");el.querySelector("h2").dataset.ru=t.title[1];
-apply(el);calcTimer();curG=t.g;bind(t.g);window.FB&&FB.ping({task:t.title[0]});el.classList.add("on");el.scrollTop=0;document.body.style.overflow="hidden"}
-function closeT(){window.FB&&FB.ping({task:""});unw&&unw();unw=null;document.getElementById("task").classList.remove("on");document.body.style.overflow=""}
-function chk(){let n=0;const s=document.querySelectorAll("#task select");s.forEach(x=>{const ok=x.value===x.dataset.a;if(ok)n++;x.className=ok?"ok":"no"});document.getElementById("sc").textContent=n+" / "+s.length;saveQ(n,s)}
+apply(el);calcTimer();curG=t.g;bind(t.g);window.FB&&FB.ping({task:t.title[0]});el.showModal();el.scrollTop=0}
+function closeT(){document.getElementById("task").close()}
+function chk(){let n=0;const s=document.querySelectorAll("#task select");
+ s.forEach(x=>{const ok=!!x.value&&H(x.value)===x.dataset.a;if(ok)n++;x.className=ok?"ok":"no";const m=x.nextElementSibling;if(m)m.textContent=ok?"✓":"✗ "+(m.dataset.h||"")});
+ qTries++;if(qFirst===null){qFirst=n;saveQ(n,s)}
+ document.getElementById("sc").textContent=n+" / "+s.length+(qTries>1?" (first try: "+qFirst+")":"")}
 
 let ru=false;
 function apply(r=document){r.querySelectorAll(".t").forEach(e=>{if(e.dataset.h==null)e.dataset.h=e.innerHTML;if(ru)e.textContent=e.dataset.ru;else e.innerHTML=e.dataset.h})}
-function setLang(){ru=!ru;document.body.classList.toggle("ru",ru);document.getElementById("lb").textContent=ru?"EN":"RU";apply()}
-function trans(){const b=document.getElementById("tb"),on=document.body.classList.toggle("tr");b.setAttribute("aria-pressed",on)}
+function setLang(){ru=!ru;document.body.classList.toggle("ru",ru);document.documentElement.lang=ru?"ru":"en";document.getElementById("lb").textContent=ru?"EN":"RU";apply()}
+function theme(){const r=document.documentElement,c=r.dataset.theme,n=c==="dark"?"light":c==="light"?"":"dark";if(n)r.dataset.theme=n;else delete r.dataset.theme;document.getElementById("tm2").textContent=n==="dark"?"🌙":n==="light"?"☀️":"🌓";try{localStorage.ost=n}catch(e){}}
+function speak(s){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(s);u.lang="en-US";u.rate=.9;speechSynthesis.speak(u)}catch(e){}}
+document.addEventListener("click",e=>{
+ const b=e.target.closest(".spk");if(b){speak(b.dataset.s);return}
+ if(e.target.closest("select,button,a,textarea"))return;
+ const x=e.target.closest(".t.b,.r,.vt");if(x)x.classList.toggle("sh")});
+try{const s=localStorage.ost;if(s){document.documentElement.dataset.theme=s;document.getElementById("tm2").textContent=s==="dark"?"🌙":"☀️"}}catch(e){}
 apply();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.1});
 document.querySelectorAll(".rise").forEach(e=>io.observe(e));
 </script>
 
 <script>
-const $=id=>document.getElementById(id),h=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const $=id=>document.getElementById(id),h=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let me=null,curG=0,unw=null,dt,ua=null;
+$("task").addEventListener("close",()=>{window.FB&&FB.ping({task:""});unw&&unw();unw=null;lastF&&lastF.focus&&lastF.focus()});
+const msg=e=>{const c=e&&e.code||"";return c==="auth/network-request-failed"?"No connection. Check the Wi-Fi.":/invalid-credential|wrong-password|user-not-found|invalid-email/.test(c)?"Wrong email or password.":c==="auth/operation-not-allowed"?"Sign-in is not enabled.":e&&e.message&&e.message.startsWith("Wrong")?e.message:"Something went wrong. Try again."};
 function tab(n){$("f1").style.display=n==1?"grid":"none";$("f2").style.display=n==2?"grid":"none";$("t1").className=(n==1?"pri ":"")+"t";$("t2").className=(n==2?"pri ":"")+"t";$("er").textContent=""}
-async function inS(){const n=$("nm").value.trim(),c=$("cd").value.trim().toUpperCase();
+async function inS(){const n=$("nm").value.trim(),c=$("cd").value.trim().toUpperCase(),g=+$("gs").value;
  if(!n){$("er").textContent="Please enter your name.";return}
- const g=(window.CLASS_CODES||{})[c];
- if(!g){$("er").textContent="Wrong class code. Please check it with your teacher.";return}
- try{await FB.student(n,g);$("er").textContent=""}catch(e){$("er").textContent="Error: "+(e.code||e.message)}}
-async function inT(){try{await FB.teacher($("em").value,$("pw").value);$("er").textContent=""}catch(e){$("er").textContent="Error: "+(e.code||e.message)}}
+ if(!c){$("er").textContent="Please enter the class code.";return}
+ if(!window.FB){$("er").textContent="No connection to the server. Check the Wi-Fi.";return}
+ try{await FB.student(n,g,c);$("er").textContent=""}catch(e){$("er").textContent=msg(e);$("login").style.display="flex"}}
+async function inT(){if(!window.FB){$("er").textContent="No connection to the server.";return}try{await FB.teacher($("em").value,$("pw").value);$("er").textContent=""}catch(e){$("er").textContent=msg(e)}}
 function onUser(u){if(u&&u.isAnonymous&&!localStorage.osg){FB.out();return}
- me=u;const t=u&&!u.isAnonymous;$("login").style.display=u?"none":"flex";
- $("who").textContent=u?(t?"Teacher":u.displayName+" (G"+localStorage.osg+")"):"";
- $("tbtn").hidden=!t;$("so").hidden=!u;if(!u)tvx()}
+ me=u;const t=u&&!u.isAnonymous;if(u)$("login").style.display="none";
+ $("who").textContent=u?(t?"Teacher":(u.displayName||"")+" (G"+localStorage.osg+")"):"";
+ $("tbtn").hidden=!t;$("so").hidden=!u;$("li").hidden=!!u;if(!u)tvx();
+ document.querySelectorAll("#gg .gc").forEach((e,i)=>e.classList.toggle("mine",!!u&&!t&&+localStorage.osg===i+1))}
 const canEdit=g=>me&&me.isAnonymous&&+localStorage.osg===g;
-const ansBox=t=>`<div class="box">${T("h3","Our group’s answer","Ответ нашей группы")}<textarea id="ans" rows="6" placeholder="Write your answer in English…" ${canEdit(t.g)?"":"disabled"}></textarea><p id="st" style="color:var(--muted);margin:.3rem 0 0">${canEdit(t.g)?"":"Only Group "+t.g+" can edit this."}</p></div>`;
-function bind(g){unw&&unw();unw=null;const a=$("ans");if(!a||!window.FB)return;
- unw=FB.watch(g,d=>{if(d&&d.text!=null&&document.activeElement!==a)a.value=d.text});
- a.oninput=()=>{$("st").textContent="…";clearTimeout(dt);dt=setTimeout(async()=>{try{await FB.save(g,{text:a.value,names:FB.arr(me.displayName||"?")});$("st").textContent="✓ Saved";FB.ping({chars:a.value.length})}catch(e){$("st").textContent="⚠ Not saved: "+(e.code||e.message)}},700)}}
-function saveQ(n,s){if(!canEdit(curG))return;FB.ping({score:n,total:s.length});FB.save(curG,{score:n+" / "+s.length,quiz:[...s].map(x=>x.value||"?")}).catch(()=>{})}
+function bind(g){unw&&unw();unw=null;const a=$("ans");if(!a||!window.FB||!me)return;
+ unw=FB.watch(g,d=>{const P=(d&&d.parts)||{},mine=P[me.uid];
+  if(mine&&mine.text!=null&&!a.value&&document.activeElement!==a)a.value=mine.text;
+  $("others").innerHTML=Object.entries(P).filter(([u,p])=>u!==me.uid&&p.text).map(([u,p])=>`<div class="box"><b>${h(p.name)}</b><div class="ans">${h(p.text)}</div></div>`).join("")});
+ a.oninput=()=>{$("st").textContent="…";clearTimeout(dt);dt=setTimeout(async()=>{try{await FB.save(g,me.uid,me.displayName||"?",{text:a.value});$("st").textContent="✓ Saved";FB.ping({chars:a.value.length})}catch(e){$("st").textContent="⚠ Not saved"}},1500)}}
+function saveQ(n,s){if(!canEdit(curG)||!window.FB)return;FB.ping({score:n,total:s.length});FB.save(curG,me.uid,me.displayName||"?",{score:n+" / "+s.length}).catch(()=>{})}
 let stu=[];
 const ago=ms=>{const s=Math.max(0,Math.round((Date.now()-ms)/1000));return s<60?"just now":s<3600?Math.floor(s/60)+" min ago":Math.floor(s/3600)+" h ago"};
-function rs(){const now=Date.now(),on=s=>s.ms&&now-s.ms<150000;
- const L=[...stu].sort((a,b)=>(a.group-b.group)||String(a.name).localeCompare(String(b.name)));
+function rs(){const now=Date.now(),on=s=>s.ms&&now-s.ms<150000,m={};
+ stu.forEach(s=>{const k=s.group+"|"+String(s.name).toLowerCase();if(!m[k]||s.ms>m[k].ms)m[k]=s});
+ const L=Object.values(m).sort((a,b)=>(a.group-b.group)||String(a.name).localeCompare(String(b.name)));
  $("tsum").textContent=L.length+" students · "+L.filter(on).length+" online";
  $("stbl").innerHTML="<tr><th>Group</th><th>Name</th><th>Status</th><th>Task now</th><th>Quiz</th><th>Answer</th><th>Last seen</th></tr>"+
   L.map(s=>`<tr><td>${h(s.group)}</td><td>${h(s.name)}</td><td>${on(s)?"🟢":"⚪"}</td><td>${h(s.task||"—")}</td><td>${s.score!=null?h(s.score)+" / "+h(s.total):"—"}</td><td>${s.chars!=null?h(s.chars)+" chars":"—"}</td><td>${s.ms?ago(s.ms):"—"}</td></tr>`).join("")}
-function clr(){if(confirm("Delete all students from the list?"))FB.clear()}
-function clrA(g){if(confirm(g?"Clear Group "+g+" answer and quiz result?":"Clear ALL group answers and quiz results?"))FB.clearAnswers(g).catch(e=>alert("Error: "+(e.code||e.message)))}
-function tv(){$("tview").classList.add("on");document.body.style.overflow="hidden";ua&&ua();
- $("tcodes").innerHTML=Object.entries(window.CLASS_CODES||{}).map(([c,g])=>`<span class="chip">Group ${g}: <b>${h(c)}</b></span>`).join("");
+function clr(){if(confirm("Remove students who are offline from the list? Online students stay."))FB.clear()}
+function clrA(g){if(confirm(g?"Clear Group "+g+" answers?":"Clear ALL group answers?"))FB.clearAnswers(g).catch(e=>alert("Error: "+(e.code||e.message)))}
+function tv(){if(!window.FB)return;$("tview").classList.add("on");document.body.style.overflow="hidden";ua&&ua();
  const u1=FB.all(a=>{const m={};a.forEach(d=>m[d.group]=d);
-  $("tgrid").innerHTML=[1,2,3,4,5].map(g=>{const d=m[g]||{};return `<div class="card ${g<3?"cs":"ma"}"><h3>Group ${g}${d.score?" · "+h(d.score):""}</h3><p style="color:var(--muted)">${h((d.names||[]).join(", "))}</p><div class="ans">${h(d.text||"—")}</div>${d.quiz?`<p>${h(d.quiz.join(" | "))}</p>`:""}<p><button onclick="clrA(${g})">Clear this group</button></p></div>`}).join("")});
+  $("tgrid").innerHTML=[1,2,3,4,5].map(g=>{const d=m[g]||{},P=Object.values(d.parts||{});return `<div class="card ${g<3?"cs":"ma"}"><h3>Group ${g}</h3><div class="ans">${h(P.map(p=>p.name+": "+(p.text||"—")+(p.score?" ["+p.score+"]":"")).join("\n\n")||"—")}</div><p><button onclick="clrA(${g})">Clear this group</button></p></div>`}).join("")});
  const u2=FB.students(l=>{stu=l;rs()});const tm=setInterval(rs,15000);
  ua=()=>{u1();u2();clearInterval(tm)}}
-function tvx(){ua&&ua();ua=null;$("tview").classList.remove("on");if(!$("task").classList.contains("on"))document.body.style.overflow=""}
+function tvx(){ua&&ua();ua=null;$("tview").classList.remove("on");document.body.style.overflow=""}
 </script>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,signInAnonymously,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {getFirestore,doc,setDoc,onSnapshot,collection,serverTimestamp,arrayUnion,getDocs,deleteDoc,deleteField} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getFirestore,doc,setDoc,onSnapshot,collection,serverTimestamp,getDocs,deleteDoc,deleteField} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 const app=initializeApp(window.FIREBASE_CONFIG),auth=getAuth(app),db=getFirestore(app);
-let prog={},beat=null;
+let prog={},beat=null,offUn=null;
+window.awaitClk=false;
+/* server clock offset: taken from the first server-confirmed lastSeen after our own write */
+function syncClock(ref){offUn&&offUn();offUn=onSnapshot(ref,s=>{const d=s.data();
+ if(window.awaitClk&&!s.metadata.hasPendingWrites&&d&&d.lastSeen&&d.lastSeen.toMillis){window.srvOff=d.lastSeen.toMillis()-Date.now();window.awaitClk=false}},e=>console.warn(e))}
 async function ping(x){const u=auth.currentUser;if(!u||!u.isAnonymous||!localStorage.osg)return;
  if(x&&x.constructor===Object)Object.assign(prog,x);
- try{await setDoc(doc(db,"students",u.uid),{name:u.displayName||localStorage.osn||"?",group:+localStorage.osg,lastSeen:serverTimestamp(),...prog},{merge:true})}catch(e){console.warn(e)}}
+ window.awaitClk=true;
+ try{await setDoc(doc(db,"students",u.uid),{name:u.displayName||localStorage.osn||"?",group:+localStorage.osg,code:localStorage.osc||"",lastSeen:serverTimestamp(),...prog},{merge:true})}catch(e){console.warn(e)}}
 
 window.FB={
- async student(n,g){localStorage.osg=g;localStorage.osn=n;prog={};const c=await signInAnonymously(auth);await updateProfile(c.user,{displayName:n});onUser(auth.currentUser);await ping({task:""})},
+ async student(n,g,c){localStorage.osg=g;localStorage.osn=n;localStorage.osc=c;prog={};
+  const cr=await signInAnonymously(auth);
+  try{await updateProfile(cr.user,{displayName:n});
+   await setDoc(doc(db,"students",cr.user.uid),{name:n,group:g,code:c,lastSeen:serverTimestamp(),task:""},{merge:true})}
+  catch(e){localStorage.removeItem("osg");localStorage.removeItem("osc");
+   try{await cr.user.delete()}catch(_){await signOut(auth)}
+   throw e.code==="permission-denied"?new Error("Wrong class code or group."):e}
+  onUser(auth.currentUser)},
  teacher:(e,p)=>signInWithEmailAndPassword(auth,e,p),
- out:()=>{prog={};return signOut(auth)},
- save:(g,d)=>setDoc(doc(db,"answers","g"+g),{group:g,updated:serverTimestamp(),...d},{merge:true}),
- watch:(g,cb)=>onSnapshot(doc(db,"answers","g"+g),s=>cb(s.data())),
- all:cb=>onSnapshot(collection(db,"answers"),s=>cb(s.docs.map(d=>d.data()))),
+ out:()=>{prog={};localStorage.removeItem("osc");return signOut(auth)},
+ save:(g,uid,name,d)=>setDoc(doc(db,"answers","g"+g),{group:g,updated:serverTimestamp(),parts:{[uid]:{name,...d}}},{merge:true}),
+ watch:(g,cb)=>onSnapshot(doc(db,"answers","g"+g),s=>cb(s.data()),e=>console.warn(e)),
+ all:cb=>onSnapshot(collection(db,"answers"),s=>cb(s.docs.map(d=>d.data())),e=>console.warn(e)),
  students:cb=>onSnapshot(collection(db,"students"),s=>cb(s.docs.map(d=>{const x=d.data();x.ms=x.lastSeen&&x.lastSeen.toMillis?x.lastSeen.toMillis():0;return x})),e=>console.warn(e)),
- clear:async()=>{const s=await getDocs(collection(db,"students"));await Promise.all(s.docs.map(d=>deleteDoc(d.ref)))},
- 
- /* Функция Глобального Таймера */
- tmStart:async()=>{
-  let m=parseInt(document.getElementById("tmin").value)||15;
-  let l=window.gLeft>0?window.gLeft:m*60;
-  await setDoc(doc(db,"settings","timer"),{running:true,endsAt:Date.now()+l*1000,left:l});
- },
- tmPause:async()=>{
-  await setDoc(doc(db,"settings","timer"),{running:false,left:window.gLeft});
- },
- tmReset:async()=>{
-  let m=parseInt(document.getElementById("tmin").value)||15;
-  window.gLeft=m*60; window.gRun=false; calcTimer();
-  await setDoc(doc(db,"settings","timer"),{running:false,left:m*60});
- },
+ clear:async()=>{const s=await getDocs(collection(db,"students")),now=Date.now();
+  await Promise.all(s.docs.filter(d=>{const l=d.data().lastSeen;return !(l&&l.toMillis&&now-l.toMillis()<150000)}).map(d=>deleteDoc(d.ref)))},
+
+ tmStart:async()=>{const m=parseInt(document.getElementById("tmin").value)||15,l=window.gLeft>0?window.gLeft:m*60;
+  await setDoc(doc(db,"settings","timer"),{running:true,startedAt:serverTimestamp(),left:l})},
+ tmPause:async()=>{await setDoc(doc(db,"settings","timer"),{running:false,left:window.gLeft})},
+ tmReset:async()=>{const m=parseInt(document.getElementById("tmin").value)||15;
+  window.gLeft=m*60;window.gRun=false;window.gDone=false;calcTimer();
+  await setDoc(doc(db,"settings","timer"),{running:false,left:m*60})},
  clearAnswers:async g=>{const gs=g?[g]:[1,2,3,4,5];await Promise.all(gs.map(x=>deleteDoc(doc(db,"answers","g"+x))));await setDoc(doc(db,"settings","reset"),{at:Date.now(),group:g||0})},
- ping,
- arr:arrayUnion
+ ping
 };
 
-onAuthStateChanged(auth,u=>{onUser(u);clearInterval(beat);if(u&&u.isAnonymous&&localStorage.osg){ping();beat=setInterval(ping,60000)}});
+onAuthStateChanged(auth,u=>{onUser(u);clearInterval(beat);offUn&&offUn();offUn=null;
+ if(u&&u.isAnonymous&&localStorage.osg){syncClock(doc(db,"students",u.uid));ping();beat=setInterval(ping,60000)}
+ else if(u&&!u.isAnonymous){const r=doc(db,"settings","clock");window.awaitClk=true;syncClock(r);setDoc(r,{lastSeen:serverTimestamp()}).catch(console.warn)}});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)ping()});
 
-/* Сброс ответов у студентов */
+/* reset of answers on students' devices */
 onSnapshot(doc(db,"settings","reset"),async s=>{const d=s.data()||{},at=d.at||0;
  if(localStorage.osreset==null){localStorage.osreset=at;return}
  if(at<=+localStorage.osreset)return;localStorage.osreset=at;
@@ -316,12 +371,14 @@ onSnapshot(doc(db,"settings","reset"),async s=>{const d=s.data()||{},at=d.at||0;
  if(d.group&&d.group!==+localStorage.osg)return;
  const t=prog.task;prog=t?{task:t}:{};
  const a=document.getElementById("ans");if(a)a.value="";
+ qFirst=null;qTries=0;
  document.querySelectorAll("#task select").forEach(x=>{x.value="";x.className=""});
+ document.querySelectorAll("#task .mk").forEach(x=>x.textContent="");
  const sc=document.getElementById("sc");if(sc)sc.textContent="";
- try{await setDoc(doc(db,"students",u.uid),{score:deleteField(),total:deleteField(),chars:deleteField(),lastSeen:serverTimestamp()},{merge:true})}catch(e){console.warn(e)}});
+ try{await setDoc(doc(db,"students",u.uid),{score:deleteField(),total:deleteField(),chars:deleteField(),lastSeen:serverTimestamp()},{merge:true})}catch(e){console.warn(e)}},e=>console.warn(e));
 
-/* Синхронизация Таймера для всех */
-onSnapshot(doc(db,"settings","timer"),s=>{ if(window.onTimerUpdate) window.onTimerUpdate(s.data()) });
+/* shared timer (server time) */
+onSnapshot(doc(db,"settings","timer"),s=>{if(window.onTimerUpdate)window.onTimerUpdate(s.data({serverTimestamps:"estimate"}))},e=>console.warn(e));
 </script>
 </body>
 </html>
