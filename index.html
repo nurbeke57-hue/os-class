@@ -111,6 +111,7 @@ select.no{animation:shake .35s}
 <span id="who" style="font-weight:600"></span>
 <button id="tbtn" hidden class="pri t" data-ru="Панель" onclick="tv()">Dashboard</button>
 <button id="li" class="t" data-ru="Войти" onclick="$('login').style.display='flex'">Sign in</button>
+<button id="kr-open" type="button" aria-label="Сабақ таңдау">🎓 Сабақ таңдау</button>
 <button id="lb" onclick="setLang()" aria-label="Switch interface language (English / Russian)">RU</button>
 <button id="tm2" onclick="theme()" aria-label="Switch light / dark theme">🌓</button>
 <button id="so" hidden class="t" data-ru="Выйти" onclick="FB.out()">Sign out</button>
@@ -189,7 +190,7 @@ window.FIREBASE_CONFIG={apiKey:"AIzaSyBFa1DotimFfOSe-4p-zI76wV9FRLCVJ8o",authDom
 <script>
 const G={hardware:"оборудование («железо»)",software:"программное обеспечение",interface:"интерфейс",resources:"ресурсы",ecosystem:"экосистема",customization:"настройка под себя",security:"безопасность",performance:"производительность",permissions:"разрешения",advantage:"преимущество",argument:"аргумент",percent:"процент","market share":"доля рынка",defend:"защищать",organizes:"упорядочивает"};
 const RE=new RegExp("\\b("+Object.keys(G).join("|")+")\\b","gi");
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc=s=>String(s).replace(/[&<>\"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const H=s=>{let x=5381;for(const c of String(s))x=((x*33)^c.charCodeAt(0))>>>0;return x.toString(36)};
 const tx=s=>s.replace(RE,m=>`<span class="w" data-ru="${esc(G[m.toLowerCase()])}">${m}</span>`);
 const T=(tag,en,ru,c="")=>`<${tag} class="t ${c}" data-ru="${esc(ru)}">${tx(en)}</${tag}>`;
@@ -238,7 +239,7 @@ extra:()=>`<div class="box">${tbl("Mobile systems (%)","Мобильные си�
 {c:"ma",g:4,sub:["Mathematics","Математика"],lvl:["Basic","Базовый"],min:8,noans:1,title:["Match terms and definitions","Соотнесите термины и определения"],desc:["Choose the correct definition (A–F) for each term. One definition is extra.","Выберите правильное определение (A–F) для каждого термина. Одно определение лишнее."],steps:[["Read the six definitions A–F. One of them is extra.","Прочитайте шесть определений A–F. Одно из них лишнее."],["Read the terms below, one by one.","Прочитайте термины ниже по одному."],["Choose a letter for each term.","Выберите букву для каждого термина."],["Press “Check” and fix the ✗ answers.","Нажмите «Проверить» и исправьте ответы с ✗."],["Read each pair aloud: “A folder is …”","Прочитайте каждую пару вслух: «A folder is …»"]],ex:["file → E. “A file is a document, photo or video saved on a device.” (E is only an example: you will not use it below.)","file → E. «Файл — это документ, фото или видео, сохранённые на устройстве». (E только пример: ниже она не понадобится.)"],ph:[["A … is a …","… — это …"],["It is used to …","Это используется, чтобы …"],["I think … means …","Я думаю, … значит …"],["What does … mean?","Что значит …?"]],
 extra:()=>`<div class="box">${defs.map(d=>`<p><b>${d[0]}</b> ${T("span",d[1],d[2],"b")}</p>`).join("")}</div>`+quiz([["operating system","операционная система","C"],["folder","папка","B"],["window","окно","A"],["application","приложение","D"],["update","обновление","F"]],["A","B","C","D","E","F"])},
 {c:"ma",g:5,sub:["Mathematics","Математика"],lvl:["Basic","Базовый"],min:8,noans:1,title:["Complete the sentences","Дополните предложения"],desc:["Fill each gap with a word from the word bank. One word is extra.","Заполните каждый пропуск словом из списка. Одно слово лишнее."],steps:[["Read the word bank. One word is extra.","Прочитайте список слов. Одно слово лишнее."],["Read the first sentence slowly.","Медленно прочитайте первое предложение."],["Choose the best word for the gap.","Выберите лучшее слово для пропуска."],["Press “Check” and fix the ✗ answers.","Нажмите «Проверить» и исправьте ответы с ✗."],["Read the correct sentences aloud.","Прочитайте правильные предложения вслух."]],ex:["“I saved my homework as a ___.” → file. “I saved my homework as a file.”","«I saved my homework as a ___.» → file. «Я сохранил домашнее задание как файл»."],ph:[["The missing word is …","Пропущенное слово — …"],["I think the answer is …","Я думаю, ответ — …"],["It fits because …","Оно подходит, потому что …"],["Let’s check.","Давайте проверим."]],
-extra:()=>{const w=[["install",""],["storage","where files are kept"],["update",""],["user interface",""],["application",""],["memory","used by open apps"],["download","extra word"]];return `<div class="box">${T("h3","Word bank","Список слов")}${w.map(x=>`<span class="chip">${x[0]}${x[1]?` <small>(${x[1]})</small>`:""}</span>`).join("")}</div>`+quiz([["Before you can use a new app, you must ___ it.","Прежде чем пользоваться новым приложением, его нужно установить.","install","What do you do with a new app first?"],["The video is 4 GB, but my phone has only 2 GB of free ___ for new files.","Видео занимает 4 ГБ, а на телефоне только 2 ГБ свободного места для новых файлов.","storage","Where are files kept?"],["We need a new ___ because it fixes security problems.","Нам нужно новое обновление, потому что оно исправляет проблемы с безопасностью.","update","What fixes problems?"],["The ___ is what you see and touch on the screen.","Интерфейс — это то, что вы видите и трогаете на экране.","user interface",""],["Chrome is a(n) ___ for browsing the internet.","Chrome — это приложение для просмотра интернета.","application",""],["Too many open apps use all the ___, so the laptop freezes.","Слишком много открытых приложений занимают всю память, и ноутбук зависает.","memory","What do open apps use?"]],w.map(x=>x[0]))}}
+extra:()=>{const w=[["install",""],["storage","where files are kept"],["update",""],["user interface",""],["application",""],["memory","used by open apps"],["download","extra word"]];return `<div class="box">${T("h3","Word bank","Список слов")}${w.map(x=>`<span class="chip">${x[0]}${x[1]?` <small>(${x[1]})</small>`:""}</span>`).join("")}</div>`+quiz([["Before you can use a new app, you must ___.","Прежде чем пользоваться новым приложением, его нужно установить.","install","What do you do with a new app first?"],["The video is 4 GB, but my phone has only 2 GB of free ___ for new files.","Видео занимает 4 ГБ, а на телефоне только 2 ГБ свободного места для новых файлов.","storage","Where are files kept?"],["We need a new ___ because it fixes security problems.","Нам нужно новое обновление, потому что оно исправляет проблемы с безопасностью.","update","What fixes problems?"],["The ___ is what you see and touch on the screen.","Интерфейс — это то, что вы видите и трогаете на экране.","user interface",""],["Chrome is a(n) ___ for browsing the internet.","Chrome — это приложение для просмотра интернета.","application",""],["Too many open apps use all the ___, so the laptop freezes.","Слишком много открытых приложений занимают всю память, и ноутбук зависает.","memory","What do open apps use?"]],w.map(x=>x[0]))}}
 ];
 
 document.getElementById("gg").innerHTML=TK.map((t,i)=>`<article class="card gc ${t.c} rise" tabindex="0" role="button" onclick="openT(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openT(${i})}">
@@ -298,12 +299,12 @@ document.querySelectorAll(".rise").forEach(e=>io.observe(e));
 </script>
 
 <script>
-const $=id=>document.getElementById(id),h=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $=id=>document.getElementById(id),h=s=>String(s).replace(/[&<>\"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let me=null,curG=0,unw=null,dt,ua=null;
 $("task").addEventListener("close",()=>{window.FB&&FB.ping({task:""});unw&&unw();unw=null;lastF&&lastF.focus&&lastF.focus()});
 const msg=e=>{const c=e&&e.code||"";return c==="auth/network-request-failed"?"No connection. Check the Wi-Fi.":/invalid-credential|wrong-password|user-not-found|invalid-email/.test(c)?"Wrong email or password.":c==="auth/operation-not-allowed"?"Sign-in is not enabled.":e&&e.message&&e.message.startsWith("Wrong")?e.message:"Something went wrong. Try again."};
 function tab(n){$("f1").style.display=n==1?"grid":"none";$("f2").style.display=n==2?"grid":"none";$("t1").className=(n==1?"pri ":"")+"t";$("t2").className=(n==2?"pri ":"")+"t";$("er").textContent=""}
-async function inS(){const n=$("nm").value.trim(),c=$("cd").value.trim().toUpperCase(),g=+$("gs").value;
+async function inS(){const n=$("nm").value.trim(),c=$("cd").value.trim().toUpperCase(),g=+$ ("gs").value;
  if(!n){$("er").textContent="Please enter your name.";return}
  if(!c){$("er").textContent="Please enter the class code.";return}
  if(!window.FB){$("er").textContent="No connection to the server. Check the Wi-Fi.";return}
@@ -338,7 +339,6 @@ function tv(){if(!window.FB)return;$("tview").classList.add("on");document.body.
  ua=()=>{u1();u2();clearInterval(tm)}}
 function tvx(){ua&&ua();ua=null;$("tview").classList.remove("on");document.body.style.overflow=""}
 </script>
-
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,signInAnonymously,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -409,5 +409,99 @@ onSnapshot(doc(db,"settings","timer"),s=>{if(window.onTimerUpdate)window.onTimer
 I.forEach((c,i)=>{const e=document.createElement("span");e.className="ico";e.textContent=c;e.style.left=(6+i*12)%92+"%";e.style.top=(10+(i*37)%75)+"%";e.style.animationDelay=(-i*1.7)+"s";e.style.animationDuration=(11+i*1.6)+"s";b.appendChild(e)});
 document.querySelectorAll(".grid").forEach(g=>g.querySelectorAll(".rise").forEach((e,i)=>e.style.transitionDelay=(i%6)*80+"ms"))})();
 </script>
+<!-- ===== KR ADDON: index.html-дегі соңғы </script> мен </body> арасына қойыңыз ===== -->
+<style>
+.kr-dlg{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);padding:1.2rem;width:min(26rem,92vw)}
+.kr-dlg::backdrop,.kr-full::backdrop{background:#0009}
+.kr-full{border:0;margin:0;max-width:none;max-height:none;width:100%;height:100%;background:var(--bg);color:var(--ink);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 1rem) 0 3rem}
+.kr-full:not([open]),.kr-dlg:not([open]){display:none}
+.kr-wrap{max-width:900px;margin:auto;padding:0 1.1rem}
+.kr-opt{display:block;width:100%;text-align:left;margin:.5rem 0;border-radius:14px}
+.kr-btn{font:inherit;min-height:44px;padding:.35rem 1rem;border-radius:99px;border:2px solid var(--ac);background:var(--card);color:var(--ink);font-weight:600;cursor:pointer}
+.kr-btn:hover{background:var(--tint)}
+.kr-btn.kr-pri{background:var(--ac);color:var(--on-ac)}
+.kr-btn:disabled{opacity:.45;cursor:not-allowed}
+.kr-prog{height:.8rem;border-radius:99px;background:var(--tint);border:1px solid var(--line);overflow:hidden;margin:.8rem 0 .3rem}
+.kr-prog i{display:block;height:100%;background:var(--ac);transition:width .3s}
+.kr-box{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--ac);border-radius:12px;padding:.8rem 1.2rem;margin:1rem 0}
+.kr-q{margin:.7rem 0}
+.kr-q label{display:block;font-weight:600;margin-bottom:.3rem}
+.kr-q textarea{min-height:5rem}
+.kr-ok{color:var(--ma);font-weight:700;margin-left:.4rem}
+.kr-hint{color:var(--muted);font-size:.9rem}
+.kr-nav{display:flex;gap:.6rem;justify-content:space-between;margin-top:1.5rem;flex-wrap:wrap}
+.kr-chk{display:flex;gap:.6rem;align-items:flex-start;margin:.5rem 0;min-height:44px}
+.kr-chk input{width:1.4rem;height:1.4rem;flex:none;margin-top:.2rem}
+</style>
+
+<dialog id="kr-pick" class="kr-dlg" aria-labelledby="kr-pt">
+<h2 id="kr-pt" style="margin:0 0 .6rem;font-size:1.4rem">🎓 Сабақ таңдау</h2>
+<button type="button" id="kr-go-old" class="kr-btn kr-opt">💻 Операциялық жүйелер (ағылшын тілі)</button>
+<button type="button" id="kr-go-new" class="kr-btn kr-opt kr-pri">🎓 Кредиттік технология (магистратура)</button>
+<button type="button" id="kr-pick-x" class="kr-btn kr-opt">Жабу</button>
+</dialog>
+
+<dialog id="kr-lesson" class="kr-full" aria-labelledby="kr-lt"><div class="kr-wrap" id="kr-body"></div></dialog>
+
+<script>
+(function(){
+const q=id=>document.getElementById(id),e=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const S=[
+{t:"1.1 Кредиттік оқыту жүйесінің мәні",n:"Кредиттік технология — оқу жүктемесі кредитпен өлшенетін, студент пәндерді таңдап, оқу қарқынын өзі реттей алатын оқыту жүйесі. Кредит — пәнді меңгеруге кететін студент еңбегінің көлемі (аудиториялық және өздік жұмыс). Қазақстан Болон процесіне 2010 жылы қосылды. ECTS — кредиттерді жинақтау және тасымалдау жүйесі: 1 ECTS шамамен 25–30 сағат, оқу жылына 60 ECTS. Қазақстандық кредиттің сағатқа сәйкестігі (мысалы, 1 кредит = 30 немесе 36 сағат) — нақтылау қажет: қолданыстағы нормативтік құжат бойынша тексеріңіз.",
+ q:["Кредит дегеніміз не? Өз сөзіңізбен түсіндіріңіз.","Академиялық кредит пен ECTS кредитінің ортақ және айырмашылық тұстарын жазыңыз."],
+ k:{h:"Салыстыру кестесі: сағаттық және кредиттік жүйе",d:"Дәстүрлі (сағаттық) және кредиттік жүйені 5 критерий бойынша салыстырыңыз: жүктеме өлшемі, пәнді таңдау, өздік жұмыс, бағалау, ұтқырлық. Әр жолды «критерий | дәстүрлі | кредиттік» түрінде жазыңыз.",c:["5 критерийдің барлығы бар","әр жолда екі жүйе де сипатталған","соңында 2–3 сөйлемдік қорытынды"]}},
+{t:"1.2 Мақсаты мен міндеттері",n:"Мақсаты — студенттің жеке оқу траекториясын құру, білім сапасын халықаралық талаптарға жақындату, академиялық ұтқырлықты қамтамасыз ету. Негізгі міндеттер: оқу жүктемесін есепке алу, өздік жұмыстың үлесін арттыру, таңдау мүмкіндігін беру, нәтижеге бағытталған бағалау. Мақсат — қол жеткізетін нәтиже, міндет — соған жеткізетін қадам.",
+ q:["Кредиттік технологияның мақсатын бір сөйлеммен тұжырымдаңыз.","Екі міндетті атап, әрқайсысының не үшін қажет екенін жазыңыз."],
+ k:{h:"Мақсат-міндет тұжырымдау",d:"Өз пәніңіздің бір сабағына кредиттік технология тұрғысынан 1 мақсат және 3 міндет жазыңыз. Міндеттер өлшенетін етіп жазылсын (етістік + нәтиже).",c:["мақсат 1 сөйлем","3 міндет, әрқайсысы нақты","міндеттер мақсатқа жеткізеді"]}},
+{t:"1.3 Ұйымдастыру принципі",n:"Оқу процесі академиялық күнтізбе мен семестр бойынша құрылады. Студент пәндерге тіркеледі, эдвайзер (академиялық кеңесші) оған траектория таңдауда көмектеседі. Үлгерім GPA-мен өлшенеді: пәннің баға пунктін (мысалы, A = 4,0) кредитіне көбейтіп, қосындыны жалпы кредитке бөледі. Оқытушының рөлі — тек хабарлаушы емес, жетекші, кеңесші және бағалаушы; студент — белсенді қатысушы. Бағалау шкаласын ЖОО-ның ережесі бойынша нақтылаңыз.",
+ q:["GPA қалай есептеледі? Қысқаша жазыңыз.","Эдвайзер мен оқытушының рөлін салыстырыңыз."],
+ k:{h:"Жағдаяттық есеп",d:"Студенттің семестр нәтижесі: пән 1 — 5 кредит, A (4,0); пән 2 — 3 кредит, B (3,0); пән 3 — 4 кредит, C (2,0). 1) Семестрлік GPA-ны есептеңіз (шешуін жазыңыз). 2) Эдвайзер келесі семестрге қандай 2 кеңес берер еді?",c:["формула мен есептеу көрсетілген","нәтиже дұрыс (шамамен 3,08)","2 кеңес негізделген"]}},
+{t:"1.4 Студенттердің таңдау еркіндігі",n:"Білім бағдарламасы міндетті компоненттен және таңдау компонентінен тұрады. Элективті пәндер — студент тізімнен өзі таңдайтын пәндер. Таңдау негізінде эдвайзермен бірге индивидуалды оқу траекториясы (ИОТ) құрылады. Еркіндік шектеусіз емес: пререквизиттер (алдын ала оқылатын пәндер), семестрлік кредит лимиті, бағдарлама талаптары ескеріледі.",
+ q:["Элективті пән дегеніміз не және ол не үшін керек?","ИОТ құрғанда қандай шектеулерді ескеру керек?"],
+ k:{h:"Жеке оқу траекториясы (ИОТ)",d:"Өз мамандығыңыздың 1 семестріне ИОТ құрыңыз: міндетті пәндер, 2–3 элективті пән (неге таңдадыңыз), болжамды кредит көлемі және эдвайзерге қоятын 2 сұрақ.",c:["міндетті және таңдау пәндері бөлінген","таңдау себебі жазылған","кредит көлемі және 2 сұрақ бар"]}}];
+const NM=["Теория","Практика","Кері байланыс","Қорытынды"];
+const CK=["Кредит, ECTS, GPA ұғымдарын өз сөзіммен түсіндіре аламын","Академиялық және ECTS кредитінің айырмашылығын білемін","Эдвайзер мен оқытушының рөлін ажыратамын","GPA-ны есептей аламын","ИОТ-ты құру қадамдарын білемін","Нақты сандарды (сағат, кредит лимиті) ЖОО ережесінен тексеру керегін түсінемін"];
+const REC=["Өз ЖОО-ңыздың академиялық саясатын (күнтізбе, кредит лимиті, GPA ережесі) оқып, 5 негізгі норманы жазып алыңыз.","Бір пәннің силлабусын талдап, кредитті аудиториялық және өздік жұмыс сағаттарына бөліп көріңіз.","ИОТ үлгісін екі түрлі студент үшін (үздік және қосымша жұмыс істейтін) құрып, салыстырыңыз."];
+let st=0,A={},C={},opener=null;
+const pick=q("kr-pick"),les=q("kr-lesson"),body=q("kr-body");
+const need=()=>st==0?S.flatMap((s,i)=>[0,1].map(j=>"q"+i+j)):st==1?S.map((s,i)=>"t"+i):st==2?S.map((s,i)=>"p"+i):[];
+const fld=(k,l)=>`<div class="kr-q"><label for="kr-f-${k}">${l}</label><textarea id="kr-f-${k}" data-k="${k}" rows="3">${e(A[k]||"")}</textarea><button type="button" class="kr-btn" data-c="${k}">Бекіту</button><span class="kr-ok" id="kr-s-${k}" aria-live="polite"></span></div>`;
+function prompt(i){const k=S[i].k;return `Сен — қазақстандық жоғары мектептің тьюторысың. Магистрант жауабын 10 балдық шкала бойынша тексер.\nТақырып: Кредиттік технология негізінде жоғары мектепте оқыту процесін ұйымдастыру.\n\nТАПСЫРМА: ${k.h}\n${k.d}\nОрындалу өлшемдері: ${k.c.join("; ")}\n\nСТУДЕНТТІҢ ЖАУАБЫ:\n${A["t"+i]||"(жауап жоқ)"}\n\nЖауабыңды мына құрылыммен жаз:\n1) Дұрыс жақтары;\n2) Қателер мен олқылықтар;\n3) Баға (10 баллдан) және себебі;\n4) Үлгі жауап;\n5) Студентке 1 тексеру сұрағы.\nНақты сандарды, заң және бұйрық нөмірлерін ойдан шығарма; сенімсіз болса «нақтылау қажет» деп жаз. Қазақша, академиялық бірақ қарапайым тілде жауап бер.`}
+function view(){
+ let h=`<button type="button" class="kr-btn" id="kr-back">← Артқа</button><h2 id="kr-lt" style="margin:1rem 0 .2rem">🎓 Кредиттік технология</h2>
+ <div class="kr-prog" role="progressbar" aria-label="Прогресс" aria-valuemin="1" aria-valuemax="4" aria-valuenow="${st+1}"><i style="width:${(st+1)*25}%"></i></div>
+ <p><b>${st+1}/4</b> · ${NM[st]}</p><p class="kr-hint">Жауаптар тек осы сессияда сақталады: бет жаңартылса, жоғалуы мүмкін.</p>`;
+ if(st==0)h+=S.map((s,i)=>`<div class="kr-box"><h3>${s.t}</h3><p>${s.n}</p>${s.q.map((x,j)=>fld("q"+i+j,x)).join("")}</div>`).join("");
+ if(st==1)h+=S.map((s,i)=>`<div class="kr-box"><h3>${s.t.slice(0,3)} ${s.k.h}</h3><p>${s.k.d}</p><p><b>Өлшемдер:</b></p><ul>${s.k.c.map(c=>`<li>${c}</li>`).join("")}</ul>${fld("t"+i,"Жауабыңыз")}</div>`).join("");
+ if(st==2)h+=`<p>Сайт жасанды интеллектті шақырмайды. Тапсырма мен жауабыңыз дайын тьютор-промтқа салынып, буферге көшіріледі — оны өзіңіз қалаған ИИ-ге қойып, 10 балдық баға алыңыз.</p>`+S.map((s,i)=>`<div class="kr-box"><h3>${s.k.h}</h3><button type="button" class="kr-btn kr-pri" data-p="${i}" aria-label="Жауабымды тексеру үшін промтты көшіру: ${e(s.k.h)}">Жауабымды тексеру үшін промтты көшіру</button><span class="kr-ok" id="kr-s-p${i}" aria-live="polite"></span><details><summary>Промтты қолмен көшіру</summary><textarea readonly rows="6" id="kr-pr-${i}" aria-label="Промт мәтіні"></textarea></details></div>`).join("");
+ if(st==3)h+=`<div class="kr-box"><h3>Өзін-өзі бағалау парағы</h3>${CK.map((c,i)=>`<label class="kr-chk"><input type="checkbox" data-ck="${i}"${A["ck"+i]?" checked":""}><span>${c}</span></label>`).join("")}</div><div class="kr-box"><h3>Өздік жұмысқа 3 ұсыныс</h3><ol>${REC.map(r=>`<li>${r}</li>`).join("")}</ol></div>`;
+ h+=`<div class="kr-nav"><button type="button" class="kr-btn" id="kr-prev"${st?"":" disabled"}>← Алдыңғы</button><button type="button" class="kr-btn kr-pri" id="kr-next">${st==3?"Аяқтау":"Келесі →"}</button></div>`;
+ body.innerHTML=h;upd();body.parentNode.scrollTop=0}
+function upd(){need().forEach(k=>{const s=q("kr-s-"+k);if(s)s.textContent=C[k]?"✓ "+(k[0]=="p"?"Көшірілді":"Бекітілді"):""});
+ q("kr-next").disabled=!need().every(k=>C[k])}
+function copy(t,i){const ta=q("kr-pr-"+i);ta.value=t;let ok=false;
+ const done=()=>{C["p"+i]=true;upd()};
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,()=>{ta.parentNode.open=true;ta.select();q("kr-s-p"+i).textContent="Төмендегі өрістен қолмен көшіріңіз"});
+ else{try{ta.parentNode.open=true;ta.select();ok=document.execCommand("copy")}catch(x){}if(ok)done();else q("kr-s-p"+i).textContent="Төмендегі өрістен қолмен көшіріңіз"}}
+body.addEventListener("input",ev=>{const k=ev.target.dataset.k;if(k){A[k]=ev.target.value;delete C[k];upd()}});
+body.addEventListener("change",ev=>{const c=ev.target.dataset.ck;if(c!=null)A["ck"+c]=ev.target.checked});
+body.addEventListener("click",ev=>{const b=ev.target.closest("button");if(!b)return;
+ if(b.id=="kr-back"){les.close();return}
+ if(b.id=="kr-prev"&&st>0){st--;view();return}
+ if(b.id=="kr-next"){if(st==3){les.close();return}st++;view();return}
+ if(b.dataset.c){const k=b.dataset.c;if((A[k]||"").trim().length<10){q("kr-s-"+k).textContent="Кемінде 10 таңба жазыңыз";return}C[k]=true;upd();return}
+ if(b.dataset.p!=null){const i=+b.dataset.p;copy(prompt(i),i)}});
+function openPick(){opener=document.activeElement;pick.showModal()}
+(function(){let b=q("kr-open");if(!b){b=document.createElement("button");b.id="kr-open";b.type="button";b.setAttribute("aria-label","Сабақ таңдау");b.textContent="🎓 Сабақ таңдау";const hd=document.querySelector("header"),lb=q("lb");hd&&hd.insertBefore(b,lb||null)}b.addEventListener("click",openPick)})();
+q("kr-go-old").onclick=()=>pick.close();
+q("kr-pick-x").onclick=()=>pick.close();
+q("kr-go-new").onclick=()=>{pick.close();view();les.showModal()};
+const back=()=>{opener&&opener.focus&&opener.focus()};
+pick.addEventListener("close",()=>{if(!les.open)back()});
+les.addEventListener("close",back);
+})();
+</script>
+<!-- ===== /KR ADDON ===== -->
+
 </body>
 </html>
