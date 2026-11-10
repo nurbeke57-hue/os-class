@@ -372,12 +372,12 @@ window.FB={
  clear:async()=>{const s=await getDocs(collection(db,"students")),now=Date.now();
   await Promise.all(s.docs.filter(d=>{const l=d.data().lastSeen;return !(l&&l.toMillis&&now-l.toMillis()<150000)}).map(d=>deleteDoc(d.ref)))},
 
- tmStart:async()=>{const m=parseInt(document.getElementById("tmin").value)||15,l=window.gLeft>0?window.gLeft:m*60;
-  await setDoc(doc(db,"settings","timer"),{running:true,startedAt:serverTimestamp(),left:l})},
- tmPause:async()=>{await setDoc(doc(db,"settings","timer"),{running:false,left:window.gLeft})},
- tmReset:async()=>{const m=parseInt(document.getElementById("tmin").value)||15;
+  tmStart:async()=>{try{const m=parseInt(document.getElementById("tmin").value)||15,l=window.gLeft>0?window.gLeft:m*60;
+  await setDoc(doc(db,"settings","timer"),{running:true,startedAt:serverTimestamp(),left:l})}catch(e){alert("Timer error: "+(e.code||e.message))}},
+ tmPause:async()=>{try{await setDoc(doc(db,"settings","timer"),{running:false,left:window.gLeft})}catch(e){alert("Timer error: "+(e.code||e.message))}},
+ tmReset:async()=>{try{const m=parseInt(document.getElementById("tmin").value)||15;
   window.gLeft=m*60;window.gRun=false;window.gDone=false;calcTimer();
-  await setDoc(doc(db,"settings","timer"),{running:false,left:m*60})},
+  await setDoc(doc(db,"settings","timer"),{running:false,left:m*60})}catch(e){alert("Timer error: "+(e.code||e.message))}},
  clearAnswers:async g=>{const gs=g?[g]:[1,2,3,4,5];await Promise.all(gs.map(x=>deleteDoc(doc(db,"answers","g"+x))));await setDoc(doc(db,"settings","reset"),{at:Date.now(),group:g||0})},
  ping
 };
