@@ -101,6 +101,10 @@ select.no{animation:shake .35s}
 @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 #tm.end,#ttm.end{animation:pulse 1s ease-in-out infinite}
 @keyframes pulse{50%{transform:scale(1.12)}}
+.gt{font-size:clamp(2.4rem,7vw,4rem);font-weight:800;font-variant-numeric:tabular-nums;color:var(--ac);line-height:1;min-width:4.4ch}
+.gt.end{color:#d33;animation:pulse 1s ease-in-out infinite}
+.timer.st{position:static}
+textarea:disabled,select:disabled,button:disabled{opacity:.55;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -169,15 +173,44 @@ select.no{animation:shake .35s}
 <div id="tview"><div class="wrap">
 <button class="t" data-ru="← Назад" onclick="tvx()">← Back</button> <button class="t" data-ru="На весь экран" onclick="document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()">Full screen</button> <button onclick="document.body.classList.toggle('pv')">👁 Hide names / answers</button>
 
-<h2 style="margin-top:1.5rem" class="t" data-ru="Таймер (для всего класса)">Global Timer</h2>
-<div class="box timer">
-   <span id="ttm">00:00</span>
-   <div><input id="tmin" type="number" value="15" style="width:4.5rem;font-size:1.2rem;text-align:center" min="1" max="99" aria-label="Minutes"> <span class="t" data-ru="мин">min</span></div>
-   <button onclick="$('tmin').value=15">G1–2 · 15</button><button onclick="$('tmin').value=10">G3 · 10</button><button onclick="$('tmin').value=8">G4–5 · 8</button>
+<h2 style="margin-top:1.5rem" class="t" data-ru="Таймеры групп">Group Timers</h2>
+<div id="gtimers" style="display:grid;gap:.6rem">
+  <div style="display:flex;gap:.6rem;flex-wrap:wrap"><button class="pri t" data-ru="Старт всем" onclick="window.FB.tmStartAll()">Start all</button><button class="t" data-ru="Сброс всем" onclick="window.FB.tmResetAll()">Reset all</button></div>
+  <div class="box timer st"><b class="t" data-ru="Группа 1">Group 1</b><span id="ttm1" class="gt">00:00</span>
+   <div><input id="tmin1" type="number" value="15" style="width:4.5rem;font-size:1.2rem;text-align:center" min="1" max="99" aria-label="Minutes, group 1"> <span class="t" data-ru="мин">min</span></div>
    <span style="flex:1"></span>
-   <button class="pri t" data-ru="Старт" onclick="window.FB.tmStart()">Start</button>
-   <button class="t" data-ru="Пауза" onclick="window.FB.tmPause()">Pause</button>
-   <button class="t" data-ru="Сброс" onclick="window.FB.tmReset()">Reset</button>
+   <button class="pri t" data-ru="Старт" onclick="window.FB.tmStart(1)">Start</button>
+   <button class="t" data-ru="Пауза" onclick="window.FB.tmPause(1)">Pause</button>
+   <button class="t" data-ru="Сброс" onclick="window.FB.tmReset(1)">Reset</button>
+  </div>
+  <div class="box timer st"><b class="t" data-ru="Группа 2">Group 2</b><span id="ttm2" class="gt">00:00</span>
+   <div><input id="tmin2" type="number" value="15" style="width:4.5rem;font-size:1.2rem;text-align:center" min="1" max="99" aria-label="Minutes, group 2"> <span class="t" data-ru="мин">min</span></div>
+   <span style="flex:1"></span>
+   <button class="pri t" data-ru="Старт" onclick="window.FB.tmStart(2)">Start</button>
+   <button class="t" data-ru="Пауза" onclick="window.FB.tmPause(2)">Pause</button>
+   <button class="t" data-ru="Сброс" onclick="window.FB.tmReset(2)">Reset</button>
+  </div>
+  <div class="box timer st"><b class="t" data-ru="Группа 3">Group 3</b><span id="ttm3" class="gt">00:00</span>
+   <div><input id="tmin3" type="number" value="10" style="width:4.5rem;font-size:1.2rem;text-align:center" min="1" max="99" aria-label="Minutes, group 3"> <span class="t" data-ru="мин">min</span></div>
+   <span style="flex:1"></span>
+   <button class="pri t" data-ru="Старт" onclick="window.FB.tmStart(3)">Start</button>
+   <button class="t" data-ru="Пауза" onclick="window.FB.tmPause(3)">Pause</button>
+   <button class="t" data-ru="Сброс" onclick="window.FB.tmReset(3)">Reset</button>
+  </div>
+  <div class="box timer st"><b class="t" data-ru="Группа 4">Group 4</b><span id="ttm4" class="gt">00:00</span>
+   <div><input id="tmin4" type="number" value="8" style="width:4.5rem;font-size:1.2rem;text-align:center" min="1" max="99" aria-label="Minutes, group 4"> <span class="t" data-ru="мин">min</span></div>
+   <span style="flex:1"></span>
+   <button class="pri t" data-ru="Старт" onclick="window.FB.tmStart(4)">Start</button>
+   <button class="t" data-ru="Пауза" onclick="window.FB.tmPause(4)">Pause</button>
+   <button class="t" data-ru="Сброс" onclick="window.FB.tmReset(4)">Reset</button>
+  </div>
+  <div class="box timer st"><b class="t" data-ru="Группа 5">Group 5</b><span id="ttm5" class="gt">00:00</span>
+   <div><input id="tmin5" type="number" value="8" style="width:4.5rem;font-size:1.2rem;text-align:center" min="1" max="99" aria-label="Minutes, group 5"> <span class="t" data-ru="мин">min</span></div>
+   <span style="flex:1"></span>
+   <button class="pri t" data-ru="Старт" onclick="window.FB.tmStart(5)">Start</button>
+   <button class="t" data-ru="Пауза" onclick="window.FB.tmPause(5)">Pause</button>
+   <button class="t" data-ru="Сброс" onclick="window.FB.tmReset(5)">Reset</button>
+  </div>
 </div>
 
 <h2 style="margin-top:2rem">Students</h2><p id="tcodes" class="hint">Class codes live only in the Firestore rules. Keep them on paper.</p><p id="tsum" style="font-weight:700" aria-live="polite"></p><div style="overflow-x:auto"><table id="stbl"></table></div><p><button onclick="clr()">Remove offline students</button></p><h2 style="margin-top:2rem">Group answers</h2><p><button onclick="clrA(0)">Clear all answers</button></p><div class="grid" id="tgrid"></div></div></div>
@@ -246,27 +279,42 @@ document.getElementById("gg").innerHTML=TK.map((t,i)=>`<article class="card gc $
 <div class="n">${T("span","Group "+t.g,"Группа "+t.g)}</div><p>${T("span",t.sub[0],t.sub[1])} ${T("span",t.lvl[0],t.lvl[1],"badge")}</p><h3>${t.title[0].replace(/&/g,"&amp;")}</h3>${T("p",t.desc[0],t.desc[1],"b")}</article>`).join("");
 document.querySelectorAll("#gg h3").forEach((h,i)=>{h.classList.add("t");h.dataset.ru=TK[i].title[1]});
 
-/* ----- GLOBAL TIMER ----- */
-window.gLeft=0;window.gEnds=0;window.gRun=false;window.gDone=false;window.srvOff=0;let gIv;
-window.onTimerUpdate=d=>{
- if(!d)return;
- window.gRun=!!d.running;window.gDone=false;
- if(window.gRun)window.gEnds=(d.startedAt&&d.startedAt.toMillis?d.startedAt.toMillis():Date.now())+(d.left||0)*1000;else window.gLeft=d.left||0;
- calcTimer();clearInterval(gIv);
- if(window.gRun)gIv=setInterval(calcTimer,1000);
+/* ----- GROUP TIMERS ----- */
+window.GT={};for(let g=1;g<=5;g++)window.GT[g]={left:0,ends:0,run:false,done:false};window.srvOff=0;
+window.onTimerUpdate=(g,d)=>{
+ const t=window.GT[g];if(!t||!d)return;
+ t.run=!!d.running;t.done=false;t.left=d.left||0;
+ if(t.run)t.ends=(d.startedAt&&d.startedAt.toMillis?d.startedAt.toMillis():Date.now()+window.srvOff)+t.left*1000;
+ calcTimer();
 };
 function beep(){try{navigator.vibrate&&navigator.vibrate(400);const a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start();setTimeout(()=>{o.stop();a.close()},600)}catch(e){}}
+function fmtT(n){return String(n/60|0).padStart(2,"0")+":"+String(n%60).padStart(2,"0")}
 function calcTimer(){
- const was=window.gLeft;
- if(window.gRun)window.gLeft=Math.max(0,Math.round((window.gEnds-(Date.now()+window.srvOff))/1000));
- if(window.gRun&&!window.gLeft){clearInterval(gIv);window.gRun=false;window.gDone=true;if(was>0)beep()}
- const m=String(window.gLeft/60|0).padStart(2,"0"),s=String(window.gLeft%60).padStart(2,"0"),cls=window.gDone?"end":"";
- const tm=document.getElementById("tm"),ttm=document.getElementById("ttm");
- if(tm){tm.textContent=m+":"+s;tm.className=cls}
- if(ttm){ttm.textContent=m+":"+s;ttm.className=cls}
+ for(let g=1;g<=5;g++){
+  const t=window.GT[g],was=t.left;
+  if(t.run)t.left=Math.max(0,Math.round((t.ends-(Date.now()+window.srvOff))/1000));
+  if(t.run&&!t.left){t.run=false;t.done=true;if(was>0&&g===curG)beep()}
+  const te=document.getElementById("ttm"+g);
+  if(te){te.textContent=fmtT(t.left);te.className="gt"+(t.done?" end":"")}
+ }
+ const c=window.GT[curG],tm=document.getElementById("tm");
+ if(tm){tm.textContent=fmtT(c?c.left:0);tm.className=c&&c.done?"end":""}
+ lockUI();
 }
+function lockUI(){
+ const c=window.GT[curG];if(!c)return;
+ const open=!!(c.run&&c.left>0&&canEdit(curG));
+ document.querySelectorAll('#task textarea#ans,#task select,#task button[onclick="chk()"]').forEach(e=>{e.disabled=!open});
+ const st=document.getElementById("st");
+ if(st&&canEdit(curG)){
+  const W="⏳ Waiting for the teacher to start the timer.",D="⏰ Time is up. Answers are closed.";
+  if(!open){const m=c.done?D:W;if(st.textContent!==m)st.textContent=m;st.dataset.lk="1"}
+  else if(st.dataset.lk){st.textContent="";delete st.dataset.lk}
+ }
+}
+setInterval(calcTimer,1000);
 
-const ansBox=t=>t.noans?"":`<div class="box">${T("h3","Our group’s answer","Ответ нашей группы")}<label class="vh" for="ans">Group answer</label><textarea id="ans" rows="6" placeholder="Write in English…" ${canEdit(t.g)?"":"disabled"}></textarea><p id="st" style="color:var(--muted);margin:.3rem 0 0">${canEdit(t.g)?"":(me?"Only Group "+t.g+" can edit this.":"Sign in to write.")}</p><div id="others"></div></div>`;
+const ansBox=t=>t.noans?"":`<div class="box">${T("h3","Our group’s answer","Ответ нашей группы")}<label class="vh" for="ans">Group answer</label><textarea id="ans" rows="6" placeholder="Write in English…" disabled></textarea><p id="st" style="color:var(--muted);margin:.3rem 0 0">${canEdit(t.g)?"":(me?"Only Group "+t.g+" can edit this.":"Sign in to write.")}</p><div id="others"></div></div>`;
 function openT(i){const t=TK[i],el=document.getElementById("task");lastF=document.activeElement;qFirst=null;qTries=0;
 el.innerHTML=`<div class="wrap ${t.c}"><button class="t" data-ru="← Назад" onclick="closeT()">← Back</button>
 <p style="margin-top:1rem">${T("span","Group "+t.g,"Группа "+t.g)} ${T("span",t.sub[0],t.sub[1])} ${T("span",t.lvl[0],t.lvl[1],"badge")}</p>
@@ -276,9 +324,9 @@ el.innerHTML=`<div class="wrap ${t.c}"><button class="t" data-ru="← Назад
 <div class="box">${T("h3","Worked example","Пример выполнения")}${T("p",t.ex[0],t.ex[1],"b")}</div>
 ${t.extra()}${ansBox(t)}
 <div class="box">${T("h3","Useful phrases","Полезные фразы")}<ul>${t.ph.map(p=>T("li",p[0],p[1],"b")).join("")}</ul></div></div>`;
-apply(el);calcTimer();curG=t.g;bind(t.g);window.FB&&FB.ping({task:t.title[0]});el.showModal();el.scrollTop=0}
+apply(el);curG=t.g;calcTimer();bind(t.g);window.FB&&FB.ping({task:t.title[0]});el.showModal();el.scrollTop=0}
 function closeT(){document.getElementById("task").close()}
-function chk(){let n=0;const s=document.querySelectorAll("#task select");
+function chk(){const c=window.GT[curG];if(!c||!c.run||c.left<=0)return;let n=0;const s=document.querySelectorAll("#task select");
  s.forEach(x=>{const ok=!!x.value&&H(x.value)===x.dataset.a;if(ok)n++;x.className=ok?"ok":"no";const m=x.nextElementSibling;if(m)m.textContent=ok?"✓":"✗ "+(m.dataset.h||"")});
  qTries++;if(qFirst===null){qFirst=n;saveQ(n,s)}
  document.getElementById("sc").textContent=n+" / "+s.length+(qTries>1?" (first try: "+qFirst+")":"")}
@@ -320,7 +368,7 @@ function bind(g){unw&&unw();unw=null;const a=$("ans");if(!a||!window.FB||!me)ret
  unw=FB.watch(g,d=>{const P=(d&&d.parts)||{},mine=P[me.uid];
   if(mine&&mine.text!=null&&!a.value&&document.activeElement!==a)a.value=mine.text;
   $("others").innerHTML=Object.entries(P).filter(([u,p])=>u!==me.uid&&p.text).map(([u,p])=>`<div class="box"><b>${h(p.name)}</b><div class="ans">${h(p.text)}</div></div>`).join("")});
- a.oninput=()=>{$("st").textContent="…";clearTimeout(dt);dt=setTimeout(async()=>{try{await FB.save(g,me.uid,me.displayName||"?",{text:a.value});$("st").textContent="✓ Saved";FB.ping({chars:a.value.length})}catch(e){$("st").textContent="⚠ Not saved"}},1500)}}
+ a.oninput=()=>{$("st").textContent="…";clearTimeout(dt);dt=setTimeout(async()=>{if(a.disabled)return;try{await FB.save(g,me.uid,me.displayName||"?",{text:a.value});$("st").textContent="✓ Saved";FB.ping({chars:a.value.length})}catch(e){$("st").textContent="⚠ Not saved"}},1500)}}
 function saveQ(n,s){if(!canEdit(curG)||!window.FB)return;FB.ping({score:n,total:s.length});FB.save(curG,me.uid,me.displayName||"?",{score:n+" / "+s.length}).catch(()=>{})}
 let stu=[];
 const ago=ms=>{const s=Math.max(0,Math.round((Date.now()-ms)/1000));return s<60?"just now":s<3600?Math.floor(s/60)+" min ago":Math.floor(s/3600)+" h ago"};
@@ -372,12 +420,14 @@ window.FB={
  clear:async()=>{const s=await getDocs(collection(db,"students")),now=Date.now();
   await Promise.all(s.docs.filter(d=>{const l=d.data().lastSeen;return !(l&&l.toMillis&&now-l.toMillis()<150000)}).map(d=>deleteDoc(d.ref)))},
 
-  tmStart:async()=>{try{const m=parseInt(document.getElementById("tmin").value)||15,l=window.gLeft>0?window.gLeft:m*60;
-  await setDoc(doc(db,"settings","timer"),{running:true,startedAt:serverTimestamp(),left:l})}catch(e){alert("Timer error: "+(e.code||e.message))}},
- tmPause:async()=>{try{await setDoc(doc(db,"settings","timer"),{running:false,left:window.gLeft})}catch(e){alert("Timer error: "+(e.code||e.message))}},
- tmReset:async()=>{try{const m=parseInt(document.getElementById("tmin").value)||15;
-  window.gLeft=m*60;window.gRun=false;window.gDone=false;calcTimer();
-  await setDoc(doc(db,"settings","timer"),{running:false,left:m*60})}catch(e){alert("Timer error: "+(e.code||e.message))}},
+ tmStart:async g=>{try{const T=window.GT[g],m=parseInt(document.getElementById("tmin"+g).value)||15,l=T.left>0?T.left:m*60;
+  await setDoc(doc(db,"settings","timer"+g),{running:true,startedAt:serverTimestamp(),left:l})}catch(e){alert("Timer error: "+(e.code||e.message))}},
+ tmPause:async g=>{try{calcTimer();await setDoc(doc(db,"settings","timer"+g),{running:false,left:window.GT[g].left})}catch(e){alert("Timer error: "+(e.code||e.message))}},
+ tmReset:async g=>{try{const m=parseInt(document.getElementById("tmin"+g).value)||15,T=window.GT[g];
+  T.left=m*60;T.run=false;T.done=false;calcTimer();
+  await setDoc(doc(db,"settings","timer"+g),{running:false,left:m*60})}catch(e){alert("Timer error: "+(e.code||e.message))}},
+ tmStartAll:()=>Promise.all([1,2,3,4,5].map(g=>window.FB.tmStart(g))),
+ tmResetAll:()=>Promise.all([1,2,3,4,5].map(g=>window.FB.tmReset(g))),
  clearAnswers:async g=>{const gs=g?[g]:[1,2,3,4,5];await Promise.all(gs.map(x=>deleteDoc(doc(db,"answers","g"+x))));await setDoc(doc(db,"settings","reset"),{at:Date.now(),group:g||0})},
  ping
 };
@@ -401,8 +451,8 @@ onSnapshot(doc(db,"settings","reset"),async s=>{const d=s.data()||{},at=d.at||0;
  const sc=document.getElementById("sc");if(sc)sc.textContent="";
  try{await setDoc(doc(db,"students",u.uid),{score:deleteField(),total:deleteField(),chars:deleteField(),lastSeen:serverTimestamp()},{merge:true})}catch(e){console.warn(e)}},e=>console.warn(e));
 
-/* shared timer (server time) */
-onSnapshot(doc(db,"settings","timer"),s=>{if(window.onTimerUpdate)window.onTimerUpdate(s.data({serverTimestamps:"estimate"}))},e=>console.warn(e));
+/* group timers (server time) */
+for(let g=1;g<=5;g++)onSnapshot(doc(db,"settings","timer"+g),s=>{if(window.onTimerUpdate)window.onTimerUpdate(g,s.data({serverTimestamps:"estimate"}))},e=>console.warn(e));
 </script>
 <script>
 (function(){const b=document.querySelector(".bg"),I=["💻","📱","🪟","🍎","🤖","🐧","🔒","📁"];
