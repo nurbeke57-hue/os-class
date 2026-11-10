@@ -409,98 +409,7 @@ onSnapshot(doc(db,"settings","timer"),s=>{if(window.onTimerUpdate)window.onTimer
 I.forEach((c,i)=>{const e=document.createElement("span");e.className="ico";e.textContent=c;e.style.left=(6+i*12)%92+"%";e.style.top=(10+(i*37)%75)+"%";e.style.animationDelay=(-i*1.7)+"s";e.style.animationDuration=(11+i*1.6)+"s";b.appendChild(e)});
 document.querySelectorAll(".grid").forEach(g=>g.querySelectorAll(".rise").forEach((e,i)=>e.style.transitionDelay=(i%6)*80+"ms"))})();
 </script>
-<!-- ===== KR ADDON: index.html-дегі соңғы </script> мен </body> арасына қойыңыз ===== -->
-<style>
-.kr-dlg{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);padding:1.2rem;width:min(26rem,92vw)}
-.kr-dlg::backdrop,.kr-full::backdrop{background:#0009}
-.kr-full{border:0;margin:0;max-width:none;max-height:none;width:100%;height:100%;background:var(--bg);color:var(--ink);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 1rem) 0 3rem}
-.kr-full:not([open]),.kr-dlg:not([open]){display:none}
-.kr-wrap{max-width:900px;margin:auto;padding:0 1.1rem}
-.kr-opt{display:block;width:100%;text-align:left;margin:.5rem 0;border-radius:14px}
-.kr-btn{font:inherit;min-height:44px;padding:.35rem 1rem;border-radius:99px;border:2px solid var(--ac);background:var(--card);color:var(--ink);font-weight:600;cursor:pointer}
-.kr-btn:hover{background:var(--tint)}
-.kr-btn.kr-pri{background:var(--ac);color:var(--on-ac)}
-.kr-btn:disabled{opacity:.45;cursor:not-allowed}
-.kr-prog{height:.8rem;border-radius:99px;background:var(--tint);border:1px solid var(--line);overflow:hidden;margin:.8rem 0 .3rem}
-.kr-prog i{display:block;height:100%;background:var(--ac);transition:width .3s}
-.kr-box{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--ac);border-radius:12px;padding:.8rem 1.2rem;margin:1rem 0}
-.kr-q{margin:.7rem 0}
-.kr-q label{display:block;font-weight:600;margin-bottom:.3rem}
-.kr-q textarea{min-height:5rem}
-.kr-ok{color:var(--ma);font-weight:700;margin-left:.4rem}
-.kr-hint{color:var(--muted);font-size:.9rem}
-.kr-nav{display:flex;gap:.6rem;justify-content:space-between;margin-top:1.5rem;flex-wrap:wrap}
-.kr-chk{display:flex;gap:.6rem;align-items:flex-start;margin:.5rem 0;min-height:44px}
-.kr-chk input{width:1.4rem;height:1.4rem;flex:none;margin-top:.2rem}
-</style>
-
-<dialog id="kr-pick" class="kr-dlg" aria-labelledby="kr-pt">
-<h2 id="kr-pt" style="margin:0 0 .6rem;font-size:1.4rem">🎓 Сабақ таңдау</h2>
-<button type="button" id="kr-go-old" class="kr-btn kr-opt">💻 Операциялық жүйелер (ағылшын тілі)</button>
-<button type="button" id="kr-go-new" class="kr-btn kr-opt kr-pri">🎓 Кредиттік технология (магистратура)</button>
-<button type="button" id="kr-pick-x" class="kr-btn kr-opt">Жабу</button>
-</dialog>
-
-<dialog id="kr-lesson" class="kr-full" aria-labelledby="kr-lt"><div class="kr-wrap" id="kr-body"></div></dialog>
-
-<script>
-(function(){
-const q=id=>document.getElementById(id),e=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const S=[
-{t:"1.1 Кредиттік оқыту жүйесінің мәні",n:"Кредиттік технология — оқу жүктемесі кредитпен өлшенетін, студент пәндерді таңдап, оқу қарқынын өзі реттей алатын оқыту жүйесі. Кредит — пәнді меңгеруге кететін студент еңбегінің көлемі (аудиториялық және өздік жұмыс). Қазақстан Болон процесіне 2010 жылы қосылды. ECTS — кредиттерді жинақтау және тасымалдау жүйесі: 1 ECTS шамамен 25–30 сағат, оқу жылына 60 ECTS. Қазақстандық кредиттің сағатқа сәйкестігі (мысалы, 1 кредит = 30 немесе 36 сағат) — нақтылау қажет: қолданыстағы нормативтік құжат бойынша тексеріңіз.",
- q:["Кредит дегеніміз не? Өз сөзіңізбен түсіндіріңіз.","Академиялық кредит пен ECTS кредитінің ортақ және айырмашылық тұстарын жазыңыз."],
- k:{h:"Салыстыру кестесі: сағаттық және кредиттік жүйе",d:"Дәстүрлі (сағаттық) және кредиттік жүйені 5 критерий бойынша салыстырыңыз: жүктеме өлшемі, пәнді таңдау, өздік жұмыс, бағалау, ұтқырлық. Әр жолды «критерий | дәстүрлі | кредиттік» түрінде жазыңыз.",c:["5 критерийдің барлығы бар","әр жолда екі жүйе де сипатталған","соңында 2–3 сөйлемдік қорытынды"]}},
-{t:"1.2 Мақсаты мен міндеттері",n:"Мақсаты — студенттің жеке оқу траекториясын құру, білім сапасын халықаралық талаптарға жақындату, академиялық ұтқырлықты қамтамасыз ету. Негізгі міндеттер: оқу жүктемесін есепке алу, өздік жұмыстың үлесін арттыру, таңдау мүмкіндігін беру, нәтижеге бағытталған бағалау. Мақсат — қол жеткізетін нәтиже, міндет — соған жеткізетін қадам.",
- q:["Кредиттік технологияның мақсатын бір сөйлеммен тұжырымдаңыз.","Екі міндетті атап, әрқайсысының не үшін қажет екенін жазыңыз."],
- k:{h:"Мақсат-міндет тұжырымдау",d:"Өз пәніңіздің бір сабағына кредиттік технология тұрғысынан 1 мақсат және 3 міндет жазыңыз. Міндеттер өлшенетін етіп жазылсын (етістік + нәтиже).",c:["мақсат 1 сөйлем","3 міндет, әрқайсысы нақты","міндеттер мақсатқа жеткізеді"]}},
-{t:"1.3 Ұйымдастыру принципі",n:"Оқу процесі академиялық күнтізбе мен семестр бойынша құрылады. Студент пәндерге тіркеледі, эдвайзер (академиялық кеңесші) оған траектория таңдауда көмектеседі. Үлгерім GPA-мен өлшенеді: пәннің баға пунктін (мысалы, A = 4,0) кредитіне көбейтіп, қосындыны жалпы кредитке бөледі. Оқытушының рөлі — тек хабарлаушы емес, жетекші, кеңесші және бағалаушы; студент — белсенді қатысушы. Бағалау шкаласын ЖОО-ның ережесі бойынша нақтылаңыз.",
- q:["GPA қалай есептеледі? Қысқаша жазыңыз.","Эдвайзер мен оқытушының рөлін салыстырыңыз."],
- k:{h:"Жағдаяттық есеп",d:"Студенттің семестр нәтижесі: пән 1 — 5 кредит, A (4,0); пән 2 — 3 кредит, B (3,0); пән 3 — 4 кредит, C (2,0). 1) Семестрлік GPA-ны есептеңіз (шешуін жазыңыз). 2) Эдвайзер келесі семестрге қандай 2 кеңес берер еді?",c:["формула мен есептеу көрсетілген","нәтиже дұрыс (шамамен 3,08)","2 кеңес негізделген"]}},
-{t:"1.4 Студенттердің таңдау еркіндігі",n:"Білім бағдарламасы міндетті компоненттен және таңдау компонентінен тұрады. Элективті пәндер — студент тізімнен өзі таңдайтын пәндер. Таңдау негізінде эдвайзермен бірге индивидуалды оқу траекториясы (ИОТ) құрылады. Еркіндік шектеусіз емес: пререквизиттер (алдын ала оқылатын пәндер), семестрлік кредит лимиті, бағдарлама талаптары ескеріледі.",
- q:["Элективті пән дегеніміз не және ол не үшін керек?","ИОТ құрғанда қандай шектеулерді ескеру керек?"],
- k:{h:"Жеке оқу траекториясы (ИОТ)",d:"Өз мамандығыңыздың 1 семестріне ИОТ құрыңыз: міндетті пәндер, 2–3 элективті пән (неге таңдадыңыз), болжамды кредит көлемі және эдвайзерге қоятын 2 сұрақ.",c:["міндетті және таңдау пәндері бөлінген","таңдау себебі жазылған","кредит көлемі және 2 сұрақ бар"]}}];
-const NM=["Теория","Практика","Кері байланыс","Қорытынды"];
-const CK=["Кредит, ECTS, GPA ұғымдарын өз сөзіммен түсіндіре аламын","Академиялық және ECTS кредитінің айырмашылығын білемін","Эдвайзер мен оқытушының рөлін ажыратамын","GPA-ны есептей аламын","ИОТ-ты құру қадамдарын білемін","Нақты сандарды (сағат, кредит лимиті) ЖОО ережесінен тексеру керегін түсінемін"];
-const REC=["Өз ЖОО-ңыздың академиялық саясатын (күнтізбе, кредит лимиті, GPA ережесі) оқып, 5 негізгі норманы жазып алыңыз.","Бір пәннің силлабусын талдап, кредитті аудиториялық және өздік жұмыс сағаттарына бөліп көріңіз.","ИОТ үлгісін екі түрлі студент үшін (үздік және қосымша жұмыс істейтін) құрып, салыстырыңыз."];
-let st=0,A={},C={},opener=null;
-const pick=q("kr-pick"),les=q("kr-lesson"),body=q("kr-body");
-const need=()=>st==0?S.flatMap((s,i)=>[0,1].map(j=>"q"+i+j)):st==1?S.map((s,i)=>"t"+i):st==2?S.map((s,i)=>"p"+i):[];
-const fld=(k,l)=>`<div class="kr-q"><label for="kr-f-${k}">${l}</label><textarea id="kr-f-${k}" data-k="${k}" rows="3">${e(A[k]||"")}</textarea><button type="button" class="kr-btn" data-c="${k}">Бекіту</button><span class="kr-ok" id="kr-s-${k}" aria-live="polite"></span></div>`;
-function prompt(i){const k=S[i].k;return `Сен — қазақстандық жоғары мектептің тьюторысың. Магистрант жауабын 10 балдық шкала бойынша тексер.\nТақырып: Кредиттік технология негізінде жоғары мектепте оқыту процесін ұйымдастыру.\n\nТАПСЫРМА: ${k.h}\n${k.d}\nОрындалу өлшемдері: ${k.c.join("; ")}\n\nСТУДЕНТТІҢ ЖАУАБЫ:\n${A["t"+i]||"(жауап жоқ)"}\n\nЖауабыңды мына құрылыммен жаз:\n1) Дұрыс жақтары;\n2) Қателер мен олқылықтар;\n3) Баға (10 баллдан) және себебі;\n4) Үлгі жауап;\n5) Студентке 1 тексеру сұрағы.\nНақты сандарды, заң және бұйрық нөмірлерін ойдан шығарма; сенімсіз болса «нақтылау қажет» деп жаз. Қазақша, академиялық бірақ қарапайым тілде жауап бер.`}
-function view(){
- let h=`<button type="button" class="kr-btn" id="kr-back">← Артқа</button><h2 id="kr-lt" style="margin:1rem 0 .2rem">🎓 Кредиттік технология</h2>
- <div class="kr-prog" role="progressbar" aria-label="Прогресс" aria-valuemin="1" aria-valuemax="4" aria-valuenow="${st+1}"><i style="width:${(st+1)*25}%"></i></div>
- <p><b>${st+1}/4</b> · ${NM[st]}</p><p class="kr-hint">Жауаптар тек осы сессияда сақталады: бет жаңартылса, жоғалуы мүмкін.</p>`;
- if(st==0)h+=S.map((s,i)=>`<div class="kr-box"><h3>${s.t}</h3><p>${s.n}</p>${s.q.map((x,j)=>fld("q"+i+j,x)).join("")}</div>`).join("");
- if(st==1)h+=S.map((s,i)=>`<div class="kr-box"><h3>${s.t.slice(0,3)} ${s.k.h}</h3><p>${s.k.d}</p><p><b>Өлшемдер:</b></p><ul>${s.k.c.map(c=>`<li>${c}</li>`).join("")}</ul>${fld("t"+i,"Жауабыңыз")}</div>`).join("");
- if(st==2)h+=`<p>Сайт жасанды интеллектті шақырмайды. Тапсырма мен жауабыңыз дайын тьютор-промтқа салынып, буферге көшіріледі — оны өзіңіз қалаған ИИ-ге қойып, 10 балдық баға алыңыз.</p>`+S.map((s,i)=>`<div class="kr-box"><h3>${s.k.h}</h3><button type="button" class="kr-btn kr-pri" data-p="${i}" aria-label="Жауабымды тексеру үшін промтты көшіру: ${e(s.k.h)}">Жауабымды тексеру үшін промтты көшіру</button><span class="kr-ok" id="kr-s-p${i}" aria-live="polite"></span><details><summary>Промтты қолмен көшіру</summary><textarea readonly rows="6" id="kr-pr-${i}" aria-label="Промт мәтіні"></textarea></details></div>`).join("");
- if(st==3)h+=`<div class="kr-box"><h3>Өзін-өзі бағалау парағы</h3>${CK.map((c,i)=>`<label class="kr-chk"><input type="checkbox" data-ck="${i}"${A["ck"+i]?" checked":""}><span>${c}</span></label>`).join("")}</div><div class="kr-box"><h3>Өздік жұмысқа 3 ұсыныс</h3><ol>${REC.map(r=>`<li>${r}</li>`).join("")}</ol></div>`;
- h+=`<div class="kr-nav"><button type="button" class="kr-btn" id="kr-prev"${st?"":" disabled"}>← Алдыңғы</button><button type="button" class="kr-btn kr-pri" id="kr-next">${st==3?"Аяқтау":"Келесі →"}</button></div>`;
- body.innerHTML=h;upd();body.parentNode.scrollTop=0}
-function upd(){need().forEach(k=>{const s=q("kr-s-"+k);if(s)s.textContent=C[k]?"✓ "+(k[0]=="p"?"Көшірілді":"Бекітілді"):""});
- q("kr-next").disabled=!need().every(k=>C[k])}
-function copy(t,i){const ta=q("kr-pr-"+i);ta.value=t;let ok=false;
- const done=()=>{C["p"+i]=true;upd()};
- if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,()=>{ta.parentNode.open=true;ta.select();q("kr-s-p"+i).textContent="Төмендегі өрістен қолмен көшіріңіз"});
- else{try{ta.parentNode.open=true;ta.select();ok=document.execCommand("copy")}catch(x){}if(ok)done();else q("kr-s-p"+i).textContent="Төмендегі өрістен қолмен көшіріңіз"}}
-body.addEventListener("input",ev=>{const k=ev.target.dataset.k;if(k){A[k]=ev.target.value;delete C[k];upd()}});
-body.addEventListener("change",ev=>{const c=ev.target.dataset.ck;if(c!=null)A["ck"+c]=ev.target.checked});
-body.addEventListener("click",ev=>{const b=ev.target.closest("button");if(!b)return;
- if(b.id=="kr-back"){les.close();return}
- if(b.id=="kr-prev"&&st>0){st--;view();return}
- if(b.id=="kr-next"){if(st==3){les.close();return}st++;view();return}
- if(b.dataset.c){const k=b.dataset.c;if((A[k]||"").trim().length<10){q("kr-s-"+k).textContent="Кемінде 10 таңба жазыңыз";return}C[k]=true;upd();return}
- if(b.dataset.p!=null){const i=+b.dataset.p;copy(prompt(i),i)}});
-function openPick(){opener=document.activeElement;pick.showModal()}
-(function(){let b=q("kr-open");if(!b){b=document.createElement("button");b.id="kr-open";b.type="button";b.setAttribute("aria-label","Сабақ таңдау");b.textContent="🎓 Сабақ таңдау";const hd=document.querySelector("header"),lb=q("lb");hd&&hd.insertBefore(b,lb||null)}b.addEventListener("click",openPick)})();
-q("kr-go-old").onclick=()=>pick.close();
-q("kr-pick-x").onclick=()=>pick.close();
-q("kr-go-new").onclick=()=>{pick.close();view();les.showModal()};
-const back=()=>{opener&&opener.focus&&opener.focus()};
-pick.addEventListener("close",()=>{if(!les.open)back()});
-les.addEventListener("close",back);
-})();
-</script>
+<!-- ===== KR ADDON (кредиттік технология) ===== -->
 <style>
 .kr-dlg{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);padding:1.2rem;width:min(26rem,92vw)}
 .kr-dlg::backdrop,.kr-full::backdrop{background:#0009}
@@ -547,6 +456,7 @@ les.addEventListener("close",back);
 <h2 id="kr-pt" style="margin:0 0 .6rem;font-size:1.4rem">🎓 Сабақ таңдау</h2>
 <button type="button" id="kr-go-old" class="kr-btn kr-opt">💻 Операциялық жүйелер (ағылшын тілі)</button>
 <button type="button" id="kr-go-new" class="kr-btn kr-opt kr-pri">🎓 Кредиттік технология (магистратура)</button>
+<button type="button" id="kr-go-dt" class="kr-btn kr-opt">📊 Деректер типтері электронды кестеде (информатика)</button>
 <button type="button" id="kr-pick-x" class="kr-btn kr-opt">Жабу</button>
 </dialog>
 
@@ -654,243 +564,30 @@ les.addEventListener("close",back);
 })();
 </script>
 
-<!-- ===== DT ADDON: «Деректер типтері электронды кестеде» сабағы (префикс dt-) ===== -->
+<!-- ===== DT ADDON: «Деректер типтері электронды кестеде» (index-7, iframe) ===== -->
 <style>
-.dt-dlg{--dt-mode:light;color-scheme:light;--dt-bg:#f4f6fb;--dt-card:#fff;--dt-tx:#1b2333;--dt-mut:#5b667a;--dt-bd:#ccd3e3;--dt-pr:#3b5bdb;--dt-prt:#fff;--dt-ok:#1e9e4f;--dt-okb:#dff5e7;--dt-no:#d6322e;--dt-nob:#fde3e2}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .dt-dlg:not([data-dt-theme="light"]){--dt-mode:dark;color-scheme:dark;--dt-bg:#10141f;--dt-card:#1a2133;--dt-tx:#eef1f8;--dt-mut:#9aa6bd;--dt-bd:#2d3750;--dt-pr:#8aa0ff;--dt-prt:#10141f;--dt-ok:#4fd183;--dt-okb:#12361f;--dt-no:#ff7a76;--dt-nob:#401a19}}
-:root[data-theme="dark"] .dt-dlg:not([data-dt-theme="light"]),.dt-dlg[data-dt-theme="dark"]{--dt-mode:dark;color-scheme:dark;--dt-bg:#10141f;--dt-card:#1a2133;--dt-tx:#eef1f8;--dt-mut:#9aa6bd;--dt-bd:#2d3750;--dt-pr:#8aa0ff;--dt-prt:#10141f;--dt-ok:#4fd183;--dt-okb:#12361f;--dt-no:#ff7a76;--dt-nob:#401a19}
-.dt-dlg{border:0;margin:0;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);max-width:none;max-height:none;width:100%;height:100%;overflow:hidden;background:var(--dt-bg);color:var(--dt-tx);font:17px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
-.dt-dlg:not([open]){display:none}
-.dt-dlg[open]{display:flex;flex-direction:column}
-.dt-dlg::backdrop{background:#000}
-.dt-dlg *,.dt-dlg *::before,.dt-dlg *::after{box-sizing:border-box}
-#dt-pb{height:6px;background:var(--dt-bd);flex:none}#dt-bar{height:100%;width:0;background:var(--dt-pr);transition:width .3s}
-.dt-top{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:6px 12px;flex:none}
-.dt-topl{display:flex;align-items:center;gap:.6rem;min-width:0}
-.dt-main{flex:1;overflow-y:auto;padding:4px 16px 16px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-.dt-s{display:none;max-width:640px;margin:0 auto;padding:0}.dt-s.dt-on{display:block;animation:dt-f .25s}
-@keyframes dt-f{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
-.dt-nav{display:flex;gap:10px;padding:10px 12px;border-top:1px solid var(--dt-bd);background:var(--dt-card);flex:none}
-.dt-nav .dt-btn{flex:1}
-.dt-dlg h1{font-size:28px;line-height:1.2;margin:.4em 0;letter-spacing:normal;animation:none}.dt-dlg h2{font-size:23px;margin:.3em 0;letter-spacing:normal}.dt-dlg h3{font-size:19px;margin:.4em 0}
-.dt-dlg p{margin:1em 0}
-.dt-mut{color:var(--dt-mut);font-size:15px}
-.dt-dlg .dt-btn{min-height:52px;min-width:48px;border:0;border-radius:14px;background:var(--dt-pr);color:var(--dt-prt);font:inherit;font-weight:700;padding:0 16px;cursor:pointer}
-.dt-dlg .dt-btn:hover{filter:brightness(1.08)}
-.dt-dlg .dt-btn:disabled{opacity:.4;cursor:not-allowed}
-.dt-dlg .dt-sec{background:var(--dt-card);color:var(--dt-tx);border:1px solid var(--dt-bd)}
-.dt-dlg .dt-blk{display:block;width:100%;margin:8px 0;text-align:left;padding:10px 16px}
-.dt-c{background:var(--dt-card);border:1px solid var(--dt-bd);border-radius:16px;padding:12px 14px;margin:10px 0}
-.dt-tc{border-left:10px solid var(--dt-c)}.dt-tc b{color:var(--dt-c);font-size:20px}
-.dt-ex{display:inline-block;background:var(--dt-bg);border:1px solid var(--dt-bd);border-radius:8px;padding:2px 10px;margin:3px 4px 0 0;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px}
-.dt-dlg .dt-ty{background:var(--dt-card);color:var(--dt-tx);border:2px solid var(--dt-c);margin:4px 0;width:100%}
-.dt-big{font:700 34px ui-monospace,Menlo,Consolas,monospace;text-align:center;background:var(--dt-card);border:2px dashed var(--dt-bd);border-radius:16px;padding:22px 8px;margin:10px 0;word-break:break-all}
-.dt-dlg .dt-ok{background:var(--dt-okb)!important;border-color:var(--dt-ok)!important;color:var(--dt-tx)}
-.dt-dlg .dt-no{background:var(--dt-nob)!important;border-color:var(--dt-no)!important;color:var(--dt-tx)}
-.dt-fb{border-radius:12px;padding:10px 14px;margin:10px 0;border:2px solid transparent;font-weight:600}
-.dt-sw{overflow-x:auto}
-.dt-dlg table{border-collapse:collapse;width:100%;min-width:300px;margin:0}
-.dt-dlg th{background:var(--dt-bd);padding:8px 4px;font-size:15px;border:0;text-align:center}
-.dt-dlg td{border:1px solid var(--dt-bd);padding:0;text-align:left}
-.dt-dlg td.dt-rn{background:var(--dt-bd);text-align:center;width:34px;font-weight:700}
-.dt-dlg td input{width:100%;min-height:48px;border:0;background:var(--dt-card);color:var(--dt-tx);font:inherit;padding:0 8px;border-radius:0}
-.dt-dlg td input:focus{outline:3px solid var(--dt-pr);outline-offset:-3px}
-.dt-dlg textarea{width:100%;border:1px solid var(--dt-bd);border-radius:12px;background:var(--dt-card);color:var(--dt-tx);font:inherit;padding:10px;min-height:52px}
-.dt-bar{height:16px;border-radius:8px;background:var(--dt-bd);overflow:hidden}.dt-bar i{display:block;height:100%;background:var(--dt-ok)}
-.dt-sc{font-size:54px;font-weight:800;text-align:center}
+#dt-box{border:0;margin:0;padding:0;max-width:none;max-height:none;width:100%;height:100%;background:var(--bg);overflow:hidden}
+#dt-box:not([open]){display:none}
+#dt-box[open]{display:flex;flex-direction:column}
+#dt-box::backdrop{background:#000}
+#dt-bar2{flex:none;display:flex;padding:calc(env(safe-area-inset-top,0px) + .4rem) .8rem .4rem;background:var(--card);border-bottom:1px solid var(--line)}
+#dt-fr{flex:1;border:0;width:100%;min-height:0;background:var(--bg)}
 </style>
-
-<dialog id="dt-lesson" class="dt-dlg" lang="kk" aria-label="Деректер типтері электронды кестеде">
-<div id="dt-pb"><div id="dt-bar"></div></div>
-<div class="dt-top"><div class="dt-topl"><button type="button" class="dt-btn dt-sec" id="dt-x" aria-label="Сабақты жабу">✕ Жабу</button><span class="dt-mut" id="dt-cnt"></span></div><button type="button" class="dt-btn dt-sec" id="dt-th" aria-label="Тақырып">◐ Тақырып</button></div>
-<main class="dt-main" id="dt-m">
-
-<section class="dt-s">
-<h1>Деректер типтері электронды кестеде</h1>
-<div class="dt-c"><b>10-сынып · Информатика</b><br><span class="dt-mut">Оқу мақсаты 7.2.2.2</span></div>
-<div class="dt-c">🎯 <b>Сабақ мақсаты:</b> электронды кестеде деректер типтерінің түрлерін (мәтін, сан, күн/уақыт, логикалық, формула) ажыратып, дұрыс қолдану.</div>
-<p class="dt-mut">Экранды солға/оңға сипап немесе төмендегі «Алға» батырмасын басып жылжы.</p>
-</section>
-
-<section class="dt-s">
-<h2>Сергіту сұрағы 🤔</h2>
-<div class="dt-big" style="font-size:24px">Телефон нөмірін қоссақ бола ма?</div>
-<div class="dt-c" style="font-family:monospace">+7 701 123 45 67 + +7 777 987 65 43 = ?</div>
-<button type="button" class="dt-btn dt-sec dt-blk" data-dt-act="s2" data-dt-v="1">Иә, қосуға болады</button>
-<button type="button" class="dt-btn dt-sec dt-blk" data-dt-act="s2" data-dt-v="0">Жоқ, болмайды</button>
-<div id="dt-f2"></div>
-</section>
-
-<section class="dt-s">
-<h2>Деректер типтері</h2>
-<div class="dt-c dt-tc" style="--dt-c:#3b82f6"><b>Мәтін</b><br>Әріп, символ. Есептеуге қатыспайды.<br><span class="dt-ex">Айдар</span><span class="dt-ex">7А сынып</span><span class="dt-ex">+7 701 123 45 67</span></div>
-<div class="dt-c dt-tc" style="--dt-c:#f59e0b"><b>Сан</b><br>Есептеуге болатын мән.<br><span class="dt-ex">125</span><span class="dt-ex">-3,5</span><span class="dt-ex">0,75</span></div>
-<div class="dt-c dt-tc" style="--dt-c:#8b5cf6"><b>Күн/Уақыт</b><br>Күнтізбелік мән, сағат.<br><span class="dt-ex">12.05.2010</span><span class="dt-ex">14:30</span></div>
-<div class="dt-c dt-tc" style="--dt-c:#14b8a6"><b>Логикалық (ИӘ/ЖОҚ)</b><br>Тек екі мән: рас немесе жалған.<br><span class="dt-ex">ИӘ</span><span class="dt-ex">ЖОҚ</span></div>
-<div class="dt-c dt-tc" style="--dt-c:#ec4899"><b>Формула</b><br>Нәтижесін өзі есептейді.<br><span class="dt-ex">=A1+B1</span><span class="dt-ex">=СУММ(A1:A5)</span></div>
-</section>
-
-<section class="dt-s">
-<h2>Негізгі ережелер</h2>
-<div class="dt-c dt-tc" style="--dt-c:#3b82f6"><b>1. Мәтін — солға</b><br>Әдепкі бойынша мәтін ұяшықтың сол жағына туралана-ды.</div>
-<div class="dt-c dt-tc" style="--dt-c:#f59e0b"><b>2. Сан — оңға</b><br>Сандар (күн мен уақыт та) оң жағына туралана-ды.</div>
-<div class="dt-c dt-tc" style="--dt-c:#14b8a6"><b>3. Логикалық — ортаға</b><br>ИӘ/ЖОҚ мәндері ұяшық ортасында тұрады.</div>
-<div class="dt-c dt-tc" style="--dt-c:#ec4899"><b>4. Формула «=» белгісінен басталады</b><br>«=» жазбасаң, <span class="dt-ex">A1+B1</span> жай мәтін болып қалады!</div>
-<div style="display:flex;border:1px solid var(--dt-bd);border-radius:10px;overflow:hidden;font-family:monospace">
-<div style="flex:1;padding:12px;background:var(--dt-card)">Алма</div><div style="flex:1;padding:12px;text-align:right;background:var(--dt-card)">125</div></div>
-<p class="dt-mut">↑ сол жақта мәтін, оң жақта сан</p>
-</section>
-
-<section class="dt-s">
-<h2>Мини-кесте A1:C5</h2>
-<p class="dt-mut">Ұяшыққа жаз: сайт типін анықтайды. Мысалы: <span class="dt-ex">Алма</span> <span class="dt-ex">15</span> <span class="dt-ex">=A2+B2</span></p>
-<div class="dt-sw"><table id="dt-sh"></table></div>
-<div class="dt-c dt-fb" id="dt-inf" style="border-color:var(--dt-bd)">Ұяшықты бас.</div>
-<button type="button" class="dt-btn dt-sec" data-dt-act="demo">Мысал толтыру</button>
-<button type="button" class="dt-btn dt-sec" data-dt-act="clr">Тазалау</button>
-</section>
-
-<section class="dt-s">
-<h2>Тапсырма 1 · Сұрыпта</h2>
-<p class="dt-mut">Көрсетілген дерек қай типке жатады? Түймені бас.</p>
-<div id="dt-t1"></div>
-</section>
-
-<section class="dt-s">
-<h2>Тапсырма 2 · Оқушылар тізімі</h2>
-<p class="dt-mut">Әр бағанға сәйкес типпен жаз: аты — мәтін, туған күні — күн, бағасы — сан, өтті ме? — логикалық (ИӘ/ЖОҚ).</p>
-<div class="dt-sw"><table id="dt-t2"></table></div>
-<button type="button" class="dt-btn dt-blk" style="text-align:center;margin-top:12px" data-dt-act="chk2">Тексеру</button>
-<div id="dt-f7"></div>
-</section>
-
-<section class="dt-s">
-<h2>Тапсырма 3 · Тест</h2>
-<div id="dt-qz"></div>
-</section>
-
-<section class="dt-s">
-<h2>Нәтиже 🏆</h2>
-<div id="dt-rs"></div>
-</section>
-
-<section class="dt-s">
-<h2>Рефлексия</h2>
-<p><b>3 нәрсе үйрендім:</b></p><textarea id="dt-r1" rows="3" placeholder="1) … 2) … 3) …"></textarea>
-<p><b>2 нәрсе қызық болды:</b></p><textarea id="dt-r2" rows="2" placeholder="1) … 2) …"></textarea>
-<p><b>1 сұрағым бар:</b></p><textarea id="dt-r3" rows="2" placeholder="…"></textarea>
-<button type="button" class="dt-btn dt-blk" style="text-align:center;margin-top:12px" data-dt-act="sv">Сақтау</button>
-<div id="dt-f10"></div>
-</section>
-
-</main>
-<nav class="dt-nav" aria-label="Слайдтар"><button type="button" class="dt-btn dt-sec" id="dt-pv">← Артқа</button><button type="button" class="dt-btn" id="dt-nx">Алға →</button></nav>
+<dialog id="dt-box" aria-label="Деректер типтері электронды кестеде">
+<div id="dt-bar2"><button type="button" class="kr-btn" id="dt-close">← Артқа</button></div>
+<iframe id="dt-fr" title="Деректер типтері электронды кестеде"></iframe>
 </dialog>
-
 <script>
 (function(){
-const dlg=document.getElementById("dt-lesson");
-const $=s=>dlg.querySelector(s),$$=s=>[...dlg.querySelectorAll(s)];
-const T=["Мәтін","Сан","Күн/Уақыт","Логикалық","Формула"];
-function typ(v){v=(v||"").trim();if(!v)return"Бос";if(v[0]=="=")return"Формула";
- if(/^(ИӘ|ЖОҚ|TRUE|FALSE)$/i.test(v))return"Логикалық";
- if(/^\d{1,2}[.\/-]\d{1,2}[.\/-]\d{2,4}$/.test(v)||/^\d{1,2}:\d{2}(:\d{2})?$/.test(v))return"Күн/Уақыт";
- if(/^[-+]?\d+([.,]\d+)?$/.test(v))return"Сан";return"Мәтін"}
-const miss=(m,k)=>m[k]=(m[k]||0)+1;
-
-/* navigation */
-const S=$$(".dt-s");let cur=0;
-function go(n){if(n<0||n>=S.length)return;cur=n;S.forEach((e,i)=>e.classList.toggle("dt-on",i==n));
- $("#dt-bar").style.width=((n+1)/S.length*100)+"%";$("#dt-cnt").textContent="Слайд "+(n+1)+" / "+S.length;
- $("#dt-pv").disabled=n==0;$("#dt-nx").disabled=n==S.length-1;$("#dt-m").scrollTop=0;if(n==8)res()}
-$("#dt-pv").onclick=()=>go(cur-1);$("#dt-nx").onclick=()=>go(cur+1);
-let x0,y0;
-dlg.addEventListener("touchstart",e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
-dlg.addEventListener("touchend",e=>{if(e.target.closest("input,textarea,.dt-sw"))return;
- const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;
- if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)go(cur+(dx<0?1:-1))});
-dlg.addEventListener("keydown",e=>{if(e.target.closest("input,textarea"))return;
- if(e.key=="ArrowRight")go(cur+1);if(e.key=="ArrowLeft")go(cur-1)});
-$("#dt-th").onclick=()=>{const dark=getComputedStyle(dlg).getPropertyValue("--dt-mode").trim()=="dark";dlg.dataset.dtTheme=dark?"light":"dark"};
-
-/* slide 2 */
-function s2(a){$("#dt-f2").innerHTML=a==0?'<div class="dt-fb dt-ok">✅ Дұрыс! Телефон нөмірі санға ұқсағанымен, оны қосудың мәні жоқ. Нөмір — идентификатор, сондықтан <b>Мәтін</b> типінде сақтаймыз (әйтпесе +7 және бастапқы нөл жоғалады).</div>':'<div class="dt-fb dt-no">❌ Қосуға болады деп ойлау қате. Нөмір — есептелмейтін код, ол <b>Мәтін</b> типіне жатады. Санға айналса, «+» мен бастапқы нөл жоғалады.</div>'}
-
-/* slide 5: mini sheet */
-const raw={},C=["A","B","C"];
-(function(){let h='<tr><th></th>'+C.map(c=>'<th>'+c+'</th>').join("")+'</tr>';
- for(let r=1;r<=5;r++){h+='<tr><td class="dt-rn">'+r+'</td>'+C.map(c=>'<td><input data-r="'+c+r+'" autocomplete="off" autocapitalize="off" enterkeyhint="next"></td>').join("")+'</tr>'}
- $("#dt-sh").innerHTML=h})();
-function val(ref,d){if(d>6)return NaN;const v=(raw[ref]||"").trim();if(!v)return 0;
- if(v[0]=="=")return calc(v,d+1);if(typ(v)=="Сан")return parseFloat(v.replace(",","."));return NaN}
-function calc(f,d){let bad=0;
- let s=f.slice(1).toUpperCase().replace(/(?:SUM|СУММ)\(([A-C])([1-5]):([A-C])([1-5])\)/g,(m,a,b,c,e)=>{let t=0;
-  for(let x=a.charCodeAt(0);x<=c.charCodeAt(0);x++)for(let y=+b;y<=+e;y++){const n=val(String.fromCharCode(x)+y,d);if(isNaN(n))bad=1;else t+=n}return t});
- s=s.replace(/[A-C][1-5]/g,m=>{const n=val(m,d);if(isNaN(n))bad=1;return "("+n+")"});
- if(bad||!/^[\d+\-*\/().\s]+$/.test(s))return NaN;
- try{const r=Function('"use strict";return ('+s+')')();return isFinite(r)?Math.round(r*1e6)/1e6:NaN}catch(e){return NaN}}
-function disp(ref){const v=(raw[ref]||"").trim();if(v[0]=="="){const r=calc(v,0);return isNaN(r)?"#МӘН!":String(r).replace(".",",")}return v}
-function al(ref){const v=(raw[ref]||"").trim(),t=typ(v);
- if(t=="Формула")return"right";if(t=="Сан"||t=="Күн/Уақыт")return"right";if(t=="Логикалық")return"center";return"left"}
-function info(i){const ref=i.dataset.r,v=(raw[ref]||"").trim(),t=typ(v),b=$("#dt-inf");
- if(t=="Бос"){b.className="dt-c dt-fb";b.textContent="Ұяшық "+ref+": бос";return}
- const a={right:"оңға",left:"солға",center:"ортаға"}[al(ref)];
- b.className="dt-c dt-fb dt-"+(t=="Формула"&&disp(ref)=="#МӘН!"?"no":"ok");
- b.innerHTML="Ұяшық <b>"+ref+"</b> · Түрі: <b>"+t+"</b> · Туралау: <b>"+a+"</b>"+(t=="Формула"?"<br>Нәтиже: <b>"+disp(ref)+"</b>":"")}
-function ref2(){$$("#dt-sh input").forEach(i=>{const r=i.dataset.r;i.style.textAlign=al(r);if(document.activeElement!==i)i.value=disp(r)})}
-$$("#dt-sh input").forEach(i=>{
- i.onfocus=()=>{i.value=raw[i.dataset.r]||"";info(i)};
- i.oninput=()=>{raw[i.dataset.r]=i.value;info(i);ref2()};
- i.onblur=()=>{ref2()}});
-function demo(){Object.assign(raw,{A1:"Алма",B1:"Баға",C1:"Сома",A2:"10",B2:"20",C2:"=A2+B2",A3:"12.05.2010",B3:"ИӘ",C3:"=A2*B2",A4:"3,5",B4:"14:30",C4:"=СУММ(A2:B2)",A5:"+7 701 123 45 67",B5:"ЖОҚ",C5:"=A1+B1"});ref2()}
-function clr(){for(const k in raw)delete raw[k];$$("#dt-sh input").forEach(i=>i.value="");ref2();$("#dt-inf").className="dt-c dt-fb";$("#dt-inf").textContent="Ұяшықты бас."}
-
-/* slide 6: task 1 */
-const I1=[["Алматы","Мәтін"],["3,14","Сан"],["15.09.2010","Күн/Уақыт"],["14:30","Күн/Уақыт"],["ИӘ","Логикалық"],["=A1*B1","Формула"],["Информатика","Мәтін"],["-250","Сан"],["ЖОҚ","Логикалық"],["=СУММ(B2:B5)","Формула"]];
-let i1=0,busy=0;const R1={g:0,t:10,m:{},d:0};
-function t1(){const b=$("#dt-t1");
- if(i1>=10){R1.d=1;b.innerHTML='<div class="dt-fb dt-ok">Тапсырма 1 аяқталды: <b>'+R1.g+' / 10</b>. Алға!</div>';return}
- b.innerHTML='<div class="dt-mut">'+(i1+1)+' / 10</div><div class="dt-big">'+I1[i1][0]+'</div>'+T.map(x=>'<button type="button" class="dt-btn dt-ty" style="--c:'+CL[x]+'">'+x+'</button>').join("")+'<div id="dt-f6"></div>';
- $$("#dt-t1 .dt-ty").forEach(k=>k.onclick=()=>a1(k))}
-const CL={"Мәтін":"#3b82f6","Сан":"#f59e0b","Күн/Уақыт":"#8b5cf6","Логикалық":"#14b8a6","Формула":"#ec4899"};
-function a1(k){if(busy)return;busy=1;const r=I1[i1][1],ok=k.textContent==r;
- if(ok)R1.g++;else miss(R1.m,r);
- $$("#dt-t1 .dt-ty").forEach(e=>{if(e.textContent==r)e.classList.add("dt-ok");else if(e==k)e.classList.add("dt-no")});
- $("#dt-f6").innerHTML=ok?'<div class="dt-fb dt-ok">✅ Дұрыс!</div>':'<div class="dt-fb dt-no">❌ Қате. Дұрыс жауап: '+r+'</div>';
- setTimeout(()=>{i1++;busy=0;t1()},1300)}
-t1();
-
-/* slide 7: task 2 */
-const E2=["Мәтін","Күн/Уақыт","Сан","Логикалық"],R2={g:0,t:12,m:{},d:0};
-(function(){let h='<tr><th>Аты</th><th>Туған күні</th><th>Бағасы</th><th>Өтті ме?</th></tr>';
- for(let r=0;r<3;r++)h+='<tr>'+E2.map((e,c)=>'<td><input data-c="'+c+'" style="min-width:86px" autocomplete="off"></td>').join("")+'</tr>';
- $("#dt-t2").innerHTML=h})();
-function chk2(){let g=0,m={},empty=0;
- $$("#dt-t2 input").forEach(i=>{const e=E2[i.dataset.c],ok=typ(i.value)==e;
-  if(!i.value.trim())empty++;i.parentNode.className=ok?"dt-ok":"dt-no";if(ok)g++;else miss(m,e)});
- R2.g=g;R2.m=m;R2.d=1;
- $("#dt-f7").innerHTML='<div class="dt-fb dt-'+(g==12?"ok":"no")+'">'+(g==12?"🎉 Барлығы дұрыс: ":"Нәтиже: ")+'<b>'+g+' / 12</b>'+(g<12?(empty?" · бос ұяшықтар бар":"")+". Қызылдарын түзетіп, қайта тексер.":"")+'</div>'}
-
-/* slide 8: quiz */
-const Q=[
-{q:"Қайсысы санға жатады?",o:["+7 701 123 45 67","125,5","Алма","ИӘ"],a:1,t:"Сан",e:"125,5 — есептеуге болатын сан. Телефон нөмірі мәтін, «Алма» — мәтін, «ИӘ» — логикалық мән."},
-{q:"12.05.2026 жазбасы қай типке жатады?",o:["Мәтін","Логикалық","Күн/Уақыт","Формула"],a:2,t:"Күн/Уақыт",e:"Күн.ай.жыл форматы күн ретінде танылады, сондықтан ол оңға туралана-ды."},
-{q:"Формула қай таңбадан басталады?",o:["#","=","@","+7"],a:1,t:"Формула",e:"Электронды кестеде формула әрқашан «=» таңбасынан басталады, мысалы =A1+B1."},
-{q:"Сан ұяшықта әдепкі бойынша қалай туралана-ды?",o:["Солға","Ортаға","Оңға","Туралана алмайды"],a:2,t:"Туралау",e:"Сан оң жаққа, мәтін сол жаққа туралана-ды. Бұл — типті көзбен ажыратудың жеңіл жолы."},
-{q:"ИӘ/ЖОҚ мәндері қай типке жатады?",o:["Мәтін","Сан","Күн/Уақыт","Логикалық"],a:3,t:"Логикалық",e:"Логикалық тип тек екі мән қабылдайды: рас (ИӘ) немесе жалған (ЖОҚ)."}];
-let qi=0;const R3={g:0,t:5,m:{},d:0};
-function q(){const b=$("#dt-qz");
- if(qi>=5){R3.d=1;b.innerHTML='<div class="dt-fb dt-ok">Тест аяқталды: <b>'+R3.g+' / 5</b>. «Алға» — нәтижені көр.</div>';return}
- const x=Q[qi];b.innerHTML='<div class="dt-mut">'+(qi+1)+' / 5</div><h3>'+x.q+'</h3>'+x.o.map(o=>'<button type="button" class="dt-btn dt-sec dt-blk">'+o+'</button>').join("")+'<div id="dt-fq"></div>';
- $$("#dt-qz .dt-blk").forEach((k,j)=>k.onclick=()=>aq(k,j))}
-function aq(k,j){const x=Q[qi];if(x.d)return;x.d=1;const ok=j==x.a;
- if(ok)R3.g++;else miss(R3.m,x.t);
- $$("#dt-qz .dt-blk").forEach((e,n)=>{e.disabled=false;if(n==x.a)e.classList.add("dt-ok");else if(e==k)e.classList.add("dt-no")});
- $("#dt-fq").innerHTML='<div class="dt-fb dt-'+(ok?"ok":"no")+'">'+(ok?"✅ Дұрыс! ":"❌ Қате. ")+x.e+'</div><button type="button" class="dt-btn dt-blk" style="text-align:center" id="dt-qn">'+(qi<4?"Келесі сұрақ":"Аяқтау")+'</button>';
- $("#dt-qn").onclick=()=>{qi++;q()}}
-q();
-
-/* slide 9: results */
-function res(){const P=[["Тапсырма 1",R1],["Тапсырма 2",R2],["Тест",R3]];let g=0,t=0,m={},h="";
- P.forEach(([n,r])=>{if(r.d){g+=r.g;t+=r.t;for(const k in r.m)m[k]=(m[k]||0)+r.m[k]}
-  h+='<div class="dt
+const DT="<!DOCTYPE html>\n<html lang=\"kk\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>Деректер типтері электронды кестеде<\/title>\n<style>\n:root{--bg:#f4f6fb;--card:#fff;--tx:#1b2333;--mut:#5b667a;--bd:#ccd3e3;--pr:#3b5bdb;--prt:#fff;--ok:#1e9e4f;--okb:#dff5e7;--no:#d6322e;--nob:#fde3e2}\n:root[data-theme=dark]{--bg:#10141f;--card:#1a2133;--tx:#eef1f8;--mut:#9aa6bd;--bd:#2d3750;--pr:#8aa0ff;--prt:#10141f;--ok:#4fd183;--okb:#12361f;--no:#ff7a76;--nob:#401a19}\n*{box-sizing:border-box}\nhtml,body{height:100%;margin:0}\nbody{background:var(--bg);color:var(--tx);font:17px/1.5 system-ui,-apple-system,\"Segoe UI\",Roboto,Arial,sans-serif;display:flex;flex-direction:column;height:100dvh;overflow:hidden}\n#pb{height:6px;background:var(--bd)}#bar{height:100%;width:0;background:var(--pr);transition:width .3s}\n.top{display:flex;align-items:center;justify-content:space-between;padding:6px 12px}\nmain{flex:1;overflow-y:auto;padding:4px 16px 16px;-webkit-overflow-scrolling:touch}\n.s{display:none;max-width:640px;margin:0 auto}.s.on{display:block;animation:f .25s}\n@keyframes f{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}\nnav{display:flex;gap:10px;padding:10px 12px;border-top:1px solid var(--bd);background:var(--card)}\nnav .btn{flex:1}\nh1{font-size:28px;line-height:1.2;margin:.4em 0}h2{font-size:23px;margin:.3em 0}h3{font-size:19px;margin:.4em 0}\n.mut{color:var(--mut);font-size:15px}\n.btn{min-height:52px;min-width:48px;border:0;border-radius:14px;background:var(--pr);color:var(--prt);font:inherit;font-weight:700;padding:0 16px;cursor:pointer}\n.btn:disabled{opacity:.4}\n.sec{background:var(--card);color:var(--tx);border:1px solid var(--bd)}\n.blk{display:block;width:100%;margin:8px 0;text-align:left;padding:10px 16px}\n.c{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;margin:10px 0}\n.tc{border-left:10px solid var(--c)}.tc b{color:var(--c);font-size:20px}\n.ex{display:inline-block;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:2px 10px;margin:3px 4px 0 0;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px}\n.ty{background:var(--card);color:var(--tx);border:2px solid var(--c);margin:4px 0;width:100%}\n.big{font:700 34px ui-monospace,Menlo,Consolas,monospace;text-align:center;background:var(--card);border:2px dashed var(--bd);border-radius:16px;padding:22px 8px;margin:10px 0;word-break:break-all}\n.ok{background:var(--okb)!important;border-color:var(--ok)!important;color:var(--tx)}\n.no{background:var(--nob)!important;border-color:var(--no)!important;color:var(--tx)}\n.fb{border-radius:12px;padding:10px 14px;margin:10px 0;border:2px solid transparent;font-weight:600}\n.sw{overflow-x:auto}\ntable{border-collapse:collapse;width:100%;min-width:300px}\nth{background:var(--bd);padding:8px 4px;font-size:15px}\ntd{border:1px solid var(--bd);padding:0}\ntd.rn{background:var(--bd);text-align:center;width:34px;font-weight:700}\ntd input{width:100%;min-height:48px;border:0;background:var(--card);color:var(--tx);font:inherit;padding:0 8px;border-radius:0}\ntd input:focus{outline:3px solid var(--pr);outline-offset:-3px}\ntextarea,.in{width:100%;border:1px solid var(--bd);border-radius:12px;background:var(--card);color:var(--tx);font:inherit;padding:10px;min-height:52px}\n.bar{height:16px;border-radius:8px;background:var(--bd);overflow:hidden}.bar i{display:block;height:100%;background:var(--ok)}\n.sc{font-size:54px;font-weight:800;text-align:center}\n<\/style>\n<\/head>\n<body>\n<div id=\"pb\"><div id=\"bar\"><\/div><\/div>\n<div class=\"top\"><span class=\"mut\" id=\"cnt\"><\/span><button class=\"btn sec\" id=\"th\" aria-label=\"Тақырып\">◐ Тақырып<\/button><\/div>\n<main id=\"m\">\n\n<section class=\"s\">\n<h1>Деректер типтері электронды кестеде<\/h1>\n<div class=\"c\"><b>10-сынып · Информатика<\/b><br><span class=\"mut\">Оқу мақсаты 7.2.2.2<\/span><\/div>\n<div class=\"c\">🎯 <b>Сабақ мақсаты:<\/b> электронды кестеде деректер типтерінің түрлерін (мәтін, сан, күн/уақыт, логикалық, формула) ажыратып, дұрыс қолдану.<\/div>\n<p class=\"mut\">Экранды солға/оңға сипап немесе төмендегі «Алға» батырмасын басып жылжы.<\/p>\n<\/section>\n\n<section class=\"s\">\n<h2>Сергіту сұрағы 🤔<\/h2>\n<div class=\"big\" style=\"font-size:24px\">Телефон нөмірін қоссақ бола ма?<\/div>\n<div class=\"c\" style=\"font-family:monospace\">+7 701 123 45 67 + +7 777 987 65 43 = ?<\/div>\n<button class=\"btn sec blk\" onclick=\"s2(1)\">Иә, қосуға болады<\/button>\n<button class=\"btn sec blk\" onclick=\"s2(0)\">Жоқ, болмайды<\/button>\n<div id=\"f2\"><\/div>\n<\/section>\n\n<section class=\"s\">\n<h2>Деректер типтері<\/h2>\n<div class=\"c tc\" style=\"--c:#3b82f6\"><b>Мәтін<\/b><br>Әріп, символ. Есептеуге қатыспайды.<br><span class=\"ex\">Айдар<\/span><span class=\"ex\">7А сынып<\/span><span class=\"ex\">+7 701 123 45 67<\/span><\/div>\n<div class=\"c tc\" style=\"--c:#f59e0b\"><b>Сан<\/b><br>Есептеуге болатын мән.<br><span class=\"ex\">125<\/span><span class=\"ex\">-3,5<\/span><span class=\"ex\">0,75<\/span><\/div>\n<div class=\"c tc\" style=\"--c:#8b5cf6\"><b>Күн/Уақыт<\/b><br>Күнтізбелік мән, сағат.<br><span class=\"ex\">12.05.2010<\/span><span class=\"ex\">14:30<\/span><\/div>\n<div class=\"c tc\" style=\"--c:#14b8a6\"><b>Логикалық (ИӘ/ЖОҚ)<\/b><br>Тек екі мән: рас немесе жалған.<br><span class=\"ex\">ИӘ<\/span><span class=\"ex\">ЖОҚ<\/span><\/div>\n<div class=\"c tc\" style=\"--c:#ec4899\"><b>Формула<\/b><br>Нәтижесін өзі есептейді.<br><span class=\"ex\">=A1+B1<\/span><span class=\"ex\">=СУММ(A1:A5)<\/span><\/div>\n<\/section>\n\n<section class=\"s\">\n<h2>Негізгі ережелер<\/h2>\n<div class=\"c tc\" style=\"--c:#3b82f6\"><b>1. Мәтін — солға<\/b><br>Әдепкі бойынша мәтін ұяшықтың сол жағына туралана-ды.<\/div>\n<div class=\"c tc\" style=\"--c:#f59e0b\"><b>2. Сан — оңға<\/b><br>Сандар (күн мен уақыт та) оң жағына туралана-ды.<\/div>\n<div class=\"c tc\" style=\"--c:#14b8a6\"><b>3. Логикалық — ортаға<\/b><br>ИӘ/ЖОҚ мәндері ұяшық ортасында тұрады.<\/div>\n<div class=\"c tc\" style=\"--c:#ec4899\"><b>4. Формула «=» белгісінен басталады<\/b><br>«=» жазбасаң, <span class=\"ex\">A1+B1<\/span> жай мәтін болып қалады!<\/div>\n<div style=\"display:flex;border:1px solid var(--bd);border-radius:10px;overflow:hidden;font-family:monospace\">\n<div style=\"flex:1;padding:12px;background:var(--card)\">Алма<\/div><div style=\"flex:1;padding:12px;text-align:right;background:var(--card)\">125<\/div><\/div>\n<p class=\"mut\">↑ сол жақта мәтін, оң жақта сан<\/p>\n<\/section>\n\n<section class=\"s\">\n<h2>Мини-кесте A1:C5<\/h2>\n<p class=\"mut\">Ұяшыққа жаз: сайт типін анықтайды. Мысалы: <span class=\"ex\">Алма<\/span> <span class=\"ex\">15<\/span> <span class=\"ex\">=A2+B2<\/span><\/p>\n<div class=\"sw\"><table id=\"sh\"><\/table><\/div>\n<div class=\"c fb\" id=\"inf\" style=\"border-color:var(--bd)\">Ұяшықты бас.<\/div>\n<button class=\"btn sec\" onclick=\"demo()\">Мысал толтыру<\/button>\n<button class=\"btn sec\" onclick=\"clr()\">Тазалау<\/button>\n<\/section>\n\n<section class=\"s\">\n<h2>Тапсырма 1 · Сұрыпта<\/h2>\n<p class=\"mut\">Көрсетілген дерек қай типке жатады? Түймені бас.<\/p>\n<div id=\"t1\"><\/div>\n<\/section>\n\n<section class=\"s\">\n<h2>Тапсырма 2 · Оқушылар тізімі<\/h2>\n<p class=\"mut\">Әр бағанға сәйкес типпен жаз: аты — мәтін, туған күні — күн, бағасы — сан, өтті ме? — логикалық (ИӘ/ЖОҚ).<\/p>\n<div class=\"sw\"><table id=\"t2\"><\/table><\/div>\n<button class=\"btn blk\" style=\"text-align:center;margin-top:12px\" onclick=\"chk2()\">Тексеру<\/button>\n<div id=\"f7\"><\/div>\n<\/section>\n\n<section class=\"s\">\n<h2>Тапсырма 3 · Тест<\/h2>\n<div id=\"qz\"><\/div>\n<\/section>\n\n<section class=\"s\">\n<h2>Нәтиже 🏆<\/h2>\n<div id=\"rs\"><\/div>\n<\/section>\n\n<section class=\"s\">\n<h2>Рефлексия<\/h2>\n<p><b>3 нәрсе үйрендім:<\/b><\/p><textarea id=\"r1\" rows=\"3\" placeholder=\"1) … 2) … 3) …\"><\/textarea>\n<p><b>2 нәрсе қызық болды:<\/b><\/p><textarea id=\"r2\" rows=\"2\" placeholder=\"1) … 2) …\"><\/textarea>\n<p><b>1 сұрағым бар:<\/b><\/p><textarea id=\"r3\" rows=\"2\" placeholder=\"…\"><\/textarea>\n<button class=\"btn blk\" style=\"text-align:center;margin-top:12px\" onclick=\"sv()\">Сақтау<\/button>\n<div id=\"f10\"><\/div>\n<\/section>\n\n<\/main>\n<nav><button class=\"btn sec\" id=\"pv\">← Артқа<\/button><button class=\"btn\" id=\"nx\">Алға →<\/button><\/nav>\n\n<script>\nconst $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];\nconst T=[\"Мәтін\",\"Сан\",\"Күн/Уақыт\",\"Логикалық\",\"Формула\"];\nfunction typ(v){v=(v||\"\").trim();if(!v)return\"Бос\";if(v[0]==\"=\")return\"Формула\";\n if(/^(ИӘ|ЖОҚ|TRUE|FALSE)$/i.test(v))return\"Логикалық\";\n if(/^\\d{1,2}[.\\/-]\\d{1,2}[.\\/-]\\d{2,4}$/.test(v)||/^\\d{1,2}:\\d{2}(:\\d{2})?$/.test(v))return\"Күн/Уақыт\";\n if(/^[-+]?\\d+([.,]\\d+)?$/.test(v))return\"Сан\";return\"Мәтін\"}\nconst miss=(m,k)=>m[k]=(m[k]||0)+1;\n\n/* navigation */\nconst S=$$(\".s\");let cur=0;\nfunction go(n){if(n<0||n>=S.length)return;cur=n;S.forEach((e,i)=>e.classList.toggle(\"on\",i==n));\n $(\"#bar\").style.width=((n+1)/S.length*100)+\"%\";$(\"#cnt\").textContent=\"Слайд \"+(n+1)+\" / \"+S.length;\n $(\"#pv\").disabled=n==0;$(\"#nx\").disabled=n==S.length-1;$(\"#m\").scrollTop=0;if(n==8)res()}\n$(\"#pv\").onclick=()=>go(cur-1);$(\"#nx\").onclick=()=>go(cur+1);\nlet x0,y0;\ndocument.addEventListener(\"touchstart\",e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});\ndocument.addEventListener(\"touchend\",e=>{if(e.target.closest(\"input,textarea,.sw\"))return;\n const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;\n if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)go(cur+(dx<0?1:-1))});\ndocument.addEventListener(\"keydown\",e=>{if(e.target.closest(\"input,textarea\"))return;\n if(e.key==\"ArrowRight\")go(cur+1);if(e.key==\"ArrowLeft\")go(cur-1)});\n$(\"#th\").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==\"dark\"?\"light\":\"dark\"};\nif(matchMedia(\"(prefers-color-scheme: dark)\").matches)document.documentElement.dataset.theme=\"dark\";\n\n/* slide 2 */\nfunction s2(a){$(\"#f2\").innerHTML=a==0?'<div class=\"fb ok\">✅ Дұрыс! Телефон нөмірі санға ұқсағанымен, оны қосудың мәні жоқ. Нөмір — идентификатор, сондықтан <b>Мәтін<\/b> типінде сақтаймыз (әйтпесе +7 және бастапқы нөл жоғалады).<\/div>':'<div class=\"fb no\">❌ Қосуға болады деп ойлау қате. Нөмір — есептелмейтін код, ол <b>Мәтін<\/b> типіне жатады. Санға айналса, «+» мен бастапқы нөл жоғалады.<\/div>'}\n\n/* slide 5: mini sheet */\nconst raw={},C=[\"A\",\"B\",\"C\"];\n(function(){let h='<tr><th><\/th>'+C.map(c=>'<th>'+c+'<\/th>').join(\"\")+'<\/tr>';\n for(let r=1;r<=5;r++){h+='<tr><td class=\"rn\">'+r+'<\/td>'+C.map(c=>'<td><input data-r=\"'+c+r+'\" autocomplete=\"off\" autocapitalize=\"off\" enterkeyhint=\"next\"><\/td>').join(\"\")+'<\/tr>'}\n $(\"#sh\").innerHTML=h})();\nfunction val(ref,d){if(d>6)return NaN;const v=(raw[ref]||\"\").trim();if(!v)return 0;\n if(v[0]==\"=\")return calc(v,d+1);if(typ(v)==\"Сан\")return parseFloat(v.replace(\",\",\".\"));return NaN}\nfunction calc(f,d){let bad=0;\n let s=f.slice(1).toUpperCase().replace(/(?:SUM|СУММ)\\(([A-C])([1-5]):([A-C])([1-5])\\)/g,(m,a,b,c,e)=>{let t=0;\n  for(let x=a.charCodeAt(0);x<=c.charCodeAt(0);x++)for(let y=+b;y<=+e;y++){const n=val(String.fromCharCode(x)+y,d);if(isNaN(n))bad=1;else t+=n}return t});\n s=s.replace(/[A-C][1-5]/g,m=>{const n=val(m,d);if(isNaN(n))bad=1;return \"(\"+n+\")\"});\n if(bad||!/^[\\d+\\-*\\/().\\s]+$/.test(s))return NaN;\n try{const r=Function('\"use strict\";return ('+s+')')();return isFinite(r)?Math.round(r*1e6)/1e6:NaN}catch(e){return NaN}}\nfunction disp(ref){const v=(raw[ref]||\"\").trim();if(v[0]==\"=\"){const r=calc(v,0);return isNaN(r)?\"#МӘН!\":String(r).replace(\".\",\",\")}return v}\nfunction al(ref){const v=(raw[ref]||\"\").trim(),t=typ(v);\n if(t==\"Формула\")return\"right\";if(t==\"Сан\"||t==\"Күн/Уақыт\")return\"right\";if(t==\"Логикалық\")return\"center\";return\"left\"}\nfunction info(i){const ref=i.dataset.r,v=(raw[ref]||\"\").trim(),t=typ(v),b=$(\"#inf\");\n if(t==\"Бос\"){b.className=\"c fb\";b.textContent=\"Ұяшық \"+ref+\": бос\";return}\n const a={right:\"оңға\",left:\"солға\",center:\"ортаға\"}[al(ref)];\n b.className=\"c fb \"+(t==\"Формула\"&&disp(ref)==\"#МӘН!\"?\"no\":\"ok\");\n b.innerHTML=\"Ұяшық <b>\"+ref+\"<\/b> · Түрі: <b>\"+t+\"<\/b> · Туралау: <b>\"+a+\"<\/b>\"+(t==\"Формула\"?\"<br>Нәтиже: <b>\"+disp(ref)+\"<\/b>\":\"\")}\nfunction ref2(){$$(\"#sh input\").forEach(i=>{const r=i.dataset.r;i.style.textAlign=al(r);if(document.activeElement!==i)i.value=disp(r)})}\n$$(\"#sh input\").forEach(i=>{\n i.onfocus=()=>{i.value=raw[i.dataset.r]||\"\";info(i)};\n i.oninput=()=>{raw[i.dataset.r]=i.value;info(i);ref2()};\n i.onblur=()=>{ref2()}});\nfunction demo(){Object.assign(raw,{A1:\"Алма\",B1:\"Баға\",C1:\"Сома\",A2:\"10\",B2:\"20\",C2:\"=A2+B2\",A3:\"12.05.2010\",B3:\"ИӘ\",C3:\"=A2*B2\",A4:\"3,5\",B4:\"14:30\",C4:\"=СУММ(A2:B2)\",A5:\"+7 701 123 45 67\",B5:\"ЖОҚ\",C5:\"=A1+B1\"});ref2()}\nfunction clr(){for(const k in raw)delete raw[k];$$(\"#sh input\").forEach(i=>i.value=\"\");ref2();$(\"#inf\").className=\"c fb\";$(\"#inf\").textContent=\"Ұяшықты бас.\"}\n\n/* slide 6: task 1 */\nconst I1=[[\"Алматы\",\"Мәтін\"],[\"3,14\",\"Сан\"],[\"15.09.2010\",\"Күн/Уақыт\"],[\"14:30\",\"Күн/Уақыт\"],[\"ИӘ\",\"Логикалық\"],[\"=A1*B1\",\"Формула\"],[\"Информатика\",\"Мәтін\"],[\"-250\",\"Сан\"],[\"ЖОҚ\",\"Логикалық\"],[\"=СУММ(B2:B5)\",\"Формула\"]];\nlet i1=0,busy=0;const R1={g:0,t:10,m:{},d:0};\nfunction t1(){const b=$(\"#t1\");\n if(i1>=10){R1.d=1;b.innerHTML='<div class=\"fb ok\">Тапсырма 1 аяқталды: <b>'+R1.g+' / 10<\/b>. Алға!<\/div>';return}\n b.innerHTML='<div class=\"mut\">'+(i1+1)+' / 10<\/div><div class=\"big\">'+I1[i1][0]+'<\/div>'+T.map(x=>'<button class=\"btn ty\" style=\"--c:'+CL[x]+'\">'+x+'<\/button>').join(\"\")+'<div id=\"f6\"><\/div>';\n $$(\"#t1 .ty\").forEach(k=>k.onclick=()=>a1(k))}\nconst CL={\"Мәтін\":\"#3b82f6\",\"Сан\":\"#f59e0b\",\"Күн/Уақыт\":\"#8b5cf6\",\"Логикалық\":\"#14b8a6\",\"Формула\":\"#ec4899\"};\nfunction a1(k){if(busy)return;busy=1;const r=I1[i1][1],ok=k.textContent==r;\n if(ok)R1.g++;else miss(R1.m,r);\n $$(\"#t1 .ty\").forEach(e=>{if(e.textContent==r)e.classList.add(\"ok\");else if(e==k)e.classList.add(\"no\")});\n $(\"#f6\").innerHTML=ok?'<div class=\"fb ok\">✅ Дұрыс!<\/div>':'<div class=\"fb no\">❌ Қате. Дұрыс жауап: '+r+'<\/div>';\n setTimeout(()=>{i1++;busy=0;t1()},1300)}\nt1();\n\n/* slide 7: task 2 */\nconst E2=[\"Мәтін\",\"Күн/Уақыт\",\"Сан\",\"Логикалық\"],R2={g:0,t:12,m:{},d:0};\n(function(){let h='<tr><th>Аты<\/th><th>Туған күні<\/th><th>Бағасы<\/th><th>Өтті ме?<\/th><\/tr>';\n for(let r=0;r<3;r++)h+='<tr>'+E2.map((e,c)=>'<td><input data-c=\"'+c+'\" style=\"min-width:86px\" autocomplete=\"off\"><\/td>').join(\"\")+'<\/tr>';\n $(\"#t2\").innerHTML=h})();\nfunction chk2(){let g=0,m={},empty=0;\n $$(\"#t2 input\").forEach(i=>{const e=E2[i.dataset.c],ok=typ(i.value)==e;\n  if(!i.value.trim())empty++;i.parentNode.className=ok?\"ok\":\"no\";if(ok)g++;else miss(m,e)});\n R2.g=g;R2.m=m;R2.d=1;\n $(\"#f7\").innerHTML='<div class=\"fb '+(g==12?\"ok\":\"no\")+'\">'+(g==12?\"🎉 Барлығы дұрыс: \":\"Нәтиже: \")+'<b>'+g+' / 12<\/b>'+(g<12?(empty?\" · бос ұяшықтар бар\":\"\")+\". Қызылдарын түзетіп, қайта тексер.\":\"\")+'<\/div>'}\n\n/* slide 8: quiz */\nconst Q=[\n{q:\"Қайсысы санға жатады?\",o:[\"+7 701 123 45 67\",\"125,5\",\"Алма\",\"ИӘ\"],a:1,t:\"Сан\",e:\"125,5 — есептеуге болатын сан. Телефон нөмірі мәтін, «Алма» — мәтін, «ИӘ» — логикалық мән.\"},\n{q:\"12.05.2026 жазбасы қай типке жатады?\",o:[\"Мәтін\",\"Логикалық\",\"Күн/Уақыт\",\"Формула\"],a:2,t:\"Күн/Уақыт\",e:\"Күн.ай.жыл форматы күн ретінде танылады, сондықтан ол оңға туралана-ды.\"},\n{q:\"Формула қай таңбадан басталады?\",o:[\"#\",\"=\",\"@\",\"+7\"],a:1,t:\"Формула\",e:\"Электронды кестеде формула әрқашан «=» таңбасынан басталады, мысалы =A1+B1.\"},\n{q:\"Сан ұяшықта әдепкі бойынша қалай туралана-ды?\",o:[\"Солға\",\"Ортаға\",\"Оңға\",\"Туралана алмайды\"],a:2,t:\"Туралау\",e:\"Сан оң жаққа, мәтін сол жаққа туралана-ды. Бұл — типті көзбен ажыратудың жеңіл жолы.\"},\n{q:\"ИӘ/ЖОҚ мәндері қай типке жатады?\",o:[\"Мәтін\",\"Сан\",\"Күн/Уақыт\",\"Логикалық\"],a:3,t:\"Логикалық\",e:\"Логикалық тип тек екі мән қабылдайды: рас (ИӘ) немесе жалған (ЖОҚ).\"}];\nlet qi=0;const R3={g:0,t:5,m:{},d:0};\nfunction q(){const b=$(\"#qz\");\n if(qi>=5){R3.d=1;b.innerHTML='<div class=\"fb ok\">Тест аяқталды: <b>'+R3.g+' / 5<\/b>. «Алға» — нәтижені көр.<\/div>';return}\n const x=Q[qi];b.innerHTML='<div class=\"mut\">'+(qi+1)+' / 5<\/div><h3>'+x.q+'<\/h3>'+x.o.map(o=>'<button class=\"btn sec blk\">'+o+'<\/button>').join(\"\")+'<div id=\"fq\"><\/div>';\n $$(\"#qz .blk\").forEach((k,j)=>k.onclick=()=>aq(k,j))}\nfunction aq(k,j){const x=Q[qi];if(x.d)return;x.d=1;const ok=j==x.a;\n if(ok)R3.g++;else miss(R3.m,x.t);\n $$(\"#qz .blk\").forEach((e,n)=>{e.disabled=false;if(n==x.a)e.classList.add(\"ok\");else if(e==k)e.classList.add(\"no\")});\n $(\"#fq\").innerHTML='<div class=\"fb '+(ok?\"ok\":\"no\")+'\">'+(ok?\"✅ Дұрыс! \":\"❌ Қате. \")+x.e+'<\/div><button class=\"btn blk\" style=\"text-align:center\" id=\"qn\">'+(qi<4?\"Келесі сұрақ\":\"Аяқтау\")+'<\/button>';\n $(\"#qn\").onclick=()=>{qi++;q()}}\nq();\n\n/* slide 9: results */\nfunction res(){const P=[[\"Тапсырма 1\",R1],[\"Тапсырма 2\",R2],[\"Тест\",R3]];let g=0,t=0,m={},h=\"\";\n P.forEach(([n,r])=>{if(r.d){g+=r.g;t+=r.t;for(const k in r.m)m[k]=(m[k]||0)+r.m[k]}\n  h+='<div class=\"c\" style=\"display:flex;justify-content:space-between\"><span>'+n+'<\/span><b>'+(r.d?r.g+\" / \"+r.t:\"орындалмады\")+'<\/b><\/div>'});\n const p=t?Math.round(g/t*100):0,ks=Object.keys(m).sort((a,b)=>m[b]-m[a]);\n $(\"#rs\").innerHTML='<div class=\"c\"><div class=\"sc\">'+g+' / '+t+'<\/div><div class=\"bar\"><i style=\"width:'+p+'%\"><\/i><\/div><p style=\"text-align:center;margin:8px 0 0\"><b>'+p+'%<\/b> · '+(!t?\"Тапсырмаларды орында\":p>=85?\"Тамаша! 🌟\":p>=60?\"Жақсы, аздап қайталайық\":\"Тақырыпты қайталайық\")+'<\/div>'+h+\n (t?(ks.length?'<div class=\"fb no\">Қате жасалған тақырыптар:<br>'+ks.map(k=>\"• \"+k+\" — \"+m[k]+\" рет\").join(\"<br>\")+'<\/div>':'<div class=\"fb ok\">Қате жоқ! 🎉<\/div>'):\"\")}\n\n/* slide 10 */\nfunction sv(){const t=\"Үйрендім: \"+$(\"#r1\").value+\"\\nҚызық: \"+$(\"#r2\").value+\"\\nСұрақ: \"+$(\"#r3\").value;\n try{localStorage.setItem(\"refl\",t)}catch(e){}\n if(navigator.clipboard)navigator.clipboard.writeText(t).catch(()=>{});\n $(\"#f10\").innerHTML='<div class=\"fb ok\">Рақмет! Рефлексия сақталды. Мәтін көшірілді — мұғалімге жібере аласың.<\/div>'}\ngo(0);\n<\/script>\n<\/body>\n<\/html>\n";
+const box=document.getElementById("dt-box"),fr=document.getElementById("dt-fr"),pick=document.getElementById("kr-pick");let opener=null;
+function dark(){const t=document.documentElement.dataset.theme;return t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches}
+document.getElementById("kr-go-dt").onclick=()=>{opener=document.getElementById("kr-open");pick.close();
+ fr.srcdoc=DT.replace('<html lang="kk">','<html lang="kk" data-theme="'+(dark()?"dark":"light")+'">').replace('if(matchMedia("(prefers-color-scheme: dark)").matches)document.documentElement.dataset.theme="dark";','');
+ box.showModal()};
+document.getElementById("dt-close").onclick=()=>box.close();
+box.addEventListener("close",()=>{fr.srcdoc="";opener&&opener.focus&&opener.focus()});
+})();
+</script>
+</body>
+</html>
