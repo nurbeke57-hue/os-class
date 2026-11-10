@@ -348,7 +348,7 @@ let prog={},beat=null,offUn=null;
 window.awaitClk=false;
 /* server clock offset: taken from the first server-confirmed lastSeen after our own write */
 function syncClock(ref){offUn&&offUn();offUn=onSnapshot(ref,s=>{const d=s.data();
- if(window.awaitClk&&!s.metadata.hasPendingWrites&&d&&d.lastSeen&&d.lastSeen.toMillis){window.srvOff=d.lastSeen.toMillis()-Date.now();window.awaitClk=false}},e=>console.warn(e))}
+ if(window.awaitClk&&!s.metadata.hasPendingWrites&&!s.metadata.fromCache&&d&&d.lastSeen&&d.lastSeen.toMillis){window.srvOff=d.lastSeen.toMillis()-Date.now();window.awaitClk=false}},e=>console.warn(e))}
 async function ping(x){const u=auth.currentUser;if(!u||!u.isAnonymous||!localStorage.osg)return;
  if(x&&x.constructor===Object)Object.assign(prog,x);
  window.awaitClk=true;
