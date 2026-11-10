@@ -457,6 +457,7 @@ document.querySelectorAll(".grid").forEach(g=>g.querySelectorAll(".rise").forEac
 <button type="button" id="kr-go-old" class="kr-btn kr-opt">💻 Операциялық жүйелер (ағылшын тілі)</button>
 <button type="button" id="kr-go-new" class="kr-btn kr-opt kr-pri">🎓 Кредиттік технология (магистратура)</button>
 <button type="button" id="kr-go-dt" class="kr-btn kr-opt">📊 Деректер типтері электронды кестеде (информатика)</button>
+<button type="button" id="kr-go-rb" class="kr-btn kr-opt">🤖 Робототехника және жасанды интеллект (5-сынып)</button>
 <button type="button" id="kr-pick-x" class="kr-btn kr-opt">Жабу</button>
 </dialog>
 
@@ -589,5 +590,138 @@ document.getElementById("dt-close").onclick=()=>box.close();
 box.addEventListener("close",()=>{fr.srcdoc="";opener&&opener.focus&&opener.focus()});
 })();
 </script>
-</body>
-</html>
+
+<!-- ===== RB ADDON: «Робототехника және жасанды интеллект» (5-сынып) ===== -->
+<style>
+#rb-box{border:0;margin:0;padding:0;max-width:none;max-height:none;width:100%;height:100%;background:var(--bg);color:var(--ink);overflow:hidden}
+#rb-box:not([open]){display:none}
+#rb-box[open]{display:flex;flex-direction:column}
+#rb-box::backdrop{background:#000}
+.rb-top{flex:none;display:flex;gap:.6rem;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + .4rem) .8rem .4rem;background:var(--card);border-bottom:1px solid var(--line)}
+.rb-pg{height:.5rem;background:var(--tint);flex:none}.rb-pg i{display:block;height:100%;width:0;background:var(--cs);transition:width .3s}
+.rb-main{flex:1;overflow-y:auto;padding:1rem 1.1rem 1.5rem;-webkit-overflow-scrolling:touch}
+.rb-s{display:none;max-width:760px;margin:0 auto}.rb-s.on{display:block;animation:rbIn .3s}
+@keyframes rbIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+.rb-s h2{font-size:clamp(1.6rem,6vw,2.3rem);margin:.2em 0 .5em}
+.rb-s p{font-size:1.15rem}
+.rb-hero{text-align:center;padding-top:1.5rem}
+.rb-hero .rb-big{font-size:clamp(4rem,22vw,7rem);line-height:1;letter-spacing:.1em}
+.rb-hero h1{font-size:clamp(1.9rem,7vw,3rem);animation:none}
+.rb-card{background:var(--card);border:1px solid var(--line);border-left:8px solid var(--c,var(--cs));border-radius:14px;padding:.8rem 1.1rem;margin:.8rem 0}
+.rb-card b{font-size:1.2rem}
+.rb-grid{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))}
+.rb-ic{font-size:2.4rem;line-height:1}
+.rb-loop{display:flex;flex-direction:column;gap:.5rem;margin:1rem 0}
+.rb-st{display:flex;gap:.8rem;align-items:center;background:var(--card);border:3px solid var(--line);border-radius:16px;padding:.7rem 1rem;font-size:1.15rem;transition:.25s}
+.rb-st.on{border-color:var(--ma);background:var(--tint);transform:scale(1.02)}
+.rb-st span:first-child{font-size:2.2rem}
+.rb-ar{text-align:center;color:var(--muted);font-size:1.4rem;line-height:1}
+.rb-btn{font:inherit;min-height:48px;padding:.4rem 1.1rem;border-radius:99px;border:2px solid var(--cs);background:var(--card);color:var(--ink);font-weight:700;cursor:pointer}
+.rb-btn:hover{background:var(--tint)}.rb-btn.rb-pri{background:var(--cs);color:var(--on-ac)}.rb-btn:disabled{opacity:.4;cursor:not-allowed}
+.rb-nav{flex:none;display:flex;gap:.6rem;padding:.6rem .8rem calc(env(safe-area-inset-bottom,0px) + .6rem);background:var(--card);border-top:1px solid var(--line)}.rb-nav .rb-btn{flex:1}
+.rb-q{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.5rem .8rem;margin:.5rem 0}
+.rb-q span.rb-t{flex:1 1 11rem;font-weight:600}
+.rb-q .rb-btn{min-height:44px;flex:none}
+.rb-q.ok{border-color:var(--ma);background:var(--tint)}.rb-q.no{border-color:#d33}
+.rb-fb{font-weight:700;min-width:1.5rem}
+.rb-sc{font-size:1.5rem;font-weight:800;margin:.6rem 0}
+.rb-eq{display:flex;gap:.5rem;align-items:center;justify-content:center;flex-wrap:wrap;font-size:2.2rem;margin:.8rem 0}
+.rb-eq small{font-size:.9rem;display:block;color:var(--muted);text-align:center}
+</style>
+<dialog id="rb-box" aria-label="Робототехника және жасанды интеллект" lang="kk">
+<div class="rb-top"><button type="button" class="rb-btn" id="rb-x">← Артқа</button><b id="rb-cnt"></b></div>
+<div class="rb-pg"><i id="rb-bar"></i></div>
+<main class="rb-main" id="rb-m">
+
+<section class="rb-s rb-hero">
+<div class="rb-big" aria-hidden="true">🤖🧠</div>
+<h1>Робототехника және жасанды интеллект — бірге!</h1>
+<p>5-сынып · Информатика</p>
+<div class="rb-card" style="--c:var(--ma);text-align:left">🎯 <b>Бүгін білеміз:</b> робот деген не, жасанды интеллект деген не және олар бірге қалай жұмыс істейді.</div>
+<div class="rb-card" style="text-align:left">🤔 <b>Сұрақ:</b> робот өзі «ойлай» ала ма?</div>
+</section>
+
+<section class="rb-s">
+<h2>🤖 Робот деген не?</h2>
+<p><b>Робот</b> — бағдарламамен басқарылатын, қозғала алатын немесе әрекет жасай алатын машина.</p>
+<div class="rb-grid">
+<div class="rb-card" style="--c:#2563eb"><div class="rb-ic">👁️</div><b>Сенсорлар</b><p>Роботтың «сезім мүшелері»: камера, жарық, қашықтық датчигі.</p></div>
+<div class="rb-card" style="--c:#f59e0b"><div class="rb-ic">⚙️</div><b>Моторлар</b><p>Дөңгелектерді, қолды, шеңгелді қозғалтады.</p></div>
+<div class="rb-card" style="--c:#8b5cf6"><div class="rb-ic">🔲</div><b>Контроллер</b><p>Кішкентай компьютер: бағдарламаны орындайды.</p></div>
+</div>
+</section>
+
+<section class="rb-s">
+<h2>🧠 Жасанды интеллект деген не?</h2>
+<p><b>Жасанды интеллект (ЖИ)</b> — компьютердің адам сияқты кейбір істерді үйренуі: суретті тану, сөзді түсіну, шешім қабылдау.</p>
+<div class="rb-card" style="--c:var(--ma)"><b>Қарапайым мысал</b><p>Сен мысықтың көп суретін көрсетсең, ЖИ мысықтың қандай екенін үйренеді. Содан кейін жаңа суреттен де мысықты табады.</p></div>
+<div class="rb-card" style="--c:#ec4899"><b>Есіңде болсын</b><p>ЖИ — бағдарлама. Ол өздігінен қозғала алмайды: оған «дене» керек.</p></div>
+</section>
+
+<section class="rb-s">
+<h2>🤝 Робот + ЖИ</h2>
+<div class="rb-eq" aria-label="Робот дене, жасанды интеллект ми"><div>🦾<small>Робот = дене</small></div><div>+</div><div>🧠<small>ЖИ = ми</small></div><div>=</div><div>🤖✨<small>ақылды робот</small></div></div>
+<p>Ақылды робот үш қадамды қайталап орындайды. Батырманы бас!</p>
+<div class="rb-loop" id="rb-lp">
+<div class="rb-st"><span>👁️</span><span><b>1. Сезеді</b> — сенсор ақпарат жинайды</span></div><div class="rb-ar">⬇</div>
+<div class="rb-st"><span>🧠</span><span><b>2. Ойлайды</b> — ЖИ шешім қабылдайды</span></div><div class="rb-ar">⬇</div>
+<div class="rb-st"><span>🦾</span><span><b>3. Әрекет етеді</b> — моторлар қозғалады</span></div>
+</div>
+<button type="button" class="rb-btn rb-pri" id="rb-step">Келесі қадам ▶</button>
+<p id="rb-ex" aria-live="polite" class="rb-card" style="--c:var(--ma)">Мысалы: робот-шаңсорғыш креслоны көреді → айналып өтуді шешеді → бұрылады.</p>
+</section>
+
+<section class="rb-s">
+<h2>🌍 Өмірдегі мысалдар</h2>
+<div class="rb-grid">
+<div class="rb-card" style="--c:#2563eb"><div class="rb-ic">🧹</div><b>Робот-шаңсорғыш</b><p>Бөлменің картасын жасап, кедергіні айналып өтеді.</p></div>
+<div class="rb-card" style="--c:#f59e0b"><div class="rb-ic">🚗</div><b>Өздігінен жүретін көлік</b><p>Камералар жол белгілерін, адамдарды көреді; ЖИ қозғалысты шешеді.</p></div>
+<div class="rb-card" style="--c:#8b5cf6"><div class="rb-ic">🚁</div><b>Дрон</b><p>Егістікті жоғарыдан түсіріп, суреттерді талдайды.</p></div>
+<div class="rb-card" style="--c:#14b8a6"><div class="rb-ic">🗣️</div><b>Дауыстық көмекші</b><p>Сөзіңді түсініп, жауап береді. Бұл ЖИ, бірақ денесі жоқ.</p></div>
+</div>
+</section>
+
+<section class="rb-s">
+<h2>🎮 Тапсырма: «дене» ме, «ми» ма?</h2>
+<p>Әр жолда таңда: бұл роботтың <b>денесі</b> (🦾) ма, әлде <b>ми</b> (🧠) — ЖИ ма?</p>
+<div id="rb-qz"></div>
+<div class="rb-sc" id="rb-sc" aria-live="polite"></div>
+</section>
+
+<section class="rb-s">
+<h2>🏁 Қорытынды</h2>
+<div class="rb-card" style="--c:#2563eb">1️⃣ Робот — бағдарламамен басқарылатын машина: сенсор, мотор, контроллер.</div>
+<div class="rb-card" style="--c:var(--ma)">2️⃣ Жасанды интеллект — компьютердің үйреніп, шешім қабылдау қабілеті.</div>
+<div class="rb-card" style="--c:#ec4899">3️⃣ Бірге: робот — дене, ЖИ — ми. Олар сезеді → ойлайды → әрекет етеді.</div>
+<div class="rb-card" style="--c:#f59e0b">🏠 <b>Үй тапсырмасы:</b> үйіңдегі ақылды құрылғыны тап (телефон, шаңсорғыш, теледидар) және оның қай бөлігі «сезетінін», қайсысы «ойлайтынын» жаз.</div>
+</section>
+
+</main>
+<nav class="rb-nav"><button type="button" class="rb-btn" id="rb-pv">← Артқа</button><button type="button" class="rb-btn rb-pri" id="rb-nx">Алға →</button></nav>
+</dialog>
+<script>
+(function(){
+const box=document.getElementById("rb-box"),S=[...box.querySelectorAll(".rb-s")],g=id=>document.getElementById(id);
+let cur=0,opener=null,stp=-1;
+function go(n){if(n<0||n>=S.length)return;cur=n;S.forEach((e,i)=>e.classList.toggle("on",i==n));
+ g("rb-bar").style.width=(n+1)/S.length*100+"%";g("rb-cnt").textContent="Слайд "+(n+1)+" / "+S.length;
+ g("rb-pv").disabled=n==0;g("rb-nx").disabled=n==S.length-1;g("rb-m").scrollTop=0}
+g("rb-pv").onclick=()=>go(cur-1);g("rb-nx").onclick=()=>go(cur+1);
+/* робот циклі */
+const EX=["Робот-шаңсорғыш креслоны көреді.","Ол креслоны айналып өтуді шешеді.","Ол бұрылып, жолын жалғастырады."];
+g("rb-step").onclick=()=>{stp=(stp+1)%3;[...g("rb-lp").querySelectorAll(".rb-st")].forEach((e,i)=>e.classList.toggle("on",i==stp));g("rb-ex").textContent="Мысалы: "+EX[stp]};
+/* тапсырма */
+const Q=[["Камера суретті көреді",0],["Суреттегі мысықты тану",1],["Дөңгелектер мен моторлар",0],["Қай жолмен жүруді шешу",1],["Робот-қол затты ұстайды",0],["Сұраққа жауап ойлап табу",1]],R={};
+g("rb-qz").innerHTML=Q.map((q,i)=>`<div class="rb-q" id="rb-q${i}"><span class="rb-t">${q[0]}</span><button type="button" class="rb-btn" data-q="${i}:0" aria-label="Дене: ${q[0]}">🦾 Дене</button><button type="button" class="rb-btn" data-q="${i}:1" aria-label="Ми: ${q[0]}">🧠 Ми</button><span class="rb-fb" id="rb-f${i}" aria-live="polite"></span></div>`).join("");
+g("rb-qz").addEventListener("click",ev=>{const b=ev.target.closest("[data-q]");if(!b)return;
+ const [i,v]=b.dataset.q.split(":").map(Number),ok=Q[i][1]==v;R[i]=ok;
+ const r=g("rb-q"+i);r.className="rb-q "+(ok?"ok":"no");g("rb-f"+i).textContent=ok?"✓":"✗ Қайта көр";
+ const n=Object.values(R).filter(Boolean).length,d=Object.keys(R).length;
+ g("rb-sc").textContent="Дұрыс: "+n+" / "+Q.length+(d==Q.length&&n==Q.length?" 🎉 Тамаша!":"")});
+/* жылжу, жабу */
+let x0,y0;box.addEventListener("touchstart",e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+box.addEventListener("touchend",e=>{if(e.target.closest("button"))return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;
+ if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)go(cur+(dx<0?1:-1))});
+box.addEventListener("keydown",e=>{if(e.key=="ArrowRight")go(cur+1);if(e.key=="ArrowLeft")go(cur-1)});
+g("rb-x").onclick=()=>box.close();
+box.addEventListener("close
