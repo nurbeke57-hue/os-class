@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Оқытудың жаңа технологиялары және білім берудегі инновация</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{font-family:Inter,Roboto,system-ui,sans-serif;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;line-height:1.5;padding-top:env(safe-area-inset-top,0px);overflow:hidden}
+header{display:flex;align-items:center;gap:.6rem;padding:.6rem 1rem;border-bottom:1px solid var(--line);background:var(--surf)}
+header b{flex:1;font-size:.9rem;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.25}
+button{font:inherit;color:inherit;cursor:pointer}
+.ib{border:1px solid var(--line);background:var(--surf);border-radius:8px;padding:.4rem .7rem;display:inline-flex;gap:.4rem;align-items:center}
+.ib:hover{border-color:var(--blue)}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+#bar{height:4px;background:var(--line)}#bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .4s}
+main{flex:1;overflow-y:auto;padding:clamp(1rem,4vw,2.6rem)}
+.slide{max-width:1000px;margin:0 auto;animation:in .4s ease}
+@keyframes in{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.slide{animation:none}}
+.i{width:1.5em;height:1.5em;flex:none}
+.ico{width:46px;height:46px;border-radius:12px;background:var(--tint);color:var(--blue);display:grid;place-items:center;margin-bottom:.5rem}
+.g .ico{background:var(--tint2);color:var(--green)}
+.sec{display:flex;align-items:center;gap:.5rem;color:var(--green);font-weight:700;font-size:.9rem;margin-bottom:.4rem}
+.sec:before{content:"";width:22px;height:4px;border-radius:4px;background:var(--green)}
+h1{font-size:clamp(1.8rem,5vw,3.2rem);line-height:1.15;font-weight:800}
+h2{font-size:clamp(1.4rem,3.4vw,2.3rem);line-height:1.2;font-weight:800;margin-bottom:1rem}
+h3{font-size:1.05rem;margin-bottom:.3rem}
+p,li{font-size:clamp(.98rem,1.5vw,1.1rem)}
+ul,ol{padding-left:1.2rem}li{margin:.25rem 0}
+.mut{color:var(--mut)}.sm{font-size:.92rem!important}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem}
+.ex{margin-top:.5rem;font-size:.92rem;color:var(--mut);border-top:1px dashed var(--line);padding-top:.4rem}
+.ex b{color:var(--green)}
+.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:0;border-radius:18px;overflow:hidden;min-height:58vh;border:1px solid var(--line)}
+.hero .l{background:linear-gradient(135deg,#1f5fbf,#0e8a6b);color:#fff;padding:clamp(1.2rem,4vw,2.5rem);display:flex;flex-direction:column;justify-content:center;gap:.8rem}
+.hero .r{background:var(--surf);padding:clamp(1rem,3vw,2rem);display:flex;flex-direction:column;justify-content:center;gap:.6rem}
+@media(max-width:700px){.hero{grid-template-columns:1fr}}
+.line{padding:.5rem 0;border-bottom:1px solid var(--line)}.line small{display:block;color:var(--mut)}
+.flow{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.8rem 0}
+.flow span{background:var(--tint);padding:.45rem .9rem;border-radius:99px;font-weight:600}
+.flow em{color:var(--green);font-style:normal;font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}.chips span{background:var(--tint2);border-radius:99px;padding:.25rem .7rem;font-size:.9rem}
+.tl{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:1rem}
+@media(max-width:700px){.tl{grid-template-columns:1fr}}
+.tl .card{border-top:5px solid var(--blue)}.tl .card:nth-child(2){border-color:var(--green)}.tl .card:nth-child(3){border-color:var(--warn)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:700px){.split{grid-template-columns:1fr}}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:520px;background:var(--surf)}
+th,td{border:1px solid var(--line);padding:.6rem .8rem;text-align:left;vertical-align:top;font-size:.98rem}
+th{background:var(--tint)}
+.swot{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+@media(max-width:640px){.swot{grid-template-columns:1fr}}
+.swot .card{padding:.7rem .9rem}.swot h3{font-size:1rem}.swot .int{border-left:5px solid var(--blue)}.swot .ext{border-left:5px solid var(--green)}
+svg text{font-family:Inter,sans-serif}
+.node{cursor:pointer}.node rect{fill:var(--tint);stroke:var(--blue);stroke-width:1.5}.node:hover rect,.node:focus rect{fill:var(--tint2);stroke:var(--green)}
+.node text{fill:var(--ink);font-size:13px;font-weight:600}
+.opt{display:block;width:100%;text-align:left;margin:.4rem 0;padding:.7rem 1rem;border:2px solid var(--line);border-radius:10px;background:var(--surf)}
+.opt:hover:not(:disabled){border-color:var(--blue)}
+.opt.ok{border-color:var(--green);background:var(--tint2)}.opt.no{border-color:var(--warn)}
+.fb{margin-top:.5rem;min-height:1.5em}
+details{margin-top:1rem}summary{cursor:pointer;font-weight:700}
+.note{margin-top:1.2rem;border:1px dashed var(--blue);border-radius:12px;padding:.8rem 1rem;background:var(--tint)}
+.note[hidden]{display:none}
+footer{display:flex;align-items:center;gap:.5rem;padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--surf)}
+footer span{flex:1;text-align:center;color:var(--mut);font-size:.9rem}
+.nb{border:1px solid var(--blue);border-radius:10px;padding:.55rem 1.1rem;background:var(--blue);color:var(--on);font-weight:700}
+.nb:disabled{opacity:.4;cursor:default}
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:4;display:none}#ov.on{display:block}
+#menu{position:fixed;inset:0 auto 0 0;width:min(340px,88vw);background:var(--surf);border-right:1px solid var(--line);transform:translateX(-105%);transition:transform .3s;z-index:5;padding:1rem;overflow-y:auto;padding-top:calc(1rem + env(safe-area-inset-top,0px))}
+#menu.open{transform:none}
+#menu h3{margin:.8rem 0 .3rem;color:var(--green)}
+#menu button{display:block;width:100%;text-align:left;padding:.45rem .6rem;border:0;background:none;border-radius:8px;font-size:.95rem}
+#menu button:hover,#menu button.cur{background:var(--tint)}
+
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+header{flex-wrap:wrap}.ib[aria-pressed=true]{background:var(--tint);border-color:var(--blue)}
+.ib[hidden]{display:none}
+:root[data-theme="dark"] .hero .l{color:#fff}
+body{overflow-wrap:anywhere}
+.node:focus-visible rect{stroke:var(--green);stroke-width:3}.node:focus{outline:none}
+#bar{position:relative}
+.opt.ok::after{content:" ✓";font-weight:800}.opt.no::after{content:" ✗";font-weight:800}
+.opt.no{background:rgba(251,146,60,.16)}.opt:disabled{cursor:default;color:var(--ink)}
+.okc{color:var(--green)}.noc{color:var(--warn)}
+.qh{display:flex;gap:.8rem;align-items:center;justify-content:space-between;flex-wrap:wrap;color:var(--mut);font-size:.92rem}
+progress{width:150px;height:10px;accent-color:var(--green)}
+.qt{font-weight:700;margin:.4rem 0}.qt:focus{outline:none}
+.chk{border-left:5px solid var(--warn)}
+.chips .ib{font-size:.9rem}
+.tabs{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}
+.tabs [aria-selected=true]{background:var(--blue);color:var(--on);border-color:var(--blue)}
+.tpv{display:grid;grid-template-columns:200px 1fr;gap:1rem;align-items:start}
+@media(max-width:700px){.tpv{grid-template-columns:1fr}}
+.il{width:100%;height:auto;max-width:240px}
+dl{display:grid;grid-template-columns:max-content 1fr;gap:.25rem .8rem;font-size:.95rem}
+dt{font-weight:700;color:var(--green)}dd{margin:0}
+@media(max-width:700px){dl{grid-template-columns:1fr}dd{margin-bottom:.4rem}}
+.tbar{display:flex;gap:3px;margin:.5rem 0}.tbar span{height:14px;border-radius:4px;background:var(--blue)}.tbar span:nth-child(even){background:var(--green)}
+select,textarea,input[type=range]{font:inherit;color:var(--ink);background:var(--surf);border:1px solid var(--line);border-radius:8px;padding:.35rem .5rem;max-width:100%}
+textarea{width:100%;margin:.3rem 0 .6rem}
+footer select{flex:1;min-width:0}
+output{font-weight:700;margin-left:.6rem}
+#pa{display:none}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{html,body{height:auto;overflow:visible;display:block;background:#fff;color:#000}
+header,footer,#bar,#menu,#ov,main,.vh{display:none!important}#pa{display:block}
+#pa .slide{break-after:page;margin:0 0 1rem;animation:none}#pa .tabs{display:none}#pa .tp{display:block!important}
+#pa .note[hidden]{display:none}.hero{min-height:0}}
+/* ===== CODELAB дизайны ===== */
+:root,:root[data-theme="dark"]{--bg:#0b1020;--surf:#121a30;--ink:#edf3ff;--mut:#9eacc9;--blue:#5795ff;--green:#4de0d0;--tint:#182440;--tint2:#16304a;--line:#293858;--warn:#ff9e71;--on:#0b1020;--sh:0 18px 55px #0005;color-scheme:dark}
+:root[data-theme="light"]{--bg:#f2f6ff;--surf:#fff;--ink:#17223b;--mut:#5d6c89;--blue:#2f6fe0;--green:#0e8a8a;--tint:#edf2ff;--tint2:#e1f5f2;--line:#d8e1f3;--warn:#c2410c;--on:#fff;--sh:0 18px 45px #29416b1c;color-scheme:light}
+body{background:radial-gradient(ellipse at 15% 0%,#1b2d58 0,transparent 38%),radial-gradient(ellipse at 90% 20%,#30245c 0,transparent 32%),var(--bg);transition:.25s}
+:root[data-theme="light"] body{background:radial-gradient(ellipse at 10% 0%,#dce8ff 0,transparent 40%),radial-gradient(ellipse at 90% 20%,#e8ddff 0,transparent 34%),var(--bg)}
+header,footer{background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(16px)}
+header b{letter-spacing:.02em}
+.ib{background:var(--tint);border-radius:12px}
+#bar i{background:linear-gradient(90deg,var(--blue),var(--green),#a78bfa)}
+.card{border-radius:19px;box-shadow:var(--sh)}
+h2{letter-spacing:-.03em}
+.sec{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase}
+th{color:var(--green)}
+.tw{border:1px solid var(--line);border-radius:15px}
+.nb,.tabs [aria-selected=true]{background:linear-gradient(110deg,#477ff0,#7659df);border-color:transparent;color:#fff;border-radius:13px}
+.nb{box-shadow:0 8px 25px #477ff044}
+.hero{border-radius:28px;box-shadow:var(--sh)}
+.hero .l{background:linear-gradient(145deg,#192b50,#261d48);position:relative;overflow:hidden}
+.hero .l>*{position:relative;z-index:1}
+.hero h1{background:linear-gradient(100deg,#8fb8ff,#4de0d0,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .l:before{content:"";position:absolute;right:-70px;bottom:-70px;width:290px;height:290px;border:1px dashed #a78bfa88;border-radius:50%;animation:spin 18s linear infinite}
+.hero .l:after{content:"";position:absolute;right:25px;bottom:25px;width:110px;height:110px;border-radius:50%;border:2px solid #67dcd9;box-shadow:0 0 35px #4de0d055,inset 0 0 35px #4de0d033;animation:pulse 3s infinite}
+/* ===== Анимациялар ===== */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{transform:scale(1.08);box-shadow:0 0 55px #4de0d077,inset 0 0 45px #4de0d055}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+@keyframes growx{from{transform:scaleX(0)}}
+@keyframes lit{0%,20%,100%{background:var(--tint);color:var(--ink);box-shadow:none}4%,16%{background:var(--green);color:var(--on);box-shadow:0 0 18px var(--green)}}
+@keyframes dash{to{stroke-dashoffset:-14}}
+@keyframes hubp{50%{transform:scale(1.07)}}
+@keyframes trav{from{left:0}to{left:calc(100% - 14px)}}
+@keyframes draw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@keyframes fadep{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes blink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes starp{50%{transform:scale(1.5) rotate(72deg)}}
+@keyframes fillp{from{stroke-dashoffset:60}to{stroke-dashoffset:0}}
+.slide .grid>.card,.slide .split>.card,.slide .tl>.card,.slide .swot>.card{animation:rise .5s both}
+.slide .grid>.card:nth-child(2),.slide .split>.card:nth-child(2),.slide .tl>.card:nth-child(2),.slide .swot>.card:nth-child(2){animation-delay:.08s}
+.slide .grid>.card:nth-child(3),.slide .tl>.card:nth-child(3),.slide .swot>.card:nth-child(3){animation-delay:.16s}
+.slide .grid>.card:nth-child(4),.slide .swot>.card:nth-child(4){animation-delay:.24s}
+.slide .grid>.card:nth-child(5){animation-delay:.32s}
+.tbar span{transform-origin:left;animation:growx .9s both}
+.tbar span:nth-child(2){animation-delay:.12s}.tbar span:nth-child(3){animation-delay:.24s}.tbar span:nth-child(4){animation-delay:.36s}.tbar span:nth-child(5){animation-delay:.48s}.tbar span:nth-child(6){animation-delay:.6s}
+.seq>span{animation:lit 6s infinite}
+.seq>span:nth-of-type(2){animation-delay:1.2s}.seq>span:nth-of-type(3){animation-delay:2.4s}.seq>span:nth-of-type(4){animation-delay:3.6s}.seq>span:nth-of-type(5){animation-delay:4.8s}
+.trk{height:4px;background:var(--line);border-radius:4px;position:relative;margin:.4rem 0 1.4rem}
+.trk b{position:absolute;top:-5px;left:0;width:14px;height:14px;border-radius:50%;background:var(--green);box-shadow:0 0 14px var(--green);animation:trav 3.5s ease-in-out infinite alternate}
+.curve{width:100%;max-width:420px;height:auto;display:block;margin:.6rem 0 .2rem}
+.curve path{fill:none;stroke:var(--green);stroke-width:3;stroke-linecap:round;stroke-dasharray:100;animation:draw 4s ease-in-out infinite alternate}
+.flowl line{stroke:var(--blue);stroke-dasharray:6 8;animation:dash 1.2s linear infinite}
+.hub,.star,.eye{transform-box:fill-box;transform-origin:center}
+.hub{animation:hubp 3s ease-in-out infinite}
+.b1,.b2,.ml{animation:fadep 2.4s infinite}.b2{animation-delay:1.2s}
+.eye{animation:blink 3s infinite}.star{animation:starp 3s ease-in-out infinite}
+.lmsp{stroke-dasharray:60;animation:fillp 4s ease-in-out infinite alternate}
+.cbar{height:10px;border-radius:99px;background:var(--line);margin-top:.8rem;overflow:hidden}
+.cbar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--green),#a78bfa);transition:width .5s}
+@media print{:root[data-theme]{--bg:#fff;--surf:#fff;--ink:#000;--mut:#333;--tint:#eee;--tint2:#eee;--line:#bbb;--blue:#1f5fbf;--green:#0e6b55;--on:#fff;--sh:none}html,body{background:#fff!important}.hero .l{background:#1f5fbf}.hero .l:before,.hero .l:after{display:none}.hero h1{background:none;color:#fff}th{color:#000}}
+</style>
+</head>
+<body>
+<header>
+<button class="ib" id="mb" aria-label="Жоспар мәзірі" aria-expanded="false" aria-controls="menu">☰ Жоспар</button>
+<b>Практикалық сабақ №11 · Оқытудың жаңа технологиялары және білім берудегі инновация</b>
+<button class="ib" id="nt" aria-pressed="false" title="Оқытушыға арналған ескертпе (N)" aria-label="Оқытушы ескертпесін көрсету/жасыру">Ескертпе</button>
+<button class="ib" id="fs" aria-pressed="false" aria-label="Толық экран режимі" title="Толық экран (F)">⛶</button>
+<button class="ib" id="pr" aria-label="Басып шығару режимі" title="Басып шығару">🖨</button>
+<button class="ib" id="tb" aria-pressed="false" aria-label="Қараңғы режим">◐</button>
+</header>
+<div id="bar" role="progressbar" aria-label="Презентация прогресі" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
+<div id="ov"></div>
+<nav id="menu" aria-label="Жоспар" inert></nav>
+<main id="main" tabindex="-1"></main>
+<div id="pa" aria-hidden="true"></div><div class="vh" id="lv" aria-live="polite"></div>
+<footer><button class="nb" id="pv">← Алдыңғы</button><select id="jm" aria-label="Слайдқа жылдам өту"></select><button class="nb" id="nx">Келесі →</button></footer>
+<script>
+const P={target:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z",book:"M4 4h12a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4z",bulb:"M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z",laptop:"M4 5h16v11H4zM2 19h20",cap:"M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5",layers:"M12 3l9 5-9 5-9-5zM3 13l9 5 9-5",chart:"M4 20V4M4 20h16M8 16v-5M13 16V8M18 16v-8",users:"M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 20c0-3 3-5 6-5s6 2 6 5M17 8a3 3 0 0 1 0 6M21 20c0-2-1.5-4-4-4.5",cpu:"M7 7h10v10H7zM10 10h4v4h-4zM9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4",phone:"M8 2h8v20H8zM11 19h2",game:"M6 8h12a4 4 0 0 1 4 4v2a3 3 0 0 1-5 2l-1-2H8l-1 2a3 3 0 0 1-5-2v-2a4 4 0 0 1 4-4zM8 10v3M6.5 11.5h3",vr:"M3 8h18v8h-6l-1-2h-4l-1 2H3z",globe:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18",search:"M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM16 16l5 5",flip:"M4 12a8 8 0 0 1 14-5l2-2v6h-6M20 12a8 8 0 0 1-14 5l-2 2v-6h6",folder:"M3 6h7l2 2h9v11H3z",help:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7M12 17h.01",bank:"M3 10l9-6 9 6M5 10v8M10 10v8M14 10v8M19 10v8M3 20h18",up:"M12 20V6M6 12l6-6 6 6",check:"M5 12l5 5 9-10",clock:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"};
+const I=n=>`<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${P[n]}"/></svg>`;
+const C=(ic,t,d,k='',ex='')=>`<div class="card ${k}"><div class="ico">${I(ic)}</div><h3>${t}</h3><p class="mut sm">${d}</p>${ex?`<p class="ex"><b>Мысал:</b> ${ex}</p>`:''}</div>`;
+const nodes=[["Кредиттік және модульдік",6,"cap"],["АКТ және LMS",7,"laptop"],["Белсенді әдістер",8,"users"],["Жасанды интеллект, VR/AR",9,"cpu"],["Геймификация",9,"game"],["Мобильді оқыту",9,"phone"]];
+const pos=[[300,45],[485,115],[485,245],[300,315],[115,245],[115,115]];
+const info=`<svg viewBox="0 0 600 360" role="group" aria-label="Жаңа технологиялар схемасы" style="width:100%;height:auto"><g class="flowl" stroke="var(--line)" stroke-width="2">${pos.map(p=>`<line x1="300" y1="180" x2="${p[0]}" y2="${p[1]}"/>`).join('')}</g><circle class="hub" cx="300" cy="180" r="62" fill="var(--blue)"/><circle r="5" fill="var(--green)"><animateMotion dur="6s" repeatCount="indefinite" path="M300 100a80 80 0 1 1 -.1 0"/></circle><text x="300" y="175" text-anchor="middle" fill="var(--on)" font-size="14" font-weight="800">Жоғары мектеп</text><text x="300" y="194" text-anchor="middle" fill="var(--on)" font-size="14" font-weight="800">технологиялары</text>${nodes.map((n,k)=>`<g class="node" tabindex="0" role="button" data-go="${n[1]}" aria-label="${n[0]} — ${n[1]+1}-слайдқа өту"><rect x="${pos[k][0]-80}" y="${pos[k][1]-22}" width="160" height="44" rx="12"/><text x="${pos[k][0]}" y="${pos[k][1]+5}" text-anchor="middle">${n[0]}</text></g>`).join('')}</svg>`;
+/* ===== Күй (localStorage қатесіз жұмыс істейді) ===== */
+const mem={};
+const st={g(k){let v=null;try{v=localStorage.getItem(k)}catch(e){}return v??mem[k]??null},s(k,v){mem[k]=v;try{localStorage.setItem(k,v)}catch(e){}}};
+let D={sl:0,note:0,q:null,rf:{},rb:[null,null,null,null,null],cr:5};
+try{const x=JSON.parse(st.g('p11')||'{}');if(x&&typeof x==='object')D=Object.assign(D,x)}catch(e){}
+if(!Array.isArray(D.rb)||D.rb.length!==5)D.rb=[null,null,null,null,null];
+if(!D.rf||typeof D.rf!=='object')D.rf={};
+if(!(D.cr>=1&&D.cr<=30))D.cr=5;
+const save=()=>st.s('p11',JSON.stringify(D));
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuf=a=>{a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a};
+const grade=p=>p>=90?['Жоғары деңгей','негізгі ұғымдар еркін қолданылады']:p>=75?['Жақсы деңгей','негізгі идеялар меңгерілген, жекелеген тақырыптарды нақтылаңыз']:p>=60?['Базалық деңгей','ұғымдарды мысалмен бекіту қажет']:['Қосымша қайталау қажет','төмендегі слайдтарға оралып, тестті қайта тапсырыңыз'];
+const crTxt=c=>`${c} кредит ≈ ${c*25}–${c*30} сағат студент жұмысы`;
+
+/* ===== Иллюстрациялар (сыртқы сурет жоқ, офлайн жұмыс істейді) ===== */
+const ill=t=>{const m={
+ai:'<rect class="b1" x="18" y="16" width="80" height="22" rx="8" fill="var(--blue)"/><rect class="b2" x="62" y="48" width="80" height="22" rx="8" fill="var(--green)"/><path d="M28 27h50M72 59h50" stroke="var(--on)" stroke-width="3" stroke-linecap="round"/>',
+vr:'<rect x="30" y="28" width="100" height="36" rx="12" fill="var(--blue)"/><circle class="eye" cx="62" cy="46" r="9" fill="var(--on)"/><circle class="eye" cx="98" cy="46" r="9" fill="var(--on)"/><path d="M50 70l30 10 30-10" stroke="var(--green)" stroke-width="3" fill="none"/>',
+game:'<path d="M60 20h40v18a20 20 0 0 1-40 0zM80 58v12M62 74h36" stroke="var(--green)" stroke-width="4" fill="var(--tint2)" stroke-linecap="round"/><path class="star" d="M80 28l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="var(--blue)"/>',
+mob:'<rect x="58" y="10" width="44" height="70" rx="8" fill="var(--surf)" stroke="var(--blue)" stroke-width="3"/><path class="ml" d="M68 28h24M68 40h24M68 52h14" stroke="var(--green)" stroke-width="3" stroke-linecap="round"/>',
+lms:'<rect x="14" y="12" width="132" height="66" rx="6" fill="var(--surf)" stroke="var(--blue)" stroke-width="2"/><path d="M14 26h132" stroke="var(--blue)" stroke-width="2"/><rect x="22" y="34" width="38" height="14" rx="3" fill="var(--blue)"/><rect x="66" y="34" width="38" height="14" rx="3" fill="var(--green)"/><rect x="110" y="34" width="28" height="14" rx="3" fill="var(--blue)"/><path d="M22 62h100" stroke="var(--line)" stroke-width="4" stroke-linecap="round"/><path class="lmsp" d="M22 62h60" stroke="var(--green)" stroke-width="4" stroke-linecap="round"/>'}[t];
+return `<svg class="il" viewBox="0 0 160 90" aria-hidden="true"><rect x="1" y="1" width="158" height="88" rx="10" fill="var(--tint)" stroke="var(--line)"/>${m}</svg>`};
+
+/* ===== 10 сұрақ: [деңгей, слайд №, сұрақ, жауаптар, дұрысы, түсіндірме] ===== */
+const LV=['Білу және түсіну','Қолдану','Талдау және бағалау'];
+const Q=[
+[1,4,'Төмендегі тұжырымның қайсысы инновацияны новациядан дұрыс ажыратады?',['Инновация — жаңалықтың практикаға енгізілуі және нәтиже беруі','Инновация — кез келген жаңа идея','Новация — нәтижесі өлшенген, енгізілген жаңалық'],0,'Новация — жаңа идея; инновация — сол идеяның енгізілуі және нәтижесінің өлшенуі (OECD/Eurostat, 2018; Rogers, 2003).'],
+[1,3,'Төмендегілердің қайсысы әдістен гөрі технологияның белгісі?',['Кезеңдері, диагностикасы және күтілетін нәтижесі алдын ала жоспарланған жүйелі тізбек','Сабақтың бір кезеңінде қолданылатын жеке тәсіл','Сабақта қолданылатын бағдарламалық құрал'],0,'Технология — мақсаттан нәтижеге дейінгі жүйелі, қайталанатын процесс (Беспалько, 1989; Селевко, 1998). Жеке тәсіл — әдіс, бағдарлама — құрал.'],
+[1,7,'ECTS кредиті нені өлшейді?',['Студенттің жалпы оқу жүктемесін (аудиториялық және өзіндік жұмыс)','Оқытушының дәріс сағатын','Пәннің күрделілігін'],0,'ECTS кредиті — күтілетін оқу нәтижесіне жету үшін қажет студент жұмысының көлемі; бір оқу жылы — 60 кредит (ECTS Users’ Guide, 2015).'],
+[2,9,'Студент бейнедәрісті үйде көріп, аудиторияда есеп шығарады. Бұл қай модель?',['Аударылған сынып (flipped classroom)','Проблемалық оқыту','Кредиттік технология'],0,'Теория — сабақтан бұрын үйде, практика мен талқылау — сабақта (Bergmann & Sams, 2012).'],
+[2,7,'Пәннің көлемі 6 ECTS кредит. ECTS бойынша студенттің жүктемесі шамамен қанша?',['150–180 сағат','60–72 сағат','300–360 сағат'],0,'1 кредит ≈ 25–30 сағат, сондықтан 6 × 25 = 150 және 6 × 30 = 180 сағат.'],
+[2,4,'Университет бұрыннан бар тестке автоматты кері байланыс қосты. Бұл «жаңа / жаңартылған / модификацияланған» жіктемесінің қайсысы?',['Жаңартылған','Жаңа','Модификацияланған'],0,'Бар тәсілді жетілдіру — жаңартылған инновация. Принципті жаңа тәсіл «жаңа», ал басқа жерде сыналғанды бейімдеу «модификацияланған» болар еді.'],
+[2,8,'Оқытушы студенттердің бір-біріне жазбаша пікір беруін қалайды. Moodle-дің қай мүмкіндігі орынды?',['Workshop (өзара бағалау) модулі','Тек файл жүктейтін ресурс','Күнтізбе блогы'],0,'Moodle Workshop тапсырманы студенттердің бір-бірін критерий бойынша бағалауына мүмкіндік береді.'],
+[3,12,'Университет жаңа LMS енгізді, бірақ оқытушылардың цифрлық дағдысы біркелкі емес. Бұл SWOT-та қайда жатады және қай шара тиімдірек?',['Әлсіз жақ (ішкі): оқытушыларға арналған үздіксіз оқыту және әріптестік қолдау','Қауіп (сыртқы): LMS-ті басқа жүйеге ауыстыру','Мүмкіндік (сыртқы): студент санын арттыру'],0,'Дағды деңгейі — ұйымның өз ішіндегі фактор (Weakness). Оны шешу — оқыту мен қолдау, ал жүйені ауыстыру себепті емес, салдарды өзгертеді.'],
+[3,13,'LMS-ке ЖИ-көмекші енгізу пилотының әсерін қай көрсеткіш ең дұрыс көрсетеді?',['Пилоттан бұрынғы және кейінгі оқу нәтижелерін, студент қанағаттануын салыстыру','Платформада тіркелген аккаунт саны','Сатып алынған лицензия саны'],0,'Инновацияның белгісі — өлшенетін нәтиже. Аккаунт пен лицензия саны қолдануды көрсетеді, бірақ оқу сапасының өзгеруін көрсетпейді.'],
+[3,10,'Студент ЖИ жазған мәтінді өз жұмысы ретінде тапсырды. Қай шешім педагогикалық тұрғыдан тиімдірек?',['ЖИ қолдану ережесін алдын ала белгілеп, жұмыс процесін (жоба, қорғау, портфолио) бағалау','ЖИ-детектор нәтижесіне ғана сүйену','Мәселені елемеу'],0,'ЖИ-детекторлар сенімсіз болуы мүмкін; айқын ереже мен процесті бағалау академиялық адалдықты жақсартады (UNESCO, 2023).']];
+const newQ=()=>{D.q={p:Q.map(q=>shuf(q[3].map((_,m)=>m))),a:Q.map(()=>null),i:0};save()};
+const okAt=k=>D.q.a[k]!=null&&D.q.p[k][D.q.a[k]]===Q[k][4];
+function qz(z){if(!D.q||!D.q.p||D.q.p.length!==Q.length||D.q.a.length!==Q.length)newQ();const d=D.q;
+if(d.i>=Q.length)return res(z);
+const q=Q[d.i],pm=d.p[d.i],a=d.a[d.i],n=d.a.filter(x=>x!=null).length;
+let h=`<div class="qh"><span>Сұрақ ${d.i+1} / ${Q.length} · ${LV[q[0]-1]}</span><span>Аяқталуы: ${n} / ${Q.length} <progress max="${Q.length}" value="${n}" aria-label="Тестті аяқтау"></progress></span></div><p class="qt" tabindex="-1" id="qt${d.i}">${esc(q[2])}</p><div role="group" aria-labelledby="qt${d.i}">`;
+pm.forEach((m,j)=>{let c='opt';if(a!=null){if(m===q[4])c+=' ok';else if(j===a)c+=' no'}h+=`<button class="${c}" data-j="${j}" ${a!=null?'disabled':''}>${esc(q[3][m])}</button>`});
+h+='</div><p class="fb" role="status">'+(a!=null?(okAt(d.i)?'<b class="okc">Дұрыс.</b> ':'<b class="noc">Қате.</b> ')+esc(q[5]):'')+'</p>';
+if(a!=null)h+=`<button class="ib" data-nx>${d.i===Q.length-1?'Нәтижені көру':'Келесі сұрақ'}</button>`;
+z.innerHTML=h}
+function res(z){const lv=[[0,0],[0,0],[0,0]],w=new Set();let t=0;
+Q.forEach((q,k)=>{lv[q[0]-1][1]++;if(okAt(k)){t++;lv[q[0]-1][0]++}else w.add(q[1])});
+const p=Math.round(t/Q.length*100),g=grade(p);
+z.innerHTML=`<div class="card g"><h3>Нәтиже: ${t} / ${Q.length} · ${p}%</h3><p><b>${g[0]}</b> — ${g[1]}.</p><ul class="sm">${lv.map((x,k)=>`<li>${k+1}-деңгей · ${LV[k]}: ${x[0]} / ${x[1]} (${Math.round(x[0]/x[1]*100)}%)</li>`).join('')}</ul></div>`+(w.size?`<div class="card chk" style="margin-top:.8rem"><h3>Қайталауға ұсынылатын тақырыптар</h3><div class="chips">${[...w].sort((a,b)=>a-b).map(s=>`<button class="ib" data-go="${s-1}">${s}. ${S[s-1].t}</button>`).join('')}</div></div>`:'<p class="sm">Қате жауап жоқ: барлық тақырып меңгерілген.</p>')+'<button class="ib" style="margin-top:.8rem" data-rs>Қайта тапсыру</button>'}
+function qzc(e,z){const b=e.target.closest('button');if(!b||b.dataset.go!=null)return;const d=D.q;
+if(b.dataset.j!=null&&d.a[d.i]==null){d.a[d.i]=+b.dataset.j;save();qz(z);fin();const n=z.querySelector('[data-nx]');if(n)n.focus()}
+else if(b.hasAttribute('data-nx')){d.i++;save();qz(z);const t=z.querySelector('.qt');if(t)t.focus()}
+else if(b.hasAttribute('data-rs')){newQ();qz(z);fin();const t=z.querySelector('.qt');if(t)t.focus()}}
+
+/* ===== Технологиялар қойындылары (10-слайд) ===== */
+const R=['Мүмкіндіктері','Артықшылығы','Шектеуі','Педагогикалық қолданылуы','Тәуекелі'];
+const T=[
+['ai','ЖИ','Жасанды интеллект (AI)',['жеке кері байланыс, тапсырма нұсқаларын жасау, тілдік қолдау','жылдам кері байланыс, жекелендіру (Zawacki-Richter ж.б., 2019)','қате немесе ойдан шығарылған жауап («галлюцинация»); пән контексін толық ескермейді','студент шикі жобаны жібереді → ЖИ алғашқы пікір береді → студент дереккөзбен тексеріп түзетеді','академиялық адалдық; дербес деректерді сыртқы сервиске беру (ҚР «Дербес деректер туралы» Заңы, 2013); ақпарат дұрыстығы']],
+['vr','VR/AR','Виртуалды және толықтырылған шындық (VR/AR)',['виртуалды зертхана, 3D модель, симуляция','қауіпті немесе қымбат жағдайды қауіпсіз қайталау (Radianti ж.б., 2020)','жабдық құны, техникалық дайындық, кейбіреулерге жайсыздық','анатомия, химия, инженерия: AR-модельді айналдырып зерттеу','оқу мақсатынсыз қолдану («жаңалық әсері»), қолжетімділік теңсіздігі']],
+['game','Геймификация','Геймификация (gamification)',['ұпай, деңгей, бейдж, квиз-жарыс: ойын емес контекстегі ойын элементтері (Deterding ж.б., 2011)','қатысу мотивациясы, жедел кері байланыс','әсері мәнмәтінге тәуелді; сыртқы марапатқа тәуелділік','модуль «деңгейлері», тақырыпты қайталауға квиз-жарыс','бәсекелестік стресс; жария рейтинг студент деректерін ашады']],
+['mob','Мобильді','Мобильді оқыту (m-learning)',['микрооқыту, еске салғыш, офлайн материал','кез келген жерде, қысқа уақытта оқу','шағын экран, назардың алаңдауы','5 минуттық тапсырма, фото-есеп, қысқа тест','цифрлық теңсіздік; деректер мен трафик шығыны']]];
+const tabs=`<div class="tabs" role="tablist" aria-label="Технологиялар">${T.map((t,k)=>`<button class="ib" role="tab" id="tt${k}" aria-selected="${k===0}" aria-controls="tp${k}" data-tab="${k}">${t[1]}</button>`).join('')}</div>`+T.map((t,k)=>`<div class="tp card" role="tabpanel" id="tp${k}" aria-labelledby="tt${k}" ${k?'hidden':''}><div class="tpv">${ill(t[0])}<div><h3>${t[2]}</h3><dl>${R.map((r,j)=>`<dt>${r}</dt><dd>${t[3][j]}</dd>`).join('')}</dl></div></div></div>`).join('');
+
+/* ===== Рубрика (13-слайд) ===== */
+const RB=[
+['Мәселені анықтау','Мәселе нақты, себебі мен мүдделі тараптар көрсетілген','Мәселе айтылған, бірақ жалпы немесе себебі жоқ','Мәселе анықталмаған немесе кейске сәйкес емес'],
+['SWOT талдау','Төрт бөлімде ішкі/сыртқы факторлар дұрыс бөлінген, әрқайсысында ≥2 мысал','Бөлімдер бар, бірақ факторлар араласқан немесе мысал аз','SWOT жоқ немесе негізінен қате'],
+['Инновациялық шешім','Шешім мәселені шешеді, SWOT-пен байланысты, енгізу қадамдары бар','Шешім бар, бірақ қадамдары немесе SWOT-пен байланысы әлсіз','Жалпы ұсыныс, нақты қадамсыз'],
+['Тәуекелдерді бағалау','≥2 тәуекел (мысалы, дербес деректер, қарсылық) және оларды азайту шарасы','Тәуекел аталған, бірақ шара жоқ','Тәуекел қарастырылмаған'],
+['Өлшеу көрсеткіштері','≥2 өлшенетін көрсеткіш, бастапқы мән мен мерзім көрсетілген','Көрсеткіш бар, бірақ өлшенбейді немесе мерзімсіз','Көрсеткіш жоқ']];
+const rubric=`<div class="tw"><table><tr><th>Критерий</th><th>2 ұпай</th><th>1 ұпай</th><th>0 ұпай</th><th>Өзіндік баға</th></tr>${RB.map((r,k)=>`<tr><th>${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td><select data-rb="${k}" aria-label="${r[0]}: ұпай"><option value="">—</option>${[2,1,0].map(v=>`<option value="${v}" ${D.rb[k]===v?'selected':''}>${v}</option>`).join('')}</select></td></tr>`).join('')}</table></div><p style="margin-top:.5rem">Жиынтық (10 ұпайдан): <b data-rbt></b></p>`;
+
+/* ===== Слайдтар (m — минут; қосындысы 80) ===== */
+const plan=[['Кіріспе',5],['Теория',25],['Технологияларды талдау',15],['Практикалық жұмыс',20],['Тест',10],['Рефлексия',5]];
+const S=[
+{s:'',t:'Титул',m:1,n:'Тақырып пен сабақ форматын таныстыру. Сабақтың жалпы ұзақтығы — 80 минут.',h:`<div class="hero"><div class="l"><p>Практикалық сабақ №11</p><h1>Оқытудың жаңа технологиялары және білім берудегі инновация</h1></div><div class="r"><div class="line"><small>Орындаған студент</small>Ерғали Нұрбек</div></div></div>`},
+{s:'',t:'Мақсат және жоспар',m:4,n:'Кіріспе блогы (1+4 = 5 мин). Уақыт бөлінісін көрсетіңіз: 11-ші және 12-ші слайдтар теория блогына (25 мин) есептелген. Нәтижелерді соңында тапсырма мен тест арқылы тексереміз.',h:`<h2>Сабақтың мақсаты мен жоспары</h2><div class="grid">${C('target','Мақсаты','Технология мен инновация ұғымдарын ажырату, жаңа технологияларды талдау, өз пәніне бейімдеу.','b')}${C('check','Күтілетін нәтиже','Студент: 1) инновация түрін мысалмен атайды; 2) технология, әдіс, инновацияны салыстырады; 3) кейсті SWOT арқылы талдап, шешім мен көрсеткіш ұсынады.','g')}</div><div class="card" style="margin-top:1rem"><h3>Сабақ жоспары · 80 минут</h3><div class="tbar" role="img" aria-label="80 минуттық жоспар">${plan.map(p=>`<span style="flex:${p[1]}"></span>`).join('')}</div><div class="chips">${plan.map(p=>`<span>${p[0]} — ${p[1]} мин</span>`).join('')}</div></div>`},
+{s:'1-бөлім',t:'«Технология» ұғымы',m:7,n:'Теория (7 мин). 1 минут: «Технология мен әдістің айырмашылығы қандай?» Кестедегі мысалды бір сабақ үстінде көрсетіңіз. Анықтамалар — түпнұсқаны тексеріңіз (әдебиеттер тізімі).',h:`<h2>«Технология» ұғымы (technology)</h2><div class="flow seq"><span>techne — өнер, шеберлік</span><em>+</em><span>logos — ілім</span></div><div class="grid">${C('book','ЮНЕСКО','Оқыту мен үйренуді нақты мақсатқа сай жобалау, жүзеге асыру және бағалаудың жүйелі тәсілі (1986 ж. кең қолданылатын анықтама).','b')}${C('book','В.П. Беспалько','Оқу процесінің жобасы: нәтиже алдын ала жоспарланады және қайталануы мүмкін.','g')}${C('book','Г.К. Селевко','Мақсатқа жету үшін қолданылатын әдіс, тәсіл мен құралдардың жүйесі.','b')}</div><h3 style="margin-top:1rem">Әдіс, технология, әдістеме, құрал</h3><div class="tw"><table><tr><th>Ұғым</th><th>Қандай сұраққа жауап береді?</th><th>Мысал (бір сабақта)</th></tr><tr><th>Құрал</th><td>Немен?</td><td>Moodle форумы, видео</td></tr><tr><th>Әдіс</th><td>Қалай әрекет етеміз?</td><td>Кейс-стади</td></tr><tr><th>Технология</th><td>Мақсаттан нәтижеге қандай жүйелі тізбекпен жетеміз?</td><td>Кейс беру → жеке талдау → топта талқылау → бағалау → рефлексия</td></tr><tr><th>Әдістеме</th><td>Пәнді оқытудың қандай ғылыми принциптері мен әдістері жүйесі бар?</td><td>«Педагогика» пәнін оқыту әдістемесі</td></tr></table></div>`},
+{s:'1-бөлім',t:'«Инновация» ұғымы',m:6,n:'Теория (6 мин). Студенттерден өз пәнінен новация мысалын сұраңыз, содан кейін «оны қалай инновацияға айналдырамыз?» деп сұраңыз. Жіктеме дереккөзі түпнұсқада тексеруді қажет етеді.',h:`<h2>«Инновация» ұғымы (innovation)</h2><div class="split"><div class="card b"><h3>Новация (novelty)</h3><p class="mut sm">Жаңа идея, тәсіл немесе құрал: әлі енгізілмеген, әсері белгісіз.</p><p class="ex"><b>Мысал:</b> «Студенттерге ЖИ-чатбот ұсынсақ қайтеді?» деген идея.</p></div><div class="card g"><h3>Инновация</h3><p class="mut sm">Жаңалықтың практикаға енгізілуі және нәтижесінің өлшенуі. OECD/Eurostat (2018): жаңа немесе айтарлықтай жақсартылған өнім не процесс, қолданысқа енгізілгені.</p><p class="ex"><b>Мысал:</b> сол чатбот бір семестр пилотқа енгізіліп, тапсырма орындау үлесі мен қанағаттану сауалнамасы салыстырылды.</p></div></div><div class="flow seq" role="img" aria-label="Идея → пилот → енгізу → бағалау"><span>Идея</span><em>→</em><span>пилот</span><em>→</em><span>енгізу</span><em>→</em><span>бағалау</span></div><div class="trk" aria-hidden="true"><b></b></div><h3 style="margin-top:1rem">Инновация түрлері (мазмұны бойынша)</h3><div class="tl"><div class="card"><h3>Жаңа</h3><p class="mut sm">Принципті жаңа тәсіл.</p><p class="ex"><b>Мысал:</b> ЖИ-тьютор арқылы жеке траектория</p></div><div class="card"><h3>Жаңартылған</h3><p class="mut sm">Бар тәсілді жетілдіру.</p><p class="ex"><b>Мысал:</b> тестке автоматты кері байланыс қосу</p></div><div class="card"><h3>Модификацияланған</h3><p class="mut sm">Басқа жерде сыналғанды өз жағдайына бейімдеу.</p><p class="ex"><b>Мысал:</b> шетелдік кейсті қазақстандық деректермен қолдану</p></div></div><div class="card chk" style="margin-top:.8rem"><p class="sm"><b>Тексеру қажет:</b> «жаңа / жаңартылған / модификацияланған» жіктемесі орыс және қазақ тілді педагогикалық әдебиетте жиі кездеседі; нақты авторын түпнұсқадан растау керек. Халықаралық негіз — Rogers (2003): жаңалықты қабылдаушылар санаттары.</p><svg class="curve" viewBox="0 0 400 70" aria-hidden="true"><path pathLength="100" d="M5 65C80 65 110 8 200 8S320 65 395 65"/></svg><div class="chips seq"><span>Инноваторлар</span><span>Ерте қабылдаушылар</span><span>Ерте көпшілік</span><span>Кеш көпшілік</span><span>Қалыс қалғандар</span></div></div>`},
+{s:'1-бөлім',t:'Салыстырмалы кесте',m:4,n:'Теория (4 мин). Кестені алдымен студенттер өздері толтырсын (1 мин), содан кейін слайдпен салыстырыңыз. Ескерту: бір тәсіл бір уақытта әдіс те, инновация да бола алады.',h:`<h2>Технология, әдіс және инновация</h2><div class="tw"><table><tr><th></th><th>Технология</th><th>Әдіс</th><th>Инновация</th></tr><tr><th>Мақсаты</th><td>Нәтижеге жеткізетін жүйелі процесс құру</td><td>Нақты оқу міндетін шешу тәсілі</td><td>Практиканы сапалы жақсарту</td></tr><tr><th>Құрылымы</th><td>Кезеңдер, диагностика, нәтиже критерийі</td><td>Әрекеттер тәртібі, кезеңдері икемді</td><td>Идея → пилот → енгізу → бағалау</td></tr><tr><th>Қолдану аясы</th><td>Модуль немесе тұтас курс</td><td>Сабақтың нақты кезеңі</td><td>Кафедра, бағдарлама, университет</td></tr><tr><th>Нәтижесі</th><td>Қайталанатын сапа</td><td>Студенттің нақты әрекеті мен түсінуі</td><td>Өлшенген сапалық өзгеріс</td></tr><tr><th>Мысал</th><td>Модульдік оқыту алгоритмі</td><td>Кейс-стади</td><td>Модульдік жүйеге ЖИ-көмекшіні енгізу</td></tr></table></div>`},
+{s:'2-бөлім',t:'Жаңа технологиялар шолуы',m:2,n:'Технологияларды талдау (2 мин). Схемадағы блокты басып немесе Enter/Space арқылы тиісті слайдқа өтіңіз. Артқа Back батырмасымен қайтуға болады.',h:`<h2>Жаңа технологиялардың шолуы</h2><p class="mut sm">Блокты басыңыз (немесе Enter / Space): тиісті слайдқа өтесіз.</p>${info}`},
+{s:'2-бөлім',t:'Кредиттік және модульдік оқыту',m:3,n:'Технологияларды талдау (3 мин). Жұп жұмыс (1 мин): пәніңізден бір модульді 3 бөлікке бөліңіз. Калькуляторды қолданыңыз. Қазақстандық кредит өлшемін ағымдағы нормативтен тексеріңіз.',h:`<h2>Кредиттік және модульдік оқыту</h2><div class="grid">${C('cap','Кредиттік технология (credit system)','Студент пәнді таңдайды, жүктеме кредитпен өлшенеді. ECTS: бір оқу жылы — 60 кредит, 1 кредит ≈ 25–30 сағат (ECTS Users’ Guide, 2015).','b','таңдау пәні арқылы жеке траектория')}${C('layers','Модульдік оқыту (modular)','Мазмұн аяқталған модульдерге бөлінеді: мақсат, материал, бақылау.','g','«Педагогикалық психология» пәнін 4 модульге бөлу')}${C('users','Өзіндік жұмыс және траектория','Кредит жүктемесіне аудиториялық сағаттан бөлек дайындық, жоба, емтихан да кіреді. Таңдау компонентін әртүрлі таңдаған студенттердің траекториясы әртүрлі болады.','b')}</div><div class="card" style="margin-top:1rem"><h3>Кредит калькуляторы</h3><label>Кредит саны: <input type="range" min="1" max="30" value="${D.cr}" data-cr aria-label="Кредит саны"><output aria-live="polite">${crTxt(D.cr)}</output></label><div class="cbar" aria-hidden="true"><i style="width:${D.cr/30*100}%"></i></div></div><div class="flow seq"><span>Модуль</span><em>→</em><span>Кредит</span><em>→</em><span>Бағалау</span></div><p class="chk card sm"><b>Тексеру қажет:</b> ҚР ұлттық кредит өлшемі мен ECTS сәйкестігі нормативтік құжаттарда өзгеруі мүмкін; adilet.zan.kz сайтынан ағымдағы бұйрықты қараңыз.</p>`},
+{s:'2-бөлім',t:'АКТ',m:3,n:'Технологияларды талдау (3 мин). Қай құралды қай педагогикалық мақсатқа қолданатынын талқылаңыз: құрал емес, мақсат бірінші.',h:`<h2>Ақпараттық-коммуникациялық технологиялар (АКТ / ICT)</h2><div class="split"><div class="card">${ill('lms')}<p class="mut sm">Сұлба: LMS курс беті — модульдер мен орындалу прогресі.</p></div><div class="flow seq" style="align-content:start"><span>Мақсат</span><em>→</em><span>Әрекет</span><em>→</em><span>Құрал</span></div></div><div class="grid">${C('book','Moodle (ашық кодты LMS)','Quiz — автоматты тест пен кері байланыс; Workshop — өзара бағалау; форум; орындалуды бақылау.','b','пікірталас форумына рубрика қосу')}${C('folder','Google Classroom','Тапсырма беру, рубрика, жеке пікір, Drive құжаттарымен жұмыс.','g','жоба жұмысына қадамдап кері байланыс')}${C('users','Zoom / Teams','Онлайн дәріс, топтық бөлмелер (breakout rooms), жазба.','b','10 минуттық топтық талқылау')}${C('laptop','Platonus және ЖОО жүйелері','Қазақстанда ЖОО-да академиялық жүйелер (журнал, кредит) қолданылады; қолдану аясы университетке байланысты.','g')}</div>`},
+{s:'2-бөлім',t:'Белсенді әдістер',m:4,n:'Технологияларды талдау (4 мин). Әр әдіс үшін сұрақ: «Қай пәнде орынды?» Критерий — студенттің нақты әрекеті. Freeman ж.б. (2014) мета-талдауын атаңыз.',h:`<h2>Белсенді әдістер (active methods)</h2><div class="tw"><table><tr><th>Әдіс</th><th>Сабақ сценарийі</th><th>Оқытушы әрекеті</th><th>Студент әрекеті</th></tr><tr><th>Проблемалық оқыту</th><td>«Неге студенттер форумға жазбайды?» — гипотеза және дерек</td><td>Мәселе қояды, бағыттайды</td><td>Гипотеза құрады, дерек жинайды</td></tr><tr><th>Кейс-стади</th><td>LMS енгізу кейсі: рөлдер бойынша талдау</td><td>Кейс пен рөл береді, модераторлайды</td><td>Талдайды, шешім ұсынады</td></tr><tr><th>Жоба әдісі</th><td>Пәнге 5 минуттық микрооқыту курсы</td><td>Критерий мен кезеңдерді белгілейді</td><td>Жоспарлайды, өнім жасап, қорғайды</td></tr><tr><th>Аударылған сынып</th><td>Үйде 10 минуттық бейне + тест; сабақта есеп</td><td>Материал дайындайды, сабақта қолдайды</td><td>Алдын ала үйренеді, сабақта қолданады</td></tr><tr><th>Сыни ойлау</th><td>ЖИ жауабындағы 3 тұжырымды дереккөзбен тексеру</td><td>Дәлел талап етеді</td><td>Дәлелді салыстырып, баға береді</td></tr></table></div><div class="card g" style="margin-top:.8rem"><p class="sm"><b>Дәлел:</b> STEM пәндерінің мета-талдауында белсенді оқыту дәстүрлі дәрісбен салыстырғанда емтихан нәтижесін жақсартып, құлау үлесін азайтқан (Freeman ж.б., 2014, PNAS).</p></div>`},
+{s:'2-бөлім',t:'AI, VR/AR, геймификация',m:3,n:'Технологияларды талдау (3 мин). Қойындыларды ауыстырыңыз. ЖИ туралы академиялық адалдық ережесін, дербес деректерді және жауап дұрыстығын тексеру қажеттігін міндетті түрде айтыңыз.',h:`<h2>AI, VR/AR, геймификация, мобильді оқыту</h2>${tabs}<div class="card chk" style="margin-top:.8rem"><p class="sm"><b>ЖИ-ге қатысты үш ереже:</b> 1) академиялық адалдық: қолдану ережесін алдын ала жариялау; 2) дербес деректерді сыртқы сервиске енгізбеу; 3) ЖИ жауабын дереккөзбен тексеру.</p></div>`},
+{s:'3-бөлім',t:'Қазақстандағы инновациялар',m:4,n:'Теория (4 мин). Статистика бермейміз: нақты сандарды студенттер ресми сайттардан іздесін (жылы мен дереккөзін көрсетіп).',h:`<h2>Қазақстандағы білім беру инновациялары</h2><div class="grid">${C('globe','Болон процесі','Қазақстан 2010 жылы Болон процесіне қосылды: ECTS, көп деңгейлі жүйе, мобильділік.','b')}${C('bank','Академиялық дербестік','2018 жылғы заң өзгерістері ЖОО-ның академиялық және басқарушылық дербестігін кеңейтті.','g')}${C('laptop','Цифрландыру','«Цифрлық Қазақстан» бағдарламасы 2018–2022 жылдарға арналды және аяқталған. Қазіргі бағыт: цифрлық трансформация тұжырымдамасы.','b')}${C('cap','Назарбаев Университеті','2010 жылы құрылған; ағылшын тілінде оқыту, зерттеуге бағытталған модель.','g')}${C('laptop','LMS және академиялық жүйелер','Moodle және Platonus типті жүйелер ЖОО-да қолданылады; нақты қамту университетке байланысты.','b')}</div><div class="card chk" style="margin-top:.8rem"><p class="sm"><b>Тексеру қажет:</b> 2018 жылғы заңның нөмірі, тұжырымдаманың мерзімі (2023–2029 деп жарияланған), статистикалық көрсеткіштер. Дереккөздер: adilet.zan.kz, stat.gov.kz, Ғылым және жоғары білім министрлігі сайты.</p></div>`},
+{s:'3-бөлім',t:'SWOT және шешу жолдары',m:4,n:'Теория (4 мин). Ішкі (S, W) мен сыртқы (O, T) факторларды ажыратыңыз: ішкіні ұйым өзгерте алады, сыртқыға бейімделеді.',h:`<h2>Инновацияны енгізу: SWOT-талдау</h2><div class="swot"><div class="card int"><h3>Күшті жақтары (Strengths) · ішкі</h3><ul class="sm"><li>Оқытушылардың пәндік тәжірибесі мен мотивациясы</li><li>Бар LMS пен цифрлық инфрақұрылым</li></ul></div><div class="card int"><h3>Әлсіз жақтары (Weaknesses) · ішкі</h3><ul class="sm"><li>Цифрлық дағдының біркелкі еместігі</li><li>Дайындыққа уақыттың жетіспеуі</li></ul></div><div class="card ext"><h3>Мүмкіндіктер (Opportunities) · сыртқы</h3><ul class="sm"><li>Ашық білім ресурстары мен халықаралық серіктестік</li><li>Аналитика мен ЖИ арқылы жеке траектория</li></ul></div><div class="card ext"><h3>Қауіптер (Threats) · сыртқы</h3><ul class="sm"><li>ЖИ арқылы академиялық адалдықтың бұзылуы</li><li>Сыртқы сервистерге тәуелділік және деректер қауіпсіздігі</li></ul></div></div><div class="card g" style="margin-top:.8rem"><h3>Шешу жолдары</h3><ul class="sm"><li>Оқытушыларды үздіксіз оқыту және әріптестік қолдау (W → S)</li><li>Кезеңдік енгізу: пилот → бағалау → масштабтау</li><li>ЖИ қолдану ережесі мен деректерді қорғау саясаты (T)</li></ul></div>`},
+{s:'3-бөлім',t:'Практикалық тапсырма',m:20,n:'Практикалық жұмыс (20 мин): мәселе 3, SWOT 5, шешім 5, тәуекел 3, көрсеткіш 4. Топта 3–4 студент. Соңында рубрика бойынша өзіндік бағалау (select арқылы), нәтиже сақталады.',h:`<h2>Практикалық тапсырма</h2><div class="split"><div class="card b"><h3>Кейс (оқу мақсатында құрастырылған)</h3><p class="sm">Университетте үш ай бұрын жаңа LMS енгізілді. Оқытушылардың жартысы қағаз журналды қалайды, студенттер мобильді нұсқаны сұрайды. Оқыту бір күндік қана болды. Енді жүйеге ЖИ-көмекші қосу ұсынылып отыр, бірақ дербес деректер бойынша ереже жоқ.</p></div><div class="card g"><h3>Топтың міндеті (20 мин)</h3><ol class="sm"><li>Мәселені анықтаңыз (3 мин)</li><li>SWOT жасаңыз (5 мин)</li><li>Инновациялық шешім ұсыныңыз (5 мин)</li><li>Тәуекелдерді бағалаңыз (3 мин)</li><li>Нәтиже көрсеткіштерін белгілеңіз (4 мин)</li></ol></div></div><h3 style="margin-top:1rem">Бағалау рубрикасы (10 ұпай)</h3>${rubric}`},
+{s:'',t:'Қорытынды және тест',m:10,n:'Тест (10 мин): жеке жұмыс. Нәтиже сақталады, бетті жаңартсаңыз да қалады. Қате жауаптарға байланысты слайдтарды ұсынады.',h:`<h2>Қорытынды және тест</h2><div class="grid">${C('bulb','Технология','Нәтижеге жеткізетін жүйелі жол.','b')}${C('up','Инновация','Жаңалықтың енгізілуі және өлшенген нәтижесі.','g')}${C('chart','Өлшеу','Инновация әсері көрсеткішпен расталады.','b')}${C('check','Таңдау','Технологияны мақсатқа сай таңдау, құралға емес.','g')}</div><h3 style="margin-top:1.4rem">Тест · 10 сұрақ</h3><div data-qz></div>`},
+{s:'',t:'Рефлексия және қорытынды бағалау',m:5,n:'Рефлексия (5 мин): студенттер 3 сұраққа жазбаша жауап береді (≥15 таңба). Қорытынды баға — бағдарлық, ресми баға оқытушыда.',h:`<h2>Рефлексия және қорытынды бағалау</h2><div class="card"><label>1. Бүгін не жаңа білдім?<textarea rows="2" data-rf="0">${esc(D.rf[0]||'')}</textarea></label><label>2. Қай технологияны өз пәнімде қолданар едім және неге?<textarea rows="2" data-rf="1">${esc(D.rf[1]||'')}</textarea></label><label>3. Не түсініксіз қалды?<textarea rows="2" data-rf="2">${esc(D.rf[2]||'')}</textarea></label></div><div class="card g" style="margin-top:1rem"><h3>Қорытынды баға (бағдарлық, 100 ұпай)</h3><div data-fin></div><p class="mut sm">Есептеу: тест 50 + практикалық тапсырма 40 + рефлексия 10.</p></div><details><summary>Пайдаланылған әдебиеттер</summary><ul class="mut sm"><li>Қазақстан Республикасының «Білім туралы» Заңы, 27.07.2007 № 319-III</li><li>Қазақстан Республикасының «Дербес деректер және оларды қорғау туралы» Заңы, 21.05.2013 № 94-V</li><li>Bologna Declaration (1999)</li><li>European Commission/EACEA/Eurydice. ECTS Users’ Guide. Luxembourg, 2015</li><li>OECD/Eurostat. Oslo Manual 2018 (4th ed.). Paris, 2018</li><li>UNESCO. Guidance for generative AI in education and research. Paris, 2023</li><li>UNESCO. Global Education Monitoring Report 2023: Technology in education. Paris, 2023</li><li>OECD. Digital Education Outlook 2021. Paris, 2021</li><li>Беспалько В.П. Слагаемые педагогической технологии. М., 1989</li><li>Селевко Г.К. Современные образовательные технологии. М., 1998</li><li>Rogers E.M. Diffusion of Innovations. 5th ed., 2003</li><li>Bergmann J., Sams A. Flip Your Classroom. ISTE, 2012</li><li>Freeman S. et al. Active learning increases student performance in STEM. PNAS 111(23), 2014</li><li>Deterding S. et al. From game design elements to gamefulness. MindTrek, 2011</li><li>Radianti J. et al. Immersive VR in higher education: a systematic review. Computers &amp; Education 147, 2020</li><li>Zawacki-Richter O. et al. AI applications in higher education. Int. J. Educ. Technol. High. Educ. 16, 2019</li></ul><p class="chk card sm"><b>Растау қажет:</b> қазақстандық ғылыми мақалалар (мысалы, ҚазҰПУ, ҚазҰУ хабаршылары) бұл нұсқаға расталған түрде қосылмады; 2018 жылғы заң нөмірі; кредит өлшемі нормативі.</p></details>`}];
+
+/* ===== Қорытынды бағалау ===== */
+function fin(){let qp=null;
+if(D.q&&D.q.a&&D.q.a.length===Q.length&&D.q.a.every(x=>x!=null))qp=Math.round(Q.filter((q,k)=>okAt(k)).length/Q.length*100);
+const rbDone=D.rb.every(x=>x!=null),rbs=D.rb.reduce((a,b)=>a+(b||0),0);
+const rf=Object.values(D.rf).filter(v=>typeof v==='string'&&v.trim().length>=15).length;
+let h=`<ul class="sm"><li>Тест: ${qp==null?'аяқталмаған':qp+'% → '+Math.round(qp/2)+' / 50'}</li><li>Практикалық тапсырма: ${rbDone?rbs+' / 10 → '+rbs*4+' / 40':'өзіндік баға толық емес'}</li><li>Рефлексия: ${rf>=2?'10 / 10':'0 / 10 (кемінде 2 сұраққа жауап жазыңыз)'}</li></ul>`;
+if(qp!=null&&rbDone){const t=Math.round(qp/2)+rbs*4+(rf>=2?10:0),g=grade(t);h+=`<p><b>${t} / 100 · ${g[0]}</b></p>`}else h+='<p class="mut sm">Қорытынды баға барлық бөлім аяқталғанда есептеледі.</p>';
+cache.forEach(el=>{if(!el)return;el.querySelectorAll('[data-rbt]').forEach(e=>e.textContent=rbs+' / 10'+(rbDone?'':' (толтырылуда)'));el.querySelectorAll('[data-fin]').forEach(e=>e.innerHTML=h)})}
+
+/* ===== Навигация ===== */
+const main=document.getElementById('main'),menu=document.getElementById('menu'),ov=document.getElementById('ov'),pv=document.getElementById('pv'),nx=document.getElementById('nx'),nt=document.getElementById('nt'),mb=document.getElementById('mb'),jm=document.getElementById('jm'),tb=document.getElementById('tb'),fs=document.getElementById('fs'),lv=document.getElementById('lv'),pa=document.getElementById('pa'),bar=document.getElementById('bar');
+const cache=[];let i=-1;
+function build(k){const x=S[k],el=document.createElement('section');el.className='slide';el.setAttribute('aria-label',`${k+1}. ${x.t}`);
+el.innerHTML=`${x.s?`<div class="sec">${x.s}</div>`:''}${x.h}<div class="note" hidden><b>Оқытушыға · ${x.m} мин:</b> ${x.n}</div>`;
+el.querySelectorAll('[data-qz]').forEach(z=>{z.onclick=e=>qzc(e,z);qz(z)});return el}
+function go(n,mode){n=Number.isFinite(+n)?Math.trunc(+n):0;n=Math.max(0,Math.min(S.length-1,n));
+if(mode==='push'&&n===i&&cache[n])return;
+i=n;const el=cache[n]||(cache[n]=build(n));main.replaceChildren(el);main.scrollTop=0;
+const note=el.querySelector('.note');if(note)note.hidden=!D.note;
+D.sl=n;save();fin();
+const pc=Math.round((n+1)/S.length*100);bar.firstElementChild.style.width=pc+'%';bar.setAttribute('aria-valuenow',pc);
+jm.value=n;lv.textContent=`Слайд ${n+1} / ${S.length}: ${S[n].t}`;pv.disabled=n===0;nx.disabled=n===S.length-1;
+menu.querySelectorAll('button').forEach(b=>{const c=+b.dataset.k===n;b.classList.toggle('cur',c);if(c)b.setAttribute('aria-current','true');else b.removeAttribute('aria-current')});
+if(mode==='push'||mode==='replace'){try{history[mode==='push'?'pushState':'replaceState']({s:n},'','#s'+(n+1))}catch(e){}}}
+let last='';menu.innerHTML=S.map((x,k)=>{let h='';if(x.s&&x.s!==last){h=`<h3>${x.s}</h3>`;last=x.s}return h+`<button data-k="${k}">${k+1}. ${x.t}</button>`}).join('');
+jm.innerHTML=S.map((x,k)=>`<option value="${k}">${k+1} / ${S.length} · ${x.t}</option>`).join('');
+const isOpen=()=>menu.classList.contains('open');
+function openMenu(){menu.inert=false;menu.classList.add('open');ov.classList.add('on');mb.setAttribute('aria-expanded','true');(menu.querySelector('.cur')||menu.querySelector('button')).focus()}
+function closeMenu(ret){const was=isOpen();menu.classList.remove('open');ov.classList.remove('on');mb.setAttribute('aria-expanded','false');menu.inert=true;if(was&&ret)mb.focus()}
+mb.onclick=()=>isOpen()?closeMenu(true):openMenu();
+ov.onclick=()=>closeMenu(true);
+menu.onclick=e=>{const b=e.target.closest('button');if(b){go(+b.dataset.k,'push');closeMenu(true)}};
+jm.onchange=()=>go(+jm.value,'push');
+pv.onclick=()=>go(i-1,'push');nx.onclick=()=>go(i+1,'push');
+nt.onclick=()=>{D.note=D.note?0:1;save();nt.setAttribute('aria-pressed',!!D.note);const n=main.querySelector('.note');if(n)n.hidden=!D.note};
+nt.setAttribute('aria-pressed',!!D.note);
+function setTheme(t){document.documentElement.dataset.theme=t;tb.setAttribute('aria-pressed',t==='dark');st.s('th',t)}
+tb.onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+try{setTheme(st.g('th')||'dark')}catch(e){setTheme('dark')}
+if(!document.documentElement.requestFullscreen)fs.hidden=true;
+fs.onclick=()=>{try{if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});else document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}};
+document.addEventListener('fullscreenchange',()=>fs.setAttribute('aria-pressed',!!document.fullscreenElement));
+document.getElementById('pr').onclick=()=>window.print();
+addEventListener('beforeprint',()=>{pa.innerHTML=S.map(x=>`<section class="slide">${x.s?`<div class="sec">${x.s}</div>`:''}${x.h}${D.note?`<div class="note"><b>Оқытушыға · ${x.m} мин:</b> ${x.n}</div>`:''}</section>`).join('')});
+addEventListener('afterprint',()=>{pa.innerHTML=''});
+/* слайд ішіндегі оқиғалар (бір рет, делегация) */
+main.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){go(+g.dataset.go,'push');return}
+const t=e.target.closest('[data-tab]');if(t){const s=t.closest('.slide');s.querySelectorAll('[data-tab]').forEach(x=>x.setAttribute('aria-selected',x===t));s.querySelectorAll('.tp').forEach(p=>p.hidden=p.id!=='tp'+t.dataset.tab)}});
+main.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const g=e.target.closest('.node[data-go]');if(g){e.preventDefault();go(+g.dataset.go,'push')}}});
+main.addEventListener('input',e=>{const t=e.target;if(t.dataset.cr!=null){D.cr=+t.value;t.nextElementSibling.textContent=crTxt(D.cr);const cb=t.closest('.card').querySelector('.cbar i');if(cb)cb.style.width=D.cr/30*100+'%';save()}else if(t.dataset.rf!=null){D.rf[t.dataset.rf]=t.value;save();fin()}});
+main.addEventListener('change',e=>{const t=e.target;if(t.dataset.rb!=null){D.rb[+t.dataset.rb]=t.value===''?null:+t.value;save();fin()}});
+document.addEventListener('keydown',e=>{
+if(e.key==='Escape'&&isOpen()){closeMenu(true);return}
+if(e.target.closest&&e.target.closest('input,textarea,select'))return;
+if(e.ctrlKey||e.metaKey||e.altKey)return;
+if(isOpen()){if(e.key==='Tab'){const b=[...menu.querySelectorAll('button')],f=b[0],l=b[b.length-1];if(e.shiftKey&&document.activeElement===f){e.preventDefault();l.focus()}else if(!e.shiftKey&&document.activeElement===l){e.preventDefault();f.focus()}}return}
+const k=e.key;
+if(k==='ArrowRight'||k==='PageDown')go(i+1,'push');
+else if(k==='ArrowLeft'||k==='PageUp')go(i-1,'push');
+else if(k==='Home')go(0,'push');else if(k==='End')go(S.length-1,'push');
+else if(k==='n'||k==='N')nt.click();else if(k==='f'||k==='F')fs.click()});
+let tx=0,ty=0,sk=false,multi=false,t2=null,wl=0;
+main.addEventListener('touchstart',e=>{sk=!!e.target.closest('.tw,textarea,input,select,svg');tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+main.addEventListener('touchend',e=>{if(sk||multi)return;const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*1.5)go(i+(dx<0?1:-1),'push')},{passive:true});
+/* екі саусақпен сырғыту (сенсорлы экран) */
+document.addEventListener('touchstart',e=>{if(e.touches.length===2){const a=e.touches[0],b=e.touches[1],x=(a.clientX+b.clientX)/2,y=(a.clientY+b.clientY)/2;multi=true;t2={x,y,ex:x,ey:y}}else if(e.touches.length>2){multi=true;t2=null}else{multi=false;t2=null}},{passive:true});
+document.addEventListener('touchmove',e=>{if(t2&&e.touches.length===2){const a=e.touches[0],b=e.touches[1];t2.ex=(a.clientX+b.clientX)/2;t2.ey=(a.clientY+b.clientY)/2}},{passive:true});
+document.addEventListener('touchend',e=>{if(e.touches.length>0||!t2)return;const dx=t2.ex-t2.x,dy=t2.ey-t2.y;t2=null;if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*1.5)go(i+(dx<0?1:-1),'push')},{passive:true});
+/* екі саусақпен сырғыту (тачпад) */
+addEventListener('wheel',e=>{if(Math.abs(e.deltaX)>Math.abs(e.deltaY)*1.5&&Math.abs(e.deltaX)>20&&!e.target.closest('.tw,textarea,input,select')){e.preventDefault();const n=Date.now();if(n-wl>800){wl=n;go(i+(e.deltaX>0?1:-1),'push')}}},{passive:false});
+const hashN=()=>{const h=parseInt((location.hash||'').replace('#s',''),10);return h>0?h-1:null};
+addEventListener('popstate',()=>go(hashN()??0,'none'));
+go(hashN()??(Number.isInteger(D.sl)?D.sl:0),'replace');
+
+</script>
+</body>
+</html>
