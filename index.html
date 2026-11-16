@@ -508,6 +508,7 @@ document.querySelectorAll(".grid").forEach(g=>g.querySelectorAll(".rise").forEac
 <button type="button" id="kr-go-new" class="kr-btn kr-opt kr-pri">🎓 Кредиттік технология (магистратура)</button>
 <button type="button" id="kr-go-dt" class="kr-btn kr-opt">📊 Деректер типтері электронды кестеде (информатика)</button>
 <button type="button" id="kr-go-rb" class="kr-btn kr-opt">🤖 Робототехника және жасанды интеллект (5-сынып)</button>
+<button type="button" id="kr-go-inno" class="kr-btn kr-opt">💡 Оқытудың жаңа технологиялары және инновация</button>
 <button type="button" id="kr-pick-x" class="kr-btn kr-opt">Жабу</button>
 </dialog>
 
@@ -661,6 +662,28 @@ const box=document.getElementById("rb-box"),fr=document.getElementById("rb-fr");
 function dark(){const t=document.documentElement.dataset.theme;return t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches}
 document.getElementById("kr-go-rb").onclick=()=>{opener=document.getElementById("kr-open");document.getElementById("kr-pick").close();fr.src="rb.html#"+(dark()?"dark":"light");box.showModal()};
 document.getElementById("rb-close").onclick=()=>box.close();
+box.addEventListener("close",()=>{fr.src="about:blank";opener&&opener.focus&&opener.focus()});
+})();
+</script>
+
+<!-- ===== INNO ADDON: «Оқытудың жаңа технологиялары және білім берудегі инновация» ===== -->
+<style>
+#inno-box{border:0;margin:0;padding:0;max-width:none;max-height:none;width:100%;height:100%;background:var(--bg);overflow:hidden}
+#inno-box:not([open]){display:none}
+#inno-box[open]{display:flex;flex-direction:column}
+#inno-box::backdrop{background:#000}
+#inno-bar2{flex:none;display:flex;padding:calc(env(safe-area-inset-top,0px) + .4rem) .8rem .4rem;background:var(--card);border-bottom:1px solid var(--line)}
+#inno-fr{flex:1;border:0;width:100%;min-height:0;background:var(--bg)}
+</style>
+<dialog id="inno-box" aria-label="Оқытудың жаңа технологиялары және білім берудегі инновация">
+<div id="inno-bar2"><button type="button" class="kr-btn" id="inno-close">← Артқа</button></div>
+<iframe id="inno-fr" title="Оқытудың жаңа технологиялары және білім берудегі инновация" allowfullscreen></iframe>
+</dialog>
+<script>
+(function(){
+const box=document.getElementById("inno-box"),fr=document.getElementById("inno-fr");let opener=null;
+document.getElementById("kr-go-inno").onclick=()=>{opener=document.getElementById("kr-open");document.getElementById("kr-pick").close();fr.src="inno.html";box.showModal()};
+document.getElementById("inno-close").onclick=()=>box.close();
 box.addEventListener("close",()=>{fr.src="about:blank";opener&&opener.focus&&opener.focus()});
 })();
 </script>
