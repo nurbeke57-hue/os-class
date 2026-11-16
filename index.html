@@ -120,6 +120,12 @@ header a{display:inline-flex;align-items:center;min-height:44px}
 button{min-width:44px}
 .spk{min-height:44px;min-width:44px}
 #menu{display:none}
+header{overflow:visible}
+#menu{display:inline-flex;align-items:center;justify-content:center;font-size:1.3rem}
+header nav{display:none}
+header.open nav{display:flex;position:fixed;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 3.6rem);flex-direction:column;align-items:stretch;gap:.5rem;padding:.8rem;background:var(--card);border-bottom:1px solid var(--line);z-index:56;max-height:calc(100vh - 5rem);overflow-y:auto}
+header nav a,header nav button{width:100%;text-align:left;justify-content:flex-start}
+header.open #who{display:block;padding:.2rem .8rem}
 @media(max-width:768px){
  section{padding:2.2rem 0}
  .kr-mc{grid-template-columns:1fr}
@@ -137,14 +143,13 @@ button{min-width:44px}
 <header>
 <b>💻 OS Class</b>
 <button id="menu" type="button" aria-label="Мәзір" aria-expanded="false" aria-controls="mainnav">☰</button>
-<nav id="mainnav"><a href="#home" class="t" data-ru="Главная">Home</a><a href="#theory" class="t" data-ru="Теория">Theory</a><a href="#groups" class="t" data-ru="Работа в группах">Group Work</a></nav>
-<span id="who" style="font-weight:600"></span>
+<nav id="mainnav"><a href="#home" class="t" data-ru="Главная">Home</a><a href="#theory" class="t" data-ru="Теория">Theory</a><a href="#groups" class="t" data-ru="Работа в группах">Group Work</a><span id="who" style="font-weight:600"></span>
 <button id="tbtn" hidden class="pri t" data-ru="Панель" onclick="tv()">Dashboard</button>
 <button id="li" class="t" data-ru="Войти" onclick="$('login').style.display='flex'">Sign in</button>
 <button id="kr-open" type="button" aria-label="Сабақ таңдау">🎓 Сабақ таңдау</button>
 <button id="lb" onclick="setLang()" aria-label="Switch interface language (English / Russian)">RU</button>
 <button id="tm2" onclick="theme()" aria-label="Switch light / dark theme">🌓</button>
-<button id="so" hidden class="t" data-ru="Выйти" onclick="FB.out()">Sign out</button>
+<button id="so" hidden class="t" data-ru="Выйти" onclick="FB.out()">Sign out</button></nav>
 </header>
 
 <section id="home"><div class="wrap">
@@ -720,6 +725,7 @@ box.addEventListener("close",()=>{fr.src="about:blank";opener&&opener.focus&&ope
 (function(){const h=document.querySelector("header"),b=document.getElementById("menu");
 b.onclick=()=>{const o=h.classList.toggle("open");b.setAttribute("aria-expanded",o)};
 h.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",()=>{h.classList.remove("open");b.setAttribute("aria-expanded","false")}));
+h.querySelectorAll("nav button").forEach(x=>x.addEventListener("click",()=>{if(x.id!=="lb"&&x.id!=="tm2"){h.classList.remove("open");b.setAttribute("aria-expanded","false")}}));
 matchMedia("(min-width:701px)").addEventListener("change",e=>{if(e.matches){h.classList.remove("open");b.setAttribute("aria-expanded","false")}});
 })();
 </script>
