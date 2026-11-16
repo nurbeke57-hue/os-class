@@ -418,7 +418,7 @@ import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase
 import {getAuth,signInAnonymously,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {getFirestore,doc,setDoc,onSnapshot,collection,serverTimestamp,getDocs,deleteDoc,deleteField} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 const app=initializeApp(window.FIREBASE_CONFIG),auth=getAuth(app),db=getFirestore(app);
-let prog={},beat=null,offUn=null;
+let prog={},beat=null,offUn=null,offSet=[];
 window.awaitClk=false;
 /* server clock offset: taken from the first server-confirmed lastSeen after our own write */
 function syncClock(ref){offUn&&offUn();offUn=onSnapshot(ref,s=>{const d=s.data();
@@ -458,13 +458,13 @@ window.FB={
  ping
 };
 
-onAuthStateChanged(auth,u=>{onUser(u);clearInterval(beat);offUn&&offUn();offUn=null;
+onAuthStateChanged(auth,u=>{onUser(u);if(u)startSettings();else stopSettings();clearInterval(beat);offUn&&offUn();offUn=null;
  if(u&&u.isAnonymous&&localStorage.osg){syncClock(doc(db,"students",u.uid));ping();beat=setInterval(ping,60000)}
  else if(u&&!u.isAnonymous){const r=doc(db,"settings","clock");window.awaitClk=true;syncClock(r);setDoc(r,{lastSeen:serverTimestamp()}).catch(console.warn)}});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)ping()});
 
 /* reset of answers on students' devices */
-onSnapshot(doc(db,"settings","reset"),async s=>{const d=s.data()||{},at=d.at||0;
+const resetHandler=async s=>{const d=s.data()||{},at=d.at||0;
  if(localStorage.osreset==null){localStorage.osreset=at;return}
  if(at<=+localStorage.osreset)return;localStorage.osreset=at;
  const u=auth.currentUser;if(!u||!u.isAnonymous||!localStorage.osg)return;
@@ -475,10 +475,13 @@ onSnapshot(doc(db,"settings","reset"),async s=>{const d=s.data()||{},at=d.at||0;
  document.querySelectorAll("#task select").forEach(x=>{x.value="";x.className=""});
  document.querySelectorAll("#task .mk").forEach(x=>x.textContent="");
  const sc=document.getElementById("sc");if(sc)sc.textContent="";
- try{await setDoc(doc(db,"students",u.uid),{score:deleteField(),total:deleteField(),chars:deleteField(),lastSeen:serverTimestamp()},{merge:true})}catch(e){console.warn(e)}},e=>console.warn(e));
+ try{await setDoc(doc(db,"students",u.uid),{score:deleteField(),total:deleteField(),chars:deleteField(),lastSeen:serverTimestamp()},{merge:true})}catch(e){console.warn(e)}};
 
 /* group timers (server time) */
-for(let g=1;g<=5;g++)onSnapshot(doc(db,"settings","timer"+g),s=>{if(window.onTimerUpdate)window.onTimerUpdate(g,s.data({serverTimestamps:"estimate"}))},e=>console.warn(e));
+function stopSettings(){offSet.forEach(f=>f());offSet=[]}
+function startSettings(){stopSettings();
+ for(let g=1;g<=5;g++)offSet.push(onSnapshot(doc(db,"settings","timer"+g),s=>{if(window.onTimerUpdate)window.onTimerUpdate(g,s.data({serverTimestamps:"estimate"}))},e=>console.warn(e)));
+ offSet.push(onSnapshot(doc(db,"settings","reset"),resetHandler,e=>console.warn(e)))}
 </script>
 <script>
 (function(){const b=document.querySelector(".bg"),I=["💻","📱","🪟","🍎","🤖","🐧","🔒","📁"];
@@ -605,7 +608,7 @@ body.addEventListener("click",ev=>{const b=ev.target.closest("button");if(!b)ret
  else if(b.dataset.sp!=null){const i=+b.dataset.sp;SM.sel[i]=!SM.sel[i];
   if(!SM.sel[i]){let ch=true;while(ch){ch=false;PR.forEach((p,k)=>{if(SM.sel[k]&&p[3]>=0&&!SM.sel[p[3]]){SM.sel[k]=false;ch=true}})}}
   u3(i);touch(3)}});
-const fld=(k,l,i)=>`<div class="kr-q"><label for="kr-f-${k}">${l}</label><textarea id="kr-f-${k}" data-k="${k}" rows="3">${e(A[k]||"")}</textarea><button type="button" class="kr-btn" data-c="${k}" data-sec="${i}"${X[i]?"":" disabled"}>Бекіту</button><span class="kr-ok" id="kr-s-${k}" aria-live="polite"></span></div>`;
+const fld=(k,l,i)=>`<div class="kr-q"><label for="kr-f-${k}">${l}</label><textarea id="kr-f-${k}" data-k="${k}" rows="3">${e(A[k]||"")}</textarea><button type="button" class="kr-btn" data-c="${k}"${i==null||X[i]?"":" data-sec=\""+i+"\" disabled"}>Бекіту</button><span class="kr-ok" id="kr-s-${k}" aria-live="polite"></span></div>`;
 function prompt(i){const k=S[i].k;return `Сен — қазақстандық жоғары мектептің тьюторысың. Магистрант жауабын 10 балдық шкала бойынша тексер.\nТақырып: Кредиттік технология негізінде жоғары мектепте оқыту процесін ұйымдастыру.\n\nТАПСЫРМА: ${k.h}\n${k.d}\nОрындалу өлшемдері: ${k.c.join("; ")}\n\nСТУДЕНТТІҢ ЖАУАБЫ:\n${A["t"+i]||"(жауап жоқ)"}\n\nЖауабыңды мына құрылыммен жаз:\n1) Дұрыс жақтары;\n2) Қателер мен олқылықтар;\n3) Баға (10 баллдан) және себебі;\n4) Үлгі жауап;\n5) Студентке 1 тексеру сұрағы.\nНақты сандарды, заң және бұйрық нөмірлерін ойдан шығарма; сенімсіз болса «нақтылау қажет» деп жаз. Қазақша, академиялық бірақ қарапайым тілде жауап бер.`}
 function view(){
  let h=`<button type="button" class="kr-btn" id="kr-back">← Артқа</button><h2 id="kr-lt" style="margin:1rem 0 .2rem">🎓 Кредиттік технология</h2>
