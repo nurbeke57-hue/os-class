@@ -105,13 +105,39 @@ select.no{animation:shake .35s}
 .gt.end{color:#d33;animation:pulse 1s ease-in-out infinite}
 .timer.st{position:static}
 textarea:disabled,select:disabled,button:disabled{opacity:.55;cursor:not-allowed}
+
+/* ---- Responsive Web Design additions ---- */
+.wrap{width:100%}
+.grid{grid-template-columns:repeat(auto-fit,minmax(min(15.5rem,100%),1fr))}
+h3{font-size:clamp(1.1rem,3vw,1.4rem)}
+.sub{font-size:clamp(1.05rem,3.5vw,1.4rem)}
+.ask{font-size:clamp(1rem,3.2vw,1.25rem)}
+.def{font-size:clamp(1.05rem,3.4vw,1.35rem)}
+img,iframe{max-width:100%}
+img{height:auto}
+.table-wrapper{overflow-x:auto}
+header a{display:inline-flex;align-items:center;min-height:44px}
+button{min-width:44px}
+.spk{min-height:44px;min-width:44px}
+#menu{display:none}
+@media(max-width:768px){
+ section{padding:2.2rem 0}
+ .kr-mc{grid-template-columns:1fr}
+ .kr-nav{flex-direction:column}
+ .kr-nav .kr-btn{width:100%}
+}
+@media(max-width:700px){
+ #menu{display:inline-flex;align-items:center;justify-content:center}
+ header.open nav{display:flex;position:fixed;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 3.6rem);flex-direction:column;gap:.4rem;padding:.6rem .8rem;background:var(--card);border-bottom:1px solid var(--line);z-index:56}
+}
 </style>
 </head>
 <body>
 <div class="bg" aria-hidden="true"><i class="bl b1"></i><i class="bl b2"></i><i class="bl b3"></i></div>
 <header>
 <b>💻 OS Class</b>
-<nav><a href="#home" class="t" data-ru="Главная">Home</a><a href="#theory" class="t" data-ru="Теория">Theory</a><a href="#groups" class="t" data-ru="Работа в группах">Group Work</a></nav>
+<button id="menu" type="button" aria-label="Мәзір" aria-expanded="false" aria-controls="mainnav">☰</button>
+<nav id="mainnav"><a href="#home" class="t" data-ru="Главная">Home</a><a href="#theory" class="t" data-ru="Теория">Theory</a><a href="#groups" class="t" data-ru="Работа в группах">Group Work</a></nav>
 <span id="who" style="font-weight:600"></span>
 <button id="tbtn" hidden class="pri t" data-ru="Панель" onclick="tv()">Dashboard</button>
 <button id="li" class="t" data-ru="Войти" onclick="$('login').style.display='flex'">Sign in</button>
@@ -213,7 +239,7 @@ textarea:disabled,select:disabled,button:disabled{opacity:.55;cursor:not-allowed
   </div>
 </div>
 
-<h2 style="margin-top:2rem">Students</h2><p id="tcodes" class="hint">Class codes live only in the Firestore rules. Keep them on paper.</p><p id="tsum" style="font-weight:700" aria-live="polite"></p><div style="overflow-x:auto"><table id="stbl"></table></div><p><button onclick="clr()">Remove offline students</button></p><h2 style="margin-top:2rem">Group answers</h2><p><button onclick="clrA(0)">Clear all answers</button></p><div class="grid" id="tgrid"></div></div></div>
+<h2 style="margin-top:2rem">Students</h2><p id="tcodes" class="hint">Class codes live only in the Firestore rules. Keep them on paper.</p><p id="tsum" style="font-weight:700" aria-live="polite"></p><div class="table-wrapper"><table id="stbl"></table></div><p><button onclick="clr()">Remove offline students</button></p><h2 style="margin-top:2rem">Group answers</h2><p><button onclick="clrA(0)">Clear all answers</button></p><div class="grid" id="tgrid"></div></div></div>
 
 <dialog class="task" id="task" aria-labelledby="tt"></dialog>
 
@@ -257,7 +283,7 @@ const chips=()=>`<div class="box">${T("h3","Five criteria","Пять крите�
 const cmpSteps=[["Read the five criteria and share them: each student takes one or two.","Прочитайте пять критериев и разделите их: каждый берёт один-два."],["For each criterion, write one fact about each system.","Для каждого критерия запишите по одному факту о каждой системе."],["Choose the better system and write a short argument (4–5 sentences) in English.","Выберите лучшую систему и напишите короткий аргумент (4–5 предложений) на английском."],["Prepare a two-minute presentation: introduction, three main points, conclusion.","Подготовьте двухминутную презентацию: введение, три главных пункта, вывод."],["Practice once with the timer, then present to the class.","Потренируйтесь один раз с таймером, затем выступите перед классом."]];
 const cmpPh=[["In my opinion, … is better because …","По-моему, … лучше, потому что …"],["The main advantage is …","Главное преимущество — …"],["On the other hand, …","С другой стороны, …"],["For example, …","Например, …"],["To sum up, …","Подводя итог, …"]];
 const mob=[["Android",72],["iOS",27],["Other",1]],desk=[["Windows",71],["macOS",16],["Linux",4],["Other",9]];
-const tbl=(n,nr,d)=>`<table><caption style="text-align:left;font-weight:700">${T("span",n,nr)}</caption>${d.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}%</td></tr>`).join("")}</table>`;
+const tbl=(n,nr,d)=>`<div class="table-wrapper"><table><caption style="text-align:left;font-weight:700">${T("span",n,nr)}</caption>${d.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}%</td></tr>`).join("")}</table></div>`;
 const bars=d=>d.map(r=>`<div class="bar"><span>${r[0]}</span><i style="width:${r[1]}%"></i><b>${r[1]}%</b></div>`).join("");
 const sel=(a,pool,lab,hint="")=>`<select data-a="${H(a)}" aria-label="${esc(lab)}"><option value="">?</option>${pool.map(p=>`<option>${p}</option>`).join("")}</select><span class="mk" data-h="${esc(hint)}"></span>`;
 const qi=(i,pool)=>i[0].includes("___")?i[0].replace("___",sel(i[2],pool,"Gap",i[3])):`<b>${i[0]}</b> → ${sel(i[2],pool,i[0],i[3])}`;
@@ -685,6 +711,13 @@ const box=document.getElementById("inno-box"),fr=document.getElementById("inno-f
 document.getElementById("kr-go-inno").onclick=()=>{opener=document.getElementById("kr-open");document.getElementById("kr-pick").close();fr.src="inno.html";box.showModal()};
 document.getElementById("inno-close").onclick=()=>box.close();
 box.addEventListener("close",()=>{fr.src="about:blank";opener&&opener.focus&&opener.focus()});
+})();
+</script>
+<script>
+(function(){const h=document.querySelector("header"),b=document.getElementById("menu");
+b.onclick=()=>{const o=h.classList.toggle("open");b.setAttribute("aria-expanded",o)};
+h.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",()=>{h.classList.remove("open");b.setAttribute("aria-expanded","false")}));
+matchMedia("(min-width:701px)").addEventListener("change",e=>{if(e.matches){h.classList.remove("open");b.setAttribute("aria-expanded","false")}});
 })();
 </script>
 </body>
