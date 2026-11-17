@@ -729,5 +729,29 @@ h.querySelectorAll("nav button").forEach(x=>x.addEventListener("click",()=>{if(x
 matchMedia("(min-width:701px)").addEventListener("change",e=>{if(e.matches){h.classList.remove("open");b.setAttribute("aria-expanded","false")}});
 })();
 </script>
+<!-- ===== FIB ADDON: Фибоначчи сандары ===== -->
+<style>
+#fib-box{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:#f3f1fb;background:var(--bg,#f3f1fb)}
+#fib-box.open{display:block}
+#fib-bar{height:52px;padding:8px 12px;padding-top:calc(env(safe-area-inset-top,0px) + 8px);height:auto;background:#fff;background:var(--card,#fff);border-bottom:1px solid #ddd;border-bottom:1px solid var(--line,#ddd)}
+#fib-fr{display:block;border:0;width:100%;height:calc(100% - 56px);background:#f3f1fb}
+</style>
+<div id="fib-box" role="dialog" aria-label="Фибоначчи сандары">
+<div id="fib-bar"><button type="button" class="kr-btn" id="fib-close">← Артқа</button></div>
+<iframe id="fib-fr" title="Фибоначчи сандары" allowfullscreen></iframe>
+</div>
+<script>
+(function(){
+var box=document.getElementById("fib-box"),fr=document.getElementById("fib-fr"),opener=null;
+function closeFib(){box.className="";fr.src="about:blank";if(opener&&opener.focus)opener.focus()}
+document.getElementById("kr-go-fib").onclick=function(){
+  opener=document.getElementById("kr-open");
+  var p=document.getElementById("kr-pick");if(p&&p.close)p.close();
+  fr.src="fib.html";box.className="open";
+};
+document.getElementById("fib-close").onclick=closeFib;
+document.addEventListener("keydown",function(e){if(e.keyCode===27&&box.className==="open")closeFib()});
+})();
+</script>
 </body>
 </html>
